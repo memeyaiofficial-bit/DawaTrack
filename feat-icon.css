@@ -1,0 +1,9 @@
+/* Feature icon helper for the “Why DawaTrack” cards */
+
+.feat-icon-img{
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  display: block;
+}
+

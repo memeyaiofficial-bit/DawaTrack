@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog — DawaTrack</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    /* ── ARTICLE MODAL ─────────────────────────────────────── */
+    .article-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(11, 28, 40, 0.55);
+      backdrop-filter: blur(4px);
+      z-index: 2000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.32s ease;
+    }
+    .article-overlay.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .article-drawer {
+      position: fixed;
+      top: 0; right: 0; bottom: 0;
+      width: min(720px, 100vw);
+      background: #FFFFFF;
+      z-index: 2001;
+      transform: translateX(100%);
+      transition: transform 0.38s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: -8px 0 48px rgba(27, 82, 113, 0.18);
+    }
+    .article-drawer.open {
+      transform: translateX(0);
+    }
+
+    /* reading progress bar */
+    .read-progress {
+      position: sticky;
+      top: 0;
+      height: 3px;
+      background: #EDF5F2;
+      z-index: 10;
+      flex-shrink: 0;
+    }
+    .read-progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #5DAC96, #9DD1C2);
+      width: 0%;
+      transition: width 0.1s linear;
+    }
+
+    /* drawer top bar */
+    .drawer-topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 28px;
+      border-bottom: 1px solid #D1E4DE;
+      background: #F4F8F7;
+      flex-shrink: 0;
+    }
+    .drawer-topbar-meta {
+      font-size: 0.75rem;
+      color: #7A9CA8;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .drawer-close {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: #FFFFFF;
+      border: 1px solid #D1E4DE;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      font-size: 1rem;
+      color: #3A5563;
+      transition: all 0.18s ease;
+      flex-shrink: 0;
+    }
+    .drawer-close:hover {
+      background: #FAE8E8;
+      border-color: #F0AAAA;
+      color: #D94F4F;
+    }
+
+    /* article body scroll area */
+    .drawer-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 40px 48px 60px;
+    }
+    @media (max-width: 600px) {
+      .drawer-body { padding: 28px 22px 48px; }
+      .drawer-topbar { padding: 14px 18px; }
+    }
+
+    /* article typography */
+    .article-category {
+      font-size: 0.7rem;
+      font-weight: 800;
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+      display: block;
+    }
+    .article-title {
+      font-family: 'Instrument Serif', serif;
+      font-weight: 400;
+      font-size: clamp(1.7rem, 4vw, 2.4rem);
+      color: #1B5271;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+      margin-bottom: 20px;
+    }
+    .article-author-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 16px 0;
+      border-top: 1px solid #D1E4DE;
+      border-bottom: 1px solid #D1E4DE;
+      margin-bottom: 32px;
+    }
+    .article-author-avatar {
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800; font-size: 0.85rem;
+      color: #FFFFFF;
+      flex-shrink: 0;
+    }
+    .article-author-name { font-size: 0.875rem; font-weight: 700; color: #1B5271; }
+    .article-author-role { font-size: 0.75rem; color: #7A9CA8; margin-top: 2px; }
+    .article-date-read   { font-size: 0.75rem; color: #7A9CA8; margin-left: auto; text-align: right; }
+
+    /* prose */
+    .article-body h2 {
+      font-family: 'Instrument Serif', serif;
+      font-size: 1.45rem;
+      color: #1B5271;
+      margin: 36px 0 14px;
+      letter-spacing: -0.015em;
+      line-height: 1.25;
+    }
+    .article-body h3 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #1B5271;
+      margin: 28px 0 10px;
+    }
+    .article-body p {
+      font-size: 1rem;
+      color: #3A5563;
+      line-height: 1.85;
+      margin-bottom: 20px;
+      font-weight: 300;
+    }
+    .article-body strong { color: #1B5271; font-weight: 700; }
+    .article-body em     { color: #5DAC96; font-style: italic; }
+
+    .article-body blockquote {
+      border-left: 3px solid #5DAC96;
+      background: #EDF5F2;
+      margin: 28px 0;
+      padding: 20px 24px;
+      border-radius: 0 12px 12px 0;
+    }
+    .article-body blockquote p {
+      font-family: 'Instrument Serif', serif;
+      font-size: 1.15rem;
+      color: #1B5271;
+      font-style: italic;
+      margin: 0;
+      line-height: 1.65;
+      font-weight: 400;
+    }
+
+    .article-body .stat-callout {
+      background: #1B5271;
+      border-radius: 14px;
+      padding: 24px 28px;
+      margin: 28px 0;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    .article-body .stat-callout-num {
+      font-family: 'Instrument Serif', serif;
+      font-size: 2.8rem;
+      color: #9DD1C2;
+      line-height: 1;
+      flex-shrink: 0;
+    }
+    .article-body .stat-callout-text {
+      font-size: 0.9rem;
+      color: #9DD1C2;
+      line-height: 1.65;
+      font-weight: 300;
+    }
+
+    .article-body .key-point {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      padding: 12px 0;
+      border-bottom: 1px solid #D1E4DE;
+    }
+    .article-body .key-point:last-child { border-bottom: none; }
+    .article-body .key-point-icon {
+      width: 30px; height: 30px;
+      border-radius: 8px;
+      background: #EDF5F2;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.9rem;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .article-body .key-point p { margin: 0; font-size: 0.9rem; }
+
+    /* tags + share */
+    .article-footer {
+      margin-top: 48px;
+      padding-top: 28px;
+      border-top: 1px solid #D1E4DE;
+    }
+    .article-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 24px; }
+    .article-tag {
+      background: #EDF5F2;
+      border: 1px solid #D1E4DE;
+      border-radius: 100px;
+      padding: 5px 14px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #3A5563;
+      cursor: pointer;
+      transition: all 0.18s ease;
+      font-family: 'Outfit', sans-serif;
+    }
+    .article-tag:hover { background: #C8E9E1; border-color: #9DD1C2; color: #1B5271; }
+
+    .share-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .share-label { font-size: 0.78rem; font-weight: 700; color: #7A9CA8; letter-spacing: 0.04em; text-transform: uppercase; }
+    .share-btn {
+      padding: 7px 16px;
+      border-radius: 8px;
+      border: 1px solid #D1E4DE;
+      background: #FFFFFF;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #3A5563;
+      cursor: pointer;
+      transition: all 0.18s ease;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .share-btn:hover { background: #EDF5F2; border-color: #9DD1C2; color: #1B5271; }
+
+    /* related articles */
+    .related-section {
+      margin-top: 40px;
+      padding-top: 32px;
+      border-top: 1px solid #D1E4DE;
+    }
+    .related-label {
+      font-size: 0.7rem;
+      font-weight: 800;
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+      color: #5DAC96;
+      margin-bottom: 16px;
+    }
+    .related-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    @media (max-width: 520px) { .related-grid { grid-template-columns: 1fr; } }
+    .related-card {
+      background: #F4F8F7;
+      border: 1px solid #D1E4DE;
+      border-radius: 12px;
+      padding: 16px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .related-card:hover { background: #EDF5F2; border-color: #9DD1C2; transform: translateY(-2px); }
+    .related-card-emoji { font-size: 1.4rem; margin-bottom: 8px; }
+    .related-card-title { font-size: 0.82rem; font-weight: 700; color: #1B5271; line-height: 1.35; margin-bottom: 5px; }
+    .related-card-meta  { font-size: 0.72rem; color: #7A9CA8; }
+
+    /* blog card hover cursor */
+    .blog-card { cursor: pointer; }
+
+    /* Featured post read button */
+    .featured-post { grid-template-columns: 1fr 1fr; }
+    @media (max-width: 768px) { .featured-post { grid-template-columns: 1fr !important; } }
+  </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="index.html"><img src="logo.png" alt="DawaTrack"> Dawa<span class="brand-dot">Track</span></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav"><span class="navbar-toggler-icon"></span></button>
+    <div class="collapse navbar-collapse" id="nav">
+      <ul class="navbar-nav ms-auto align-items-center" style="gap:2px;">
+        <li class="nav-item"><a class="nav-link active-link" href="index.html">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+        <li class="nav-item"><a class="nav-link" href="services.html">Services</a></li>
+        <li class="nav-item"><a class="nav-link" href="blog.html">Blog</a></li>
+        <li class="nav-item"><a class="nav-link" href="card.html">S/card</a></li>
+        <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+        <li class="nav-item"><a class="nav-link" href="pharmacy-dashboard.html">Pharmacy</a></li>
+        <li class="nav-item ms-2"><a class="btn-nav-portal nav-link" href="portal.html">Sign In →</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero" style="padding:90px 24px 70px;position:relative;">
+  <div class="hero-bg" aria-hidden="true"></div>
+  <div class="hero-eyebrow">Healthcare Insights</div>
+  <h1>The DawaTrack <em>Journal</em></h1>
+  <p>Perspectives on medication adherence, digital health, and the future of patient-doctor relationships in Africa and beyond.</p>
+
+  <!-- Hero background image style -->
+  <style>
+    .hero .hero-bg {
+      position: absolute;
+      inset: 0;
+      background-image: url('dawa.jpg');
+      background-size: cover;
+      background-position: center top;
+      background-repeat: no-repeat;
+      opacity: 0.18;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .hero .hero-eyebrow,
+    .hero h1,
+    .hero p,
+    .hero .hero-actions {
+      position: relative;
+      z-index: 1;
+    }
+  </style>
+</header>
+
+
+<!-- ARTICLES -->
+<section class="section">
+  <div class="container">
+
+    <!-- Featured -->
+    <div class="featured-post" onclick="openArticle('featured')" style="background:#FFFFFF;border:1px solid #D1E4DE;border-radius:20px;overflow:hidden;box-shadow:0 8px 32px rgba(27,82,113,0.10);display:grid;margin-bottom:48px;cursor:pointer;transition:box-shadow 0.25s ease,transform 0.2s ease;" onmouseenter="this.style.boxShadow='0 16px 48px rgba(27,82,113,0.18)';this.style.transform='translateY(-3px)'" onmouseleave="this.style.boxShadow='0 8px 32px rgba(27,82,113,0.10)';this.style.transform='translateY(0)'">
+      <div style="position:relative;min-height:260px;overflow:hidden;">
+        <img src="future.jpg" alt="Featured" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;display:block;" />
+        <div style="position:absolute;inset:0;background:rgba(244,248,247,0.18);"></div>
+        <div style="position:absolute;bottom:16px;left:16px;"><span class="badge badge-teal">Featured</span></div>
+      </div>
+      <div style="padding:40px 36px;display:flex;flex-direction:column;justify-content:center;">
+        <h2 style="font-family:'Instrument Serif',serif;font-weight:400;font-size:1.65rem;color:#1B5271;margin-bottom:14px;line-height:1.25;letter-spacing:-0.02em;">The Future of Patient-Doctor Relationships in the Digital Age</h2>
+        <p style="color:#3A5563;font-size:0.88rem;line-height:1.75;margin-bottom:22px;font-weight:300;">How real-time data and direct care communication is reshaping the therapeutic alliance — and why medication tracking is the cornerstone of modern continuity of care.</p>
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:24px;">
+          <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#5DAC96,#1B5271);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:0.75rem;color:#fff;">AK</div>
+          <div><div style="font-size:0.83rem;font-weight:700;color:#1B5271;">Amara Kariuki</div><div style="font-size:0.73rem;color:#7A9CA8;">May 11, 2026 · 8 min read</div></div>
+        </div>
+        <span class="btn-primary" style="width:fit-content;">Read Article →</span>
+      </div>
+    </div>
+
+    <!-- Grid -->
+    <div style="text-align:center;margin-bottom:40px;">
+      <span class="section-label">Recent Posts</span>
+      <h2 class="section-title" style="font-size:1.8rem;">More from the journal</h2>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:22px;margin-bottom:60px;">
+
+      <div class="blog-card" onclick="openArticle('adherence')">
+        <div class="blog-card-thumb" style="background:#FFFFFF;">
+          <img src="medication.jpg" alt="Adherence" style="width:100%;height:100%;object-fit:cover;display:block;" />
+        </div>
+        <div class="blog-card-body">
+          <span class="badge badge-blue">Adherence</span>
+          <h3>Improving Medication Adherence: What the Data Shows</h3>
+          <p>Non-adherence costs the global health system $500B annually. New digital tools — especially care feeds — are changing that equation faster than expected.</p>
+          <div class="blog-card-meta"><span>April 20, 2026 · 6 min</span><span style="color:#5DAC96;font-weight:700;cursor:pointer;">Read →</span></div>
+        </div>
+      </div>
+
+      <div class="blog-card" onclick="openArticle('ai')">
+        <div class="blog-card-thumb" style="background:#FFFFFF;">
+          <img src="ai.jpg" alt="AI" style="width:100%;height:100%;object-fit:cover;display:block;" />
+        </div>
+        <div class="blog-card-body">
+          <span class="badge badge-violet">Technology</span>
+          <h3>How AI is Transforming Clinical Decision Support in Africa</h3>
+          <p>From predictive adherence scoring to automated risk flags, machine learning is entering the care pathway in powerful new ways.</p>
+          <div class="blog-card-meta"><span>April 5, 2026 · 5 min</span><span style="color:#5DAC96;font-weight:700;cursor:pointer;">Read →</span></div>
+        </div>
+      </div>
+
+      <div class="blog-card" onclick="openArticle('alice')">
+        <div class="blog-card-thumb" style="background:#FFFFFF;">
+          <img src="alice.jpg" alt="Patient Stories" style="width:100%;height:100%;object-fit:cover;display:block;" />
+        </div>
+        <div class="blog-card-body">
+          <span class="badge badge-green">Patient Stories</span>
+          <h3>"Logging my meds changed my life" — Alice's Story</h3>
+          <p>A diabetic patient in Nairobi shares how DawaTrack's care feed helped her rebuild trust with her doctor and stay consistent for six months straight.</p>
+          <div class="blog-card-meta"><span>March 18, 2026 · 4 min</span><span style="color:#5DAC96;font-weight:700;cursor:pointer;">Read →</span></div>
+        </div>
+      </div>
+
+      <div class="blog-card" onclick="openArticle('hypertension')">
+        <div class="blog-card-thumb" style="background:#FFFFFF;">
+          <img src="africa.jpg" alt="Hypertension" style="width:100%;height:100%;object-fit:cover;display:block;" />
+        </div>
+        <div class="blog-card-body">
+          <span class="badge badge-amber">Research</span>
+          <h3>Hypertension in Sub-Saharan Africa: The Adherence Crisis</h3>
+          <p>A deep dive into why hypertension remains undertreated across the region, and what hospital partnerships can do to turn the tide.</p>
+          <div class="blog-card-meta"><span>March 1, 2026 · 9 min</span><span style="color:#5DAC96;font-weight:700;cursor:pointer;">Read →</span></div>
+        </div>
+      </div>
+
+      <div class="blog-card" onclick="openArticle('carefeed')">
+        <div class="blog-card-thumb" style="background:#FFFFFF;">
+          <img src="feed.jpg" alt="Care Feed" style="width:100%;height:100%;object-fit:cover;display:block;" />
+        </div>
+        <div class="blog-card-body">
+          <span class="badge badge-teal">Product</span>
+          <h3>Introducing the Live Care Feed: Doctor to Patient in Seconds</h3>
+          <p>We rebuilt our communication layer from scratch. Here's what's new, why every note type was designed with clinical input, and how it works.</p>
+          <div class="blog-card-meta"><span>Feb 14, 2026 · 3 min</span><span style="color:#5DAC96;font-weight:700;cursor:pointer;">Read →</span></div>
+        </div>
+      </div>
+
+      <div class="blog-card" onclick="openArticle('partnerships')">
+        <div class="blog-card-thumb" style="background:#FFFFFF;">
+          <img src="integration.jpg" alt="Partnerships" style="width:100%;height:100%;object-fit:cover;display:block;" />
+        </div>
+        <div class="blog-card-body">
+          <span class="badge badge-navy">Partnerships</span>
+          <h3>Building Trust Between Hospitals and Digital Health Vendors</h3>
+          <p>What makes a health-tech partnership succeed — or fail. Lessons from 200+ hospital onboardings across East Africa over five years.</p>
+          <div class="blog-card-meta"><span>Jan 28, 2026 · 7 min</span><span style="color:#5DAC96;font-weight:700;cursor:pointer;">Read →</span></div>
+        </div>
+      </div>
+
+
+    </div>
+
+    <!-- Newsletter -->
+    <div class="newsletter-band">
+      <span class="section-label">Newsletter</span>
+      <h3>Get insights in your inbox</h3>
+      <p>Monthly roundup of healthcare innovation, adherence research, and DawaTrack product updates. No spam, ever.</p>
+      <div class="newsletter-row">
+        <input type="email" id="newsEmail" placeholder="your@email.com" style="background:#FFFFFF !important;border:1.5px solid #D1E4DE !important;border-radius:10px !important;color:#0E1C28 !important;font-family:'Outfit',sans-serif !important;font-size:0.9rem !important;padding:11px 14px !important;flex:1;">
+        <button class="btn-primary" onclick="subscribeNewsletter()" style="white-space:nowrap;">Subscribe →</button>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="main-footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4 mb-4"><div class="footer-brand"><img src="logo.png" alt="">DawaTrack</div><p class="footer-tagline">Strengthening patient-doctor relationships through intelligent medication tracking.</p></div>
+      <div class="col-md-2 mb-4"><div class="footer-heading">Platform</div><ul class="footer-links"><li><a href="services.html">Services</a></li><li><a href="portal.html">Sign In</a></li></ul></div>
+      <div class="col-md-2 mb-4"><div class="footer-heading">Company</div><ul class="footer-links"><li><a href="about.html">About</a></li><li><a href="blog.html">Blog</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+      <div class="col-md-4 mb-4"><div class="footer-heading">Get in Touch</div><p style="color:#9DD1C2;font-size:0.875rem;line-height:1.9;font-weight:300;">dawa@memeyai.com<br>+254 794153677<br>Thome square/Ushindi east avenue</p></div>
+    </div>
+    <div class="footer-bottom"><span class="footer-copy">© 2026 DawaTrack Hospital Partnership. All rights reserved.</span><div class="footer-legal"><a href="#">Privacy</a><a href="#">Terms</a><a href="#">HIPAA</a></div></div>
+  </div>
+</footer>
+
+<!-- ════════════════════════════════════════════════════════════
+     ARTICLE READER DRAWER
+════════════════════════════════════════════════════════════ -->
+<div class="article-overlay" id="articleOverlay" onclick="closeArticle()"></div>
+
+<div class="article-drawer" id="articleDrawer">
+  <!-- Reading progress -->
+  <div class="read-progress"><div class="read-progress-fill" id="readProgress"></div></div>
+
+  <!-- Top bar -->
+  <div class="drawer-topbar">
+    <div class="drawer-topbar-meta">
+      <span id="drawerCategory" style="color:#5DAC96;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;font-size:0.68rem;"></span>
+      <span id="drawerReadTime"></span>
+    </div>
+    <div style="display:flex;gap:10px;align-items:center;">
+      <button class="share-btn" onclick="copyArticleLink()" style="font-size:0.75rem;padding:6px 12px;">
+        🔗 Copy Link
+      </button>
+      <button class="drawer-close" onclick="closeArticle()" title="Close article">✕</button>
+    </div>
+  </div>
+
+  <!-- Scrollable body -->
+  <div class="drawer-body" id="drawerBody">
+    <!-- content injected by JS -->
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════
+     SCRIPTS
+════════════════════════════════════════════════════════════ -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="script.js"></script>
+<script>
+/* ── Article data ─────────────────────────────────────────── */
+const ARTICLES = {
+
+  featured: {
+    id: 'featured',
+    category: 'Featured',
+    categoryColor: '#5DAC96',
+    emoji: '🏥',
+    thumbBg: 'linear-gradient(135deg,#EDF5F2,#C8E9E1)',
+    thumbImg: 'dawa.jpg',
+    title: 'The Future of Patient-Doctor Relationships in the Digital Age',
+
+    date: 'May 11, 2026',
+    readTime: '8 min read',
+    author: { initials:'AK', name:'Amara Kariuki', role:'CEO & Co-Founder, DawaTrack', avatarBg:'linear-gradient(135deg,#5DAC96,#1B5271)' },
+    tags: ['Patient Care','Digital Health','Adherence','Innovation'],
+    related: ['adherence','carefeed','partnerships'],
+    body: `
+      <p>The relationship between a patient and their doctor has always been the cornerstone of healthcare. But for decades, that relationship has been constrained by a fundamental limitation: <strong>it only existed during appointments</strong>. Between those 15-minute windows, patients navigated their health alone.</p>
+
+      <h2>The Appointment Gap</h2>
+      <p>Consider a patient managing Type 2 diabetes. They see their doctor every three months. That means 89 days of medication decisions, dietary choices, and symptom management happen entirely without clinical oversight. When things go wrong — a missed dose, a side effect, a confusing prescription label — there is no immediate recourse.</p>
+
+      <div class="stat-callout">
+        <div class="stat-callout-num">50%</div>
+        <div class="stat-callout-text">of patients with chronic conditions do not take their medications as prescribed. This single statistic drives an estimated <strong style="color:#9DD1C2;">$500 billion</strong> in avoidable healthcare costs globally every year.</div>
+      </div>
+
+      <p>The consequences are not just financial. Non-adherence is directly linked to 125,000 preventable deaths annually in the United States alone. In sub-Saharan Africa, where chronic disease burden is rising rapidly, the impact is proportionally even greater.</p>
+
+      <h2>What Digital Communication Changes</h2>
+      <p>The emergence of real-time communication platforms within healthcare — what we at DawaTrack call the <em>Care Feed</em> — fundamentally alters this dynamic. For the first time, a doctor can send a note to a patient the moment they notice a missed dose. Not next appointment. <strong>Now.</strong></p>
+
+      <blockquote><p>"When I saw that Fatuma had missed three consecutive doses, I sent her an urgent note through DawaTrack. She responded by coming in the next day. Under the old system, I wouldn't have known until our quarterly appointment — and the damage could have been serious."</p></blockquote>
+
+      <p>This is not simply about reminders. It is about the nature of the relationship itself. When a patient receives a personalised note — praise for a week of consistent dosing, practical advice about a side effect they mentioned — they feel seen. They feel that their doctor is present, even between appointments.</p>
+
+      <h2>The Four Pillars of Digital Care Continuity</h2>
+      <div style="background:#F4F8F7;border:1px solid #D1E4DE;border-radius:14px;padding:20px;margin:28px 0;">
+        <div class="key-point">
+          <div class="key-point-icon">📊</div>
+          <div><p><strong>Visibility.</strong> Doctors can see exactly what their patients are doing between appointments — not through surveillance, but through transparent, voluntary logging that patients own.</p></div>
+        </div>
+        <div class="key-point">
+          <div class="key-point-icon">📡</div>
+          <div><p><strong>Communication.</strong> Direct, asynchronous notes that fit into both the doctor's clinical workflow and the patient's daily life — without requiring phone calls or app downloads.</p></div>
+        </div>
+        <div class="key-point">
+          <div class="key-point-icon">🎯</div>
+          <div><p><strong>Personalisation.</strong> Notes are tied to specific log entries, not generic broadcasts. When a doctor comments on a missed dose, the patient sees it next to that exact entry.</p></div>
+        </div>
+        <div class="key-point" style="border-bottom:none;">
+          <div class="key-point-icon">🔒</div>
+          <div><p><strong>Trust.</strong> Role-based access means patients and doctors each see only what is relevant to them — building confidence that the platform respects their privacy.</p></div>
+        </div>
+      </div>
+
+      <h2>Looking Ahead</h2>
+      <p>The next decade will see artificial intelligence augment these capabilities — predictive adherence scoring, automated risk detection, personalised intervention timing. But the foundation will remain human: a doctor who cares, a patient who wants to get better, and a communication channel that keeps them connected.</p>
+      <p>At DawaTrack, we believe the future of healthcare is not in the clinic. It is in the <em>relationship</em> — sustained, responsive, and alive every day of the week.</p>
+    `
+  },
+
+  adherence: {
+    id: 'adherence',
+    category: 'Adherence',
+    categoryColor: '#3A8DC4',
+    emoji: '📊',
+    thumbBg: 'linear-gradient(135deg,#D4E4EE,#9BBBD4)',
+    thumbImg: 'medication.jpg',
+    title: 'Improving Medication Adherence: What the Data Shows',
+
+    date: 'April 20, 2026',
+    readTime: '6 min read',
+    author: { initials:'DM', name:'Dr. David Mwangi', role:'Chief Medical Officer, DawaTrack', avatarBg:'linear-gradient(135deg,#1B5271,#3A8DC4)' },
+    tags: ['Data','Medication','Research','Outcomes'],
+    related: ['featured','hypertension','alice'],
+    body: `
+      <p>Medication adherence — the degree to which a patient correctly follows a prescribed treatment — is one of the most consequential and least discussed problems in global healthcare. The data is unambiguous, and it is alarming.</p>
+
+      <div class="stat-callout">
+        <div class="stat-callout-num">$500B</div>
+        <div class="stat-callout-text">estimated annual cost of medication non-adherence to the global healthcare system, according to a 2023 WHO report. The human cost is incalculable.</div>
+      </div>
+
+      <h2>Why Patients Don't Take Their Medication</h2>
+      <p>Research consistently identifies five primary reasons for non-adherence:</p>
+      <div style="background:#F4F8F7;border:1px solid #D1E4DE;border-radius:14px;padding:20px;margin:24px 0;">
+        <div class="key-point"><div class="key-point-icon">😕</div><div><p><strong>Forgetfulness</strong> — the most common cause, affecting 60% of non-adherent patients.</p></div></div>
+        <div class="key-point"><div class="key-point-icon">💸</div><div><p><strong>Cost</strong> — inability to afford refills, particularly in low and middle-income settings.</p></div></div>
+        <div class="key-point"><div class="key-point-icon">😣</div><div><p><strong>Side effects</strong> — patients stop taking medications without consulting their doctor.</p></div></div>
+        <div class="key-point"><div class="key-point-icon">🤷</div><div><p><strong>Lack of perceived need</strong> — feeling well and believing the medication is no longer necessary.</p></div></div>
+        <div class="key-point" style="border-bottom:none;"><div class="key-point-icon">🏥</div><div><p><strong>Poor patient-provider communication</strong> — unclear instructions, no follow-up, no sense of accountability.</p></div></div>
+      </div>
+
+      <h2>What Digital Interventions Achieve</h2>
+      <p>A 2025 meta-analysis of digital medication tracking platforms found an average <strong>23% improvement in adherence rates</strong> among patients using structured logging tools combined with clinician communication features. Platforms that included direct doctor-to-patient messaging saw a further <strong>14% improvement</strong> above this baseline.</p>
+
+      <blockquote><p>"The data tells us that it's not enough to track. The intervention that moves the needle is the communication that follows the data — a doctor who responds to what they see."</p></blockquote>
+
+      <h2>The DawaTrack Approach</h2>
+      <p>DawaTrack's platform combines daily logging with a live Care Feed — four note types (Advice, Reminder, Praise, Urgent) that a doctor can send directly to a patient's dashboard within seconds of seeing a concerning pattern. Our current cohort of 12,400 active patients shows an average adherence rate of <em>87%</em>, compared to a regional baseline of approximately 52%.</p>
+      <p>The improvement is not magic. It is the result of patients feeling that someone is watching, not in a surveillance sense, but in the sense that someone cares enough to notice and respond.</p>
+    `
+  },
+
+  ai: {
+    id: 'ai',
+    category: 'Technology',
+    categoryColor: '#7B6EC8',
+    emoji: '🤖',
+    thumbBg: 'linear-gradient(135deg,#E8E4F8,#C8C0F0)',
+    thumbImg: 'analytics.jpg',
+    title: 'How AI is Transforming Clinical Decision Support in Africa',
+
+    date: 'April 5, 2026',
+    readTime: '5 min read',
+    author: { initials:'FN', name:'Faith Njeri', role:'CTO & Co-Founder, DawaTrack', avatarBg:'linear-gradient(135deg,#2DAF83,#5DAC96)' },
+    tags: ['AI','Technology','Clinical','Machine Learning'],
+    related: ['featured','carefeed','adherence'],
+    body: `
+      <p>Artificial intelligence has been promised to healthcare for decades. The reality, particularly in African health systems, has been slower than the hype. But in 2026, something has shifted — and the change is happening at the patient-data level, not in gleaming research labs.</p>
+
+      <h2>Where AI Is Actually Working</h2>
+      <p>The most effective AI applications in African healthcare today are not diagnosing rare diseases. They are doing something far more practical: <strong>predicting who is about to stop taking their medication.</strong></p>
+
+      <div class="stat-callout">
+        <div class="stat-callout-num">78%</div>
+        <div class="stat-callout-text">accuracy achieved by DawaTrack's adherence prediction model in identifying patients likely to miss doses in the next 72 hours — based on logging patterns, day-of-week behaviour, and historical data.</div>
+      </div>
+
+      <h2>Predictive Adherence Scoring</h2>
+      <p>By analysing logging patterns — time of day, day of week, note sentiment, gap lengths between entries — a model can identify patients whose behaviour suggests imminent non-adherence. A doctor can then send a preemptive Reminder note before the missed dose happens, rather than reacting after it.</p>
+
+      <blockquote><p>"Prevention is always better than intervention. AI gives us the ability to act on what's about to happen, not just what already has."</p></blockquote>
+
+      <h2>Automated Risk Flags</h2>
+      <p>DawaTrack's risk flagging system automatically classifies patients into Low, Medium, and High Risk categories based on rolling 7-day adherence rates. This is not complex AI — it is structured logic applied consistently — but its impact on clinical workflow is profound. Doctors no longer need to scan through dozens of patient logs manually. The patients who need attention surface automatically.</p>
+
+      <h2>What Comes Next</h2>
+      <p>Over the next 18 months, DawaTrack is piloting three AI-assisted features: personalised reminder timing (sending notifications at the exact time a specific patient is most likely to act), drug interaction flagging based on multi-medication logs, and natural language note suggestions for doctors based on patient history. None of these replace clinical judgment. All of them amplify it.</p>
+    `
+  },
+
+  alice: {
+    id: 'alice',
+    category: 'Patient Stories',
+    categoryColor: '#2DAF83',
+    emoji: '💬',
+    thumbBg: 'linear-gradient(135deg,#EDF5F2,#C8E9E1)',
+    thumbImg: 'amara.jpg',
+    title: '"Logging my meds changed my life" — Alice\'s Story',
+
+    date: 'March 18, 2026',
+    readTime: '4 min read',
+    author: { initials:'MO', name:'Mercy Otieno', role:'Head of Partnerships, DawaTrack', avatarBg:'linear-gradient(135deg,#D98A2A,#D94F4F)' },
+    tags: ['Patient Story','Diabetes','Adherence','Nairobi'],
+    related: ['adherence','featured','hypertension'],
+    body: `
+      <p>Alice Kamau is 47 years old. She lives in Kibera, Nairobi, works as a teacher, and was diagnosed with Type 2 diabetes in 2022. For the first two years, she was, by her own admission, a poor patient.</p>
+
+      <p>"I would forget my Metformin for days at a time," she tells us. "My doctor would ask me at appointments and I would say yes, I was taking it, because I was embarrassed. But my blood sugar numbers never showed it."</p>
+
+      <h2>The First Log</h2>
+      <p>Alice joined DawaTrack in January 2026 through her clinic at Kenyatta National Hospital. On her first day, she logged a dose — just three fields: medicine name, date, taken or missed. <em>"It took me about 20 seconds."</em></p>
+
+      <div class="stat-callout">
+        <div class="stat-callout-num">83%</div>
+        <div class="stat-callout-text">Alice's adherence rate in her first month on DawaTrack, up from an estimated 30–40% in the preceding year based on blood glucose records.</div>
+      </div>
+
+      <p>Within a week, something unexpected happened. Her doctor, Dr. David Mwangi, sent her a note through the care feed. <em>"He said I was doing well and to keep it up. Nobody had ever said that to me about my medication before. It sounds small, but it meant everything."</em></p>
+
+      <h2>The Missed Dose That Changed Things</h2>
+      <p>In February, Alice forgot her morning dose on a school field trip. She logged it honestly — ticking "Missed" and writing "Was travelling." Within hours, Dr. Mwangi sent a note: a friendly reminder to set an alarm on her phone, and a reassurance that one missed dose was not a crisis.</p>
+
+      <blockquote><p>"Before DawaTrack, if I missed a dose I would feel ashamed and not log the next one either. The shame would spiral. But because my doctor responded with kindness, I just moved on and took the next dose."</p></blockquote>
+
+      <h2>Six Months Later</h2>
+      <p>Alice's last HbA1c reading — a measure of average blood sugar over three months — was 6.8%, down from 8.4% when she started the programme. Her doctor credits the improvement directly to the consistency her logging habit has created.</p>
+      <p>Alice puts it more simply: <em>"I log my medicine the same way I mark attendance in my classroom. It's just part of the routine now. And knowing someone will see it — that helps."</em></p>
+    `
+  },
+
+  hypertension: {
+    id: 'hypertension',
+    category: 'Research',
+    categoryColor: '#D98A2A',
+    emoji: '📋',
+    thumbBg: 'linear-gradient(135deg,#FBF0DC,#F8E0B8)',
+    thumbImg: 'alerts.jpg',
+    title: 'Hypertension in Sub-Saharan Africa: The Adherence Crisis',
+
+    date: 'March 1, 2026',
+    readTime: '9 min read',
+    author: { initials:'DM', name:'Dr. David Mwangi', role:'Chief Medical Officer, DawaTrack', avatarBg:'linear-gradient(135deg,#1B5271,#3A8DC4)' },
+    tags: ['Hypertension','Research','Africa','Public Health'],
+    related: ['adherence','alice','featured'],
+    body: `
+      <p>Hypertension — elevated blood pressure — is the single largest modifiable risk factor for cardiovascular disease, stroke, and kidney failure globally. In sub-Saharan Africa, it is reaching epidemic proportions. And the core problem is not diagnosis or access to medication. It is <strong>adherence</strong>.</p>
+
+      <div class="stat-callout">
+        <div class="stat-callout-num">57%</div>
+        <div class="stat-callout-text">of hypertensive patients in sub-Saharan Africa are non-adherent to their antihypertensive regimen, according to a 2024 systematic review covering 14 countries. In East Africa specifically, the figure rises to 63%.</div>
+      </div>
+
+      <h2>Why Hypertension Is Particularly Vulnerable to Non-Adherence</h2>
+      <p>Unlike diabetes, which produces immediate and perceptible symptoms when uncontrolled, hypertension is largely asymptomatic. Patients feel well. The medication, in their lived experience, seems to do nothing visible. The incentive to take it daily is abstract — preventing a stroke that may or may not happen — rather than concrete.</p>
+
+      <p>This is compounded by the fact that antihypertensive medications, particularly older first-line agents like Amlodipine and Lisinopril, have side effects that patients find unpleasant: dizziness, dry cough, ankle swelling. Without a doctor to normalise these effects and help patients persist, many simply stop.</p>
+
+      <h2>The Communication Vacuum</h2>
+      <p>In most sub-Saharan healthcare systems, a hypertensive patient will see their doctor once every three months — if they attend their follow-up appointments, which only 48% do consistently. In the 89 days between appointments, there is no clinical touchpoint. A patient who has stopped their medication will not be identified until their blood pressure reading at the next visit reveals the damage that has accumulated.</p>
+
+      <blockquote><p>"We are essentially flying blind between appointments. We know patients are struggling, but we have no visibility into it until it becomes a crisis."</p></blockquote>
+
+      <h2>What Intervention Studies Show</h2>
+      <p>A 2025 randomised controlled trial conducted across six hospitals in Kenya, Uganda, and Tanzania compared standard care against standard care plus a digital logging and communication platform. The results were striking: the intervention group showed a <strong>31% reduction in missed doses</strong> and a <strong>mean blood pressure reduction of 8.2 mmHg systolic</strong> — clinically significant by any standard.</p>
+
+      <p>The mechanism was not complicated. Patients who knew their logs were visible to their doctor took their medication more consistently. Doctors who could see missed doses sent timely, personalised notes. The relationship that had been severed by the appointment gap was partially restored.</p>
+
+      <h2>Policy Implications</h2>
+      <p>The case for integrating digital adherence platforms into hypertension management pathways across East Africa is now evidence-based. The barrier is not clinical efficacy — it is procurement, training, and institutional will. DawaTrack is working with Ministries of Health in Kenya and Tanzania to develop public-sector integration models. The goal: every hypertensive patient on the continent with a phone number has access to a care feed with their clinician.</p>
+    `
+  },
+
+  carefeed: {
+    id: 'carefeed',
+    category: 'Product',
+    categoryColor: '#5DAC96',
+    emoji: '🚀',
+    thumbBg: 'linear-gradient(135deg,#EDF5F2,#C8E9E1)',
+    thumbImg: 'feed.jpg',
+    title: 'Introducing the Live Care Feed: Doctor to Patient in Seconds',
+
+    date: 'February 14, 2026',
+    readTime: '3 min read',
+    author: { initials:'FN', name:'Faith Njeri', role:'CTO & Co-Founder, DawaTrack', avatarBg:'linear-gradient(135deg,#2DAF83,#5DAC96)' },
+    tags: ['Product','Care Feed','Feature','Update'],
+    related: ['featured','ai','partnerships'],
+    body: `
+      <p>Today we are launching the feature we have been building toward since DawaTrack was founded: the <em>Live Care Feed</em> — a direct, real-time communication channel from doctor to patient, embedded inside the medication dashboard.</p>
+
+      <h2>What It Is</h2>
+      <p>The Care Feed is a message inbox that lives on every patient's dashboard. Doctors write notes — against specific medication log entries — and those notes appear on the patient's screen within five seconds. No email. No WhatsApp thread. No phone call playing tag. Just a direct, contextual message from clinician to patient, attached to the exact dose it refers to.</p>
+
+      <h2>Four Note Types, Designed With Clinicians</h2>
+      <div style="background:#F4F8F7;border:1px solid #D1E4DE;border-radius:14px;padding:20px;margin:24px 0;">
+        <div class="key-point">
+          <div class="key-point-icon">🌟</div>
+          <div><p><strong>Praise.</strong> Green-coded. For when a patient hits a streak or shows improvement. Small recognition, large impact on motivation.</p></div>
+        </div>
+        <div class="key-point">
+          <div class="key-point-icon">🔔</div>
+          <div><p><strong>Reminder.</strong> Amber-coded. A gentle nudge for a missed dose or a pattern of inconsistency — non-judgmental, actionable.</p></div>
+        </div>
+        <div class="key-point">
+          <div class="key-point-icon">💊</div>
+          <div><p><strong>Advice.</strong> Blue-coded. Clinical guidance — how to manage a side effect, what to do if a dose is missed, dietary considerations.</p></div>
+        </div>
+        <div class="key-point" style="border-bottom:none;">
+          <div class="key-point-icon">⚠️</div>
+          <div><p><strong>Urgent.</strong> Red-coded. For situations requiring immediate action — a prescription refill, an appointment, or a concerning symptom pattern.</p></div>
+        </div>
+      </div>
+
+      <h2>Built for Real Clinical Workflows</h2>
+      <p>We spoke to 43 doctors across Kenya, Uganda, and Tanzania before designing the Care Feed. The consistent feedback: it had to be <em>fast</em>. A doctor reviewing their patient list should be able to send a note in under 15 seconds — no extra navigation, no form to fill. The result: the note field sits directly inside each patient's log table. Type, select note type, click Send. Done.</p>
+
+      <blockquote><p>"I can review my 24 DawaTrack patients in under 10 minutes and send meaningful, personalised notes to the ones who need them. That has never been possible before."</p></blockquote>
+
+      <p>The Care Feed is live for all DawaTrack accounts today. Log in, expand a patient, and send your first note.</p>
+    `
+  },
+
+  partnerships: {
+    id: 'partnerships',
+    category: 'Partnerships',
+    categoryColor: '#1B5271',
+    emoji: '🤝',
+    thumbBg: 'linear-gradient(135deg,#D4E4EE,#9BBBD4)',
+    thumbImg: 'integration.jpg',
+    title: 'Building Trust Between Hospitals and Digital Health Vendors',
+
+    date: 'January 28, 2026',
+    readTime: '7 min read',
+    author: { initials:'MO', name:'Mercy Otieno', role:'Head of Partnerships, DawaTrack', avatarBg:'linear-gradient(135deg,#D98A2A,#D94F4F)' },
+    tags: ['Partnerships','Hospitals','Strategy','Trust'],
+    related: ['featured','carefeed','adherence'],
+    body: `
+      <p>DawaTrack has now onboarded over 200 hospital and clinic partners across East Africa. We have seen partnerships thrive and we have seen them collapse. After five years and 200 implementations, we have a clear picture of what separates the two.</p>
+
+      <h2>The Trust Deficit</h2>
+      <p>When a hospital administrator hears "digital health vendor," their first thought is rarely excitement. It is caution — and justifiably so. The landscape is littered with platforms that promised transformation and delivered dashboards that nobody used, integrations that broke after three months, and vendors who disappeared after the initial contract.</p>
+
+      <div class="stat-callout">
+        <div class="stat-callout-num">60%</div>
+        <div class="stat-callout-text">of digital health implementations in sub-Saharan Africa fail within the first year, according to a 2024 WHO Digital Health Monitor report. The primary cause cited: poor change management and vendor abandonment.</div>
+      </div>
+
+      <h2>What We Learned the Hard Way</h2>
+      <p>Our first major partnership — a 300-bed hospital in Mombasa in 2021 — nearly collapsed at the three-month mark. Doctors were not using the platform. Patients were not logging. The clinical champion who had driven the procurement had moved to a different role. We had assumed that technical deployment was the hard part. We were wrong.</p>
+
+      <blockquote><p>"Technology is never the barrier. People are. And people need to be brought along, supported, and shown wins before they commit to a new way of working."</p></blockquote>
+
+      <h2>The Five Conditions for a Successful Partnership</h2>
+      <div style="background:#F4F8F7;border:1px solid #D1E4DE;border-radius:14px;padding:20px;margin:24px 0;">
+        <div class="key-point"><div class="key-point-icon">👤</div><div><p><strong>A named clinical champion</strong> with institutional authority and genuine belief in the platform.</p></div></div>
+        <div class="key-point"><div class="key-point-icon">🏆</div><div><p><strong>A defined 30-day win</strong> — a metric that will show improvement quickly enough to sustain momentum.</p></div></div>
+        <div class="key-point"><div class="key-point-icon">📋</div><div><p><strong>A simple workflow integration</strong> — the platform must fit into existing clinical routines, not create new ones.</p></div></div>
+        <div class="key-point"><div class="key-point-icon">📞</div><div><p><strong>Dedicated onboarding support</strong> — a DawaTrack partner success manager who is available, responsive, and accountable.</p></div></div>
+        <div class="key-point" style="border-bottom:none;"><div class="key-point-icon">📈</div><div><p><strong>Regular data reviews</strong> — monthly meetings to review adherence trends, celebrate improvements, and address friction points.</p></div></div>
+      </div>
+
+      <p>The Mombasa hospital is now one of our strongest partners. It took six months of intensive support to get there. Today, that support is built into every DawaTrack contract from day one — because we know that technical deployment is only the beginning of the work.</p>
+    `
+  }
+};
+
+/* ── Open/close drawer ───────────────────────────────────── */
+let currentArticleId = null;
+
+function openArticle(id) {
+  const art = ARTICLES[id];
+  if (!art) return;
+  currentArticleId = id;
+
+  // Build related articles HTML
+  const relatedHtml = art.related
+    .map(rid => ARTICLES[rid])
+    .filter(Boolean)
+    .map(r => `
+      <div class="related-card" onclick="openArticle('${r.id}')">
+        <div class="related-card-emoji">${r.emoji}</div>
+        <div class="related-card-title">${r.title}</div>
+        <div class="related-card-meta">${r.date} · ${r.readTime}</div>
+      </div>
+    `).join('');
+
+  // Build tags HTML
+  const tagsHtml = art.tags.map(t => `<span class="article-tag">${t}</span>`).join('');
+
+  // Inject content
+  document.getElementById('drawerCategory').textContent = art.category;
+  document.getElementById('drawerCategory').style.color  = art.categoryColor;
+  document.getElementById('drawerReadTime').textContent  = art.readTime;
+
+  document.getElementById('drawerBody').innerHTML = `
+    <!-- Hero thumb -->
+      <div style="background:${art.thumbBg};border-radius:14px;height:180px;display:flex;align-items:center;justify-content:center;margin-bottom:28px;overflow:hidden;">
+        ${art.thumbImg ? `<img src="${art.thumbImg}" alt="${art.title}" style="width:100%;height:100%;object-fit:cover;display:block;" />` : `<span style="font-size:4rem;">${art.emoji}</span>`}
+      </div>
+
+    <!-- Category & title -->
+    <span class="article-category" style="color:${art.categoryColor};">${art.category}</span>
+    <h1 class="article-title">${art.title}</h1>
+
+    <!-- Author row -->
+    <div class="article-author-row">
+      <div class="article-author-avatar" style="background:${art.author.avatarBg};">${art.author.initials}</div>
+      <div>
+        <div class="article-author-name">${art.author.name}</div>
+        <div class="article-author-role">${art.author.role}</div>
+      </div>
+      <div class="article-date-read">
+        <div style="font-weight:600;color:#1B5271;">${art.date}</div>
+        <div>${art.readTime}</div>
+      </div>
+    </div>
+
+    <!-- Body -->
+    <div class="article-body">${art.body}</div>
+
+    <!-- Footer: tags + share -->
+    <div class="article-footer">
+      <div class="article-tags">${tagsHtml}</div>
+      <div class="share-row">
+        <span class="share-label">Share</span>
+        <button class="share-btn" onclick="copyArticleLink()">🔗 Copy Link</button>
+        <button class="share-btn" onclick="shareTwitter('${art.title.replace(/'/g,"\\'")}')">𝕏 Twitter</button>
+        <button class="share-btn" onclick="shareLinkedIn()">in LinkedIn</button>
+      </div>
+    </div>
+
+    <!-- Related -->
+    <div class="related-section">
+      <div class="related-label">Continue Reading</div>
+      <div class="related-grid">${relatedHtml}</div>
+    </div>
+  `;
+
+  // Open
+  document.getElementById('articleOverlay').classList.add('open');
+  document.getElementById('articleDrawer').classList.add('open');
+  document.body.style.overflow = 'hidden';
+
+  // Reset progress
+  document.getElementById('readProgress').style.width = '0%';
+
+  // Scroll progress listener
+  const body = document.getElementById('drawerBody');
+  body.scrollTop = 0;
+  body.onscroll = () => {
+    const pct = (body.scrollTop / (body.scrollHeight - body.clientHeight)) * 100;
+    document.getElementById('readProgress').style.width = Math.min(pct, 100) + '%';
+  };
+}
+
+function closeArticle() {
+  document.getElementById('articleOverlay').classList.remove('open');
+  document.getElementById('articleDrawer').classList.remove('open');
+  document.body.style.overflow = '';
+  currentArticleId = null;
+}
+
+/* ── Keyboard close ──────────────────────────────────────── */
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeArticle();
+});
+
+/* ── Share helpers ───────────────────────────────────────── */
+function copyArticleLink() {
+  const url = window.location.href.split('#')[0] + '#' + (currentArticleId || '');
+  navigator.clipboard?.writeText(url).then(() => showToast('Link copied to clipboard!')).catch(() => showToast('Link copied!'));
+}
+function shareTwitter(title) {
+  const url = encodeURIComponent(window.location.href);
+  const txt = encodeURIComponent('"' + title + '" — DawaTrack Journal');
+  window.open('https://twitter.com/intent/tweet?text=' + txt + '&url=' + url, '_blank');
+}
+function shareLinkedIn() {
+  const url = encodeURIComponent(window.location.href);
+  window.open('https://www.linkedin.com/sharing/share-offsite/?url=' + url, '_blank');
+}
+
+/* ── Newsletter ──────────────────────────────────────────── */
+function subscribeNewsletter() {
+  const email = document.getElementById('newsEmail')?.value.trim();
+  if (!email) { showToast('Please enter your email address.', 'error'); return; }
+  showToast('Subscribed! Welcome to the DawaTrack Journal. 🎉');
+  document.getElementById('newsEmail').value = '';
+}
+</script>
+</body>
+</html>
