@@ -1,7 +1,7 @@
 """
 All environment configuration
 """
-from pydantic_settings import BaseSettings, SettingsConfigDict
+from pydantic import BaseSettings
 from functools import lru_cache
 
 
@@ -27,7 +27,9 @@ class Settings(BaseSettings):
     APP_ENV: str = "development"
     FRONTEND_URL: str = "http://localhost:5500"
 
-    model_config = SettingsConfigDict(env_file=".env", extra="ignore")
+    class Config:
+        env_file = ".env"
+        extra = "ignore"
 
 
 @lru_cache
