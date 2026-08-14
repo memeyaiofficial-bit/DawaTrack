@@ -32,5 +32,4 @@ class ScheduleOut(BaseModel):
     active: bool
     created_at: datetime
 
-    class Config:
-        from_orm = True
+    model_config = {"from_attributes": True}

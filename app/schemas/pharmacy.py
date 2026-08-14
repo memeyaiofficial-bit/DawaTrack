@@ -31,8 +31,7 @@ class MedicineRequestOut(BaseModel):
     created_at: datetime
     updated_at: datetime
 
-    class Config:
-        from_orm = True
+    model_config = {"from_attributes": True}
 
 
 # ── Dispense records (pharmacy → patient) ───────────────────────────
@@ -61,5 +60,4 @@ class DispenseOut(BaseModel):
     notes: str | None = None
     created_at: datetime
 
-    class Config:
-        from_orm = True
+    model_config = {"from_attributes": True}

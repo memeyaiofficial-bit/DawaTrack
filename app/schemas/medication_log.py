@@ -2,7 +2,7 @@
 app/schemas/medication_log.py
 """
 from datetime import datetime, date
-from pydantic import BaseModel, validator
+from pydantic import BaseModel, field_validator
 
 
 class MedicationLogCreate(BaseModel):
@@ -12,7 +12,8 @@ class MedicationLogCreate(BaseModel):
     time_taken: str | None = None
     notes: str | None = None
 
-    @validator("medicine_name")
+    @field_validator("medicine_name")
+    @classmethod
     def name_not_empty(cls, v: str) -> str:
         if not v.strip():
             raise ValueError("Medicine name cannot be empty")
@@ -34,8 +35,7 @@ class CareNoteInLog(BaseModel):
     is_read: bool
     created_at: datetime
 
-    class Config:
-        from_orm = True
+    model_config = {"from_attributes": True}
 
 
 class MedicationLogOut(BaseModel):
@@ -49,5 +49,4 @@ class MedicationLogOut(BaseModel):
     logged_at: datetime
     care_notes: list[CareNoteInLog] = []
 
-    class Config:
-        from_orm = True
+    model_config = {"from_attributes": True}
