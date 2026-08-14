@@ -8,11 +8,13 @@ import logging
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 from fastapi.exceptions import RequestValidationError
 from sqlalchemy.exc import IntegrityError
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from apscheduler.triggers.cron import CronTrigger
 import httpx
+import os
 
 from app.config import get_settings
 from app.database import engine, Base
@@ -118,3 +120,9 @@ app.include_router(pharmacy.router)
 @app.get("/", tags=["Health"])
 def health():
     return {"status": "ok", "app": "DawaTrack API", "version": "1.0.0"}
+
+
+# Mount static files (frontend) - LAST, after all routers
+static_dir = os.path.join(os.path.dirname(__file__), "..")
+if os.path.exists(static_dir):
+    app.mount("/", StaticFiles(directory=static_dir, html=True), name="static")
