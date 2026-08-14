@@ -117,7 +117,7 @@ app.include_router(schedules.router)
 app.include_router(pharmacy.router)
 
 
-@app.get("/", tags=["Health"])
+@app.get("/health", tags=["Health"])
 def health():
     return {"status": "ok", "app": "DawaTrack API", "version": "1.0.0"}
 
