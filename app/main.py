@@ -53,8 +53,10 @@ async def hourly_reminder_job():
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # Create tables (Alembic handles migrations in production, this is a safety net)
-    Base.metadata.create_all(bind=engine)
+    # Render runs Alembic migrations during the release phase. Avoid blocking
+    # application startup on a database connection in production.
+    if settings.APP_ENV.lower() != "production":
+        Base.metadata.create_all(bind=engine)
 
     # Start scheduler — run at the top of every hour
     scheduler.add_job(
