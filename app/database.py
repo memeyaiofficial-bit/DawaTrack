@@ -10,6 +10,7 @@ settings = get_settings()
 # PostgreSQL — connection pool suited for web workloads
 engine = create_engine(
     settings.DATABASE_URL,
+    connect_args={"connect_timeout": 10},
     pool_pre_ping=True,   # recycles stale connections
     pool_size=10,
     max_overflow=20,

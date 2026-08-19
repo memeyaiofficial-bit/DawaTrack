@@ -10,7 +10,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.exceptions import RequestValidationError
-from sqlalchemy.exc import IntegrityError
+from sqlalchemy.exc import IntegrityError, OperationalError
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from apscheduler.triggers.cron import CronTrigger
 import httpx
@@ -22,6 +22,7 @@ from app.routers import auth, logs, notes, patients, reminders, admin, caregiver
 from app.utils.errors import (
     validation_exception_handler,
     integrity_error_handler,
+    database_error_handler,
     generic_exception_handler,
 )
 
@@ -105,6 +106,7 @@ app.add_middleware(
 # Exception handlers
 app.add_exception_handler(RequestValidationError, validation_exception_handler)
 app.add_exception_handler(IntegrityError, integrity_error_handler)
+app.add_exception_handler(OperationalError, database_error_handler)
 app.add_exception_handler(Exception, generic_exception_handler)
 
 # Routers
