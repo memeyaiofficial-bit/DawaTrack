@@ -55,7 +55,8 @@ async def hourly_reminder_job():
 async def lifespan(app: FastAPI):
     # Render runs Alembic migrations during the release phase. Avoid blocking
     # application startup on a database connection in production.
-    if settings.APP_ENV.lower() != "production":
+    is_production = settings.APP_ENV.lower() == "production" or bool(os.getenv("RENDER_SERVICE_ID"))
+    if not is_production:
         Base.metadata.create_all(bind=engine)
 
     # Start scheduler — run at the top of every hour
