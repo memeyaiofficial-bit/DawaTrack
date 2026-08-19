@@ -93,6 +93,21 @@ async function api(method, path, body, auth = true) {
   return data;
 }
 
+function requireAuthResponse(data) {
+  if (!data || typeof data !== "object") {
+    throw new Error(
+      "The server returned an empty response. Check the Render service logs.",
+    );
+  }
+  if (!data.access_token || !data.user) {
+    throw new Error(
+      data.detail ||
+        "The server response is missing login details. Check the Render service logs.",
+    );
+  }
+  return data;
+}
+
 /* ═══ [B] SESSION / AUTH HELPERS ════════════════════════════════ */
 function getSession() {
   const u = getCachedUser();
@@ -315,11 +330,8 @@ function initPortal() {
     }
 
     try {
-      const data = await api(
-        "POST",
-        "/auth/login",
-        { email, password: pass },
-        false,
+      const data = requireAuthResponse(
+        await api("POST", "/auth/login", { email, password: pass }, false),
       );
       setToken(data.access_token);
       setCachedUser(data.user);
@@ -362,7 +374,9 @@ function initPortal() {
     if (code) body.doctor_access_code = code;
 
     try {
-      const data = await api("POST", "/auth/register", body, false);
+      const data = requireAuthResponse(
+        await api("POST", "/auth/register", body, false),
+      );
       setToken(data.access_token);
       setCachedUser(data.user);
       showToast("Account created!");
