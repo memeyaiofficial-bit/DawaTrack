@@ -1,239 +1,616 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Contact DawaTrack for hospital partnerships to enhance patient care and medication adherence.">
-  <title>Contact Us — DawaTrack</title>
-  <link rel="stylesheet" href="style.css">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <style>
-    .contact-layout { display:grid; grid-template-columns:1fr 1.5fr; gap:48px; align-items:start; }
-    .form-two-col   { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
-    @media(max-width:768px) { .contact-layout { grid-template-columns:1fr; } .form-two-col { grid-template-columns:1fr; } }
-  </style>
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Contact DawaTrack for hospital partnerships to enhance patient care and medication adherence."
+    />
+    <title>Contact Us — DawaTrack</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      .contact-layout {
+        display: grid;
+        grid-template-columns: 1fr 1.5fr;
+        gap: 48px;
+        align-items: start;
+      }
+      .form-two-col {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+      }
+      @media (max-width: 768px) {
+        .contact-layout {
+          grid-template-columns: 1fr;
+        }
+        .form-two-col {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="index.html"
+          ><img src="logo.png" alt="DawaTrack" /> Dawa<span class="brand-dot"
+            >Track</span
+          ></a
+        >
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#nav"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="nav">
+          <ul class="navbar-nav ms-auto align-items-center" style="gap: 2px">
+            <li class="nav-item">
+              <a class="nav-link active-link" href="index.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="about.html">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="services.html">Services</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="blog.html">Blog</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="card.html">S/card</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="contact.html">Contact</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="pharmacy-dashboard.html">Pharmacy</a>
+            </li>
+            <li class="nav-item ms-2">
+              <a class="btn-nav-portal nav-link" href="portal.html"
+                >Sign In →</a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
 
-<nav class="navbar navbar-expand-lg">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="index.html"><img src="logo.png" alt="DawaTrack"> Dawa<span class="brand-dot">Track</span></a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav"><span class="navbar-toggler-icon"></span></button>
-    <div class="collapse navbar-collapse" id="nav">
-     <ul class="navbar-nav ms-auto align-items-center" style="gap:2px;">
-        <li class="nav-item"><a class="nav-link active-link" href="index.html">Home</a></li>
-        <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
-        <li class="nav-item"><a class="nav-link" href="services.html">Services</a></li>
-        <li class="nav-item"><a class="nav-link" href="blog.html">Blog</a></li>
-        <li class="nav-item"><a class="nav-link" href="card.html">S/card</a></li>
-        <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
-        <li class="nav-item"><a class="nav-link" href="pharmacy-dashboard.html">Pharmacy</a></li>
-        <li class="nav-item ms-2"><a class="btn-nav-portal nav-link" href="portal.html">Sign In →</a></li>
-      </ul>
-    </div>
-  </div>
-</nav>
+    <header class="hero" style="padding: 80px 24px 60px; position: relative">
+      <div class="hero-bg" aria-hidden="true"></div>
+      <div class="hero-eyebrow">Get in Touch</div>
+      <h1>Start your <em>partnership</em></h1>
+      <p>
+        Tell us about your hospital or clinic and we'll put together a custom
+        onboarding plan — typically within 48 hours.
+      </p>
+      <!-- Hero background image style -->
+      <style>
+        .hero .hero-bg {
+          position: absolute;
+          inset: 0;
+          background-image: url("dawa.jpg");
+          background-size: cover;
+          background-position: center top;
+          background-repeat: no-repeat;
+          opacity: 0.18;
+          pointer-events: none;
+          z-index: 0;
+        }
+        .hero .hero-eyebrow,
+        .hero h1,
+        .hero p,
+        .hero .hero-actions {
+          position: relative;
+          z-index: 1;
+        }
+      </style>
+    </header>
 
-<header class="hero" style="padding:80px 24px 60px;position:relative;">
-  <div class="hero-bg" aria-hidden="true"></div>
-  <div class="hero-eyebrow">Get in Touch</div>
-  <h1>Start your <em>partnership</em></h1>
-  <p>Tell us about your hospital or clinic and we'll put together a custom onboarding plan — typically within 48 hours.</p>
-<!-- Hero background image style -->
-<style>
-  .hero .hero-bg {
-    position: absolute;
-    inset: 0;
-    background-image: url('dawa.jpg');
-    background-size: cover;
-    background-position: center top;
-    background-repeat: no-repeat;
-    opacity: 0.18;
-    pointer-events: none;
-    z-index: 0;
-  }
-  .hero .hero-eyebrow,
-  .hero h1,
-  .hero p,
-  .hero .hero-actions {
-    position: relative;
-    z-index: 1;
-  }
-</style>
-</header>
+    <section class="section" style="padding-top: 60px">
+      <div class="container">
+        <div class="contact-layout">
+          <!-- LEFT: Info -->
+          <div>
+            <span class="section-label">Contact Information</span>
+            <h2
+              class="section-title"
+              style="font-size: 1.7rem; margin-bottom: 20px"
+            >
+              We're here to help
+            </h2>
+            <p
+              style="
+                color: #3a5563;
+                font-size: 0.9rem;
+                line-height: 1.8;
+                margin-bottom: 32px;
+                font-weight: 300;
+              "
+            >
+              Our partnership team responds to all inquiries within one business
+              day. For urgent clinical support, use the phone line below.
+            </p>
 
-<section class="section" style="padding-top:60px;">
-  <div class="container">
-    <div class="contact-layout">
+            <div
+              style="
+                display: flex;
+                flex-direction: column;
+                gap: 14px;
+                margin-bottom: 36px;
+              "
+            >
+              <div class="contact-info-card">
+                <div class="contact-info-icon">📧</div>
+                <div>
+                  <div class="contact-info-label">Email</div>
+                  <a
+                    href="mailto:info@dawatrack.com"
+                    class="contact-info-val"
+                    style="text-decoration: none; transition: color 0.2s"
+                    onmouseenter="this.style.color = '#5DAC96'"
+                    onmouseleave="this.style.color = '#1B5271'"
+                    >Dawa@memeyai.com</a
+                  >
+                </div>
+              </div>
+              <div class="contact-info-card">
+                <div class="contact-info-icon">📞</div>
+                <div>
+                  <div class="contact-info-label">Phone</div>
+                  <a
+                    href="tel:+254700000000"
+                    class="contact-info-val"
+                    style="text-decoration: none; transition: color 0.2s"
+                    onmouseenter="this.style.color = '#5DAC96'"
+                    onmouseleave="this.style.color = '#1B5271'"
+                    >+254 794 153 677</a
+                  >
+                </div>
+              </div>
+              <div class="contact-info-card">
+                <div class="contact-info-icon">📍</div>
+                <div>
+                  <div class="contact-info-label">Office</div>
+                  <div class="contact-info-val">
+                    Thome Square , Ushindi East Avenue <br />Nairobi, Kenya
+                  </div>
+                </div>
+              </div>
+              <div class="contact-info-card">
+                <div class="contact-info-icon">⏰</div>
+                <div>
+                  <div class="contact-info-label">Business Hours</div>
+                  <div class="contact-info-val">
+                    Mon – Fri, 8:00 AM – 6:00 PM EAT
+                  </div>
+                </div>
+              </div>
+            </div>
 
-      <!-- LEFT: Info -->
-      <div>
-        <span class="section-label">Contact Information</span>
-        <h2 class="section-title" style="font-size:1.7rem;margin-bottom:20px;">We're here to help</h2>
-        <p style="color:#3A5563;font-size:0.9rem;line-height:1.8;margin-bottom:32px;font-weight:300;">Our partnership team responds to all inquiries within one business day. For urgent clinical support, use the phone line below.</p>
-
-        <div style="display:flex;flex-direction:column;gap:14px;margin-bottom:36px;">
-          <div class="contact-info-card">
-            <div class="contact-info-icon">📧</div>
-            <div>
-              <div class="contact-info-label">Email</div>
-              <a href="mailto:info@dawatrack.com" class="contact-info-val" style="text-decoration:none;transition:color 0.2s;" onmouseenter="this.style.color='#5DAC96'" onmouseleave="this.style.color='#1B5271'">Dawa@memeyai.com</a>
+            <!-- Trusted partners mini-card -->
+            <div
+              style="
+                background: #ffffff;
+                border: 1px solid #d1e4de;
+                border-radius: 16px;
+                padding: 22px;
+              "
+            >
+              <div
+                style="
+                  font-size: 0.7rem;
+                  font-weight: 800;
+                  letter-spacing: 0.1em;
+                  text-transform: uppercase;
+                  color: #7a9ca8;
+                  margin-bottom: 16px;
+                "
+              >
+                Trusted Partners
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 10px">
+                <div
+                  style="
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                  "
+                >
+                  <span style="font-size: 0.875rem; color: #3a5563"
+                    >City Hospital Nairobi</span
+                  >
+                  <span class="badge badge-green">Partner since 2021</span>
+                </div>
+                <div
+                  style="
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                  "
+                >
+                  <span style="font-size: 0.875rem; color: #3a5563"
+                    >Aga Khan University Hospital</span
+                  >
+                  <span class="badge badge-teal">Enterprise</span>
+                </div>
+                <div
+                  style="
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                  "
+                >
+                  <span style="font-size: 0.875rem; color: #3a5563"
+                    >Kenyatta National Hospital</span
+                  >
+                  <span class="badge badge-navy">Growth</span>
+                </div>
+              </div>
             </div>
           </div>
-          <div class="contact-info-card">
-            <div class="contact-info-icon">📞</div>
-            <div>
-              <div class="contact-info-label">Phone</div>
-              <a href="tel:+254700000000" class="contact-info-val" style="text-decoration:none;transition:color 0.2s;" onmouseenter="this.style.color='#5DAC96'" onmouseleave="this.style.color='#1B5271'">+254 794 153  677</a>
+
+          <!-- RIGHT: Form -->
+          <div
+            style="
+              background: #ffffff;
+              border: 1px solid #d1e4de;
+              border-radius: 20px;
+              padding: 36px;
+              box-shadow: 0 8px 32px rgba(27, 82, 113, 0.08);
+            "
+          >
+            <div
+              style="
+                font-family: &quot;Instrument Serif&quot;, serif;
+                font-size: 1.45rem;
+                color: #1b5271;
+                margin-bottom: 4px;
+              "
+            >
+              Partnership Inquiry
+            </div>
+            <div
+              style="font-size: 0.82rem; color: #7a9ca8; margin-bottom: 28px"
+            >
+              Tell us about your facility — we'll be in touch within 24 hours.
+            </div>
+
+            <form onsubmit="return validateForm();">
+              <div class="form-two-col">
+                <div class="mb-3">
+                  <label class="form-label">Hospital / Clinic Name *</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="name"
+                    placeholder="City Hospital"
+                    required
+                  />
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Contact Person *</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="contact"
+                    placeholder="Dr. Jane Doe"
+                    required
+                  />
+                </div>
+              </div>
+              <div class="form-two-col">
+                <div class="mb-3">
+                  <label class="form-label">Email Address *</label>
+                  <input
+                    type="email"
+                    class="form-control"
+                    id="email"
+                    placeholder="jane@hospital.com"
+                    required
+                  />
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Phone Number</label>
+                  <input
+                    type="tel"
+                    class="form-control"
+                    id="phone"
+                    placeholder="+254 700 000 000"
+                  />
+                </div>
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Facility Size</label>
+                <select class="form-control" id="size">
+                  <option value="" disabled selected>
+                    Select approximate patient volume
+                  </option>
+                  <option>Small clinic — under 100 patients/month</option>
+                  <option>Mid-size hospital — 100–500 patients/month</option>
+                  <option>Large hospital — 500–2,000 patients/month</option>
+                  <option>
+                    Health system / Network — 2,000+ patients/month
+                  </option>
+                </select>
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Primary Interests</label>
+                <div
+                  style="
+                    display: grid;
+                    grid-template-columns: 1fr 1fr;
+                    gap: 10px;
+                    margin-top: 6px;
+                  "
+                >
+                  <label
+                    style="
+                      display: flex;
+                      align-items: center;
+                      gap: 8px;
+                      cursor: pointer;
+                      padding: 10px 12px;
+                      border-radius: 9px;
+                      border: 1px solid #d1e4de;
+                      background: #f4f8f7;
+                      font-size: 0.82rem;
+                      color: #3a5563;
+                      font-family: &quot;Outfit&quot;, sans-serif;
+                      transition: all 0.18s;
+                    "
+                    onmouseenter="
+                      this.style.background = '#EDF5F2';
+                      this.style.borderColor = '#9DD1C2';
+                    "
+                    onmouseleave="
+                      this.style.background = '#F4F8F7';
+                      this.style.borderColor = '#D1E4DE';
+                    "
+                  >
+                    <input type="checkbox" style="accent-color: #5dac96" />
+                    Medication Tracking
+                  </label>
+                  <label
+                    style="
+                      display: flex;
+                      align-items: center;
+                      gap: 8px;
+                      cursor: pointer;
+                      padding: 10px 12px;
+                      border-radius: 9px;
+                      border: 1px solid #d1e4de;
+                      background: #f4f8f7;
+                      font-size: 0.82rem;
+                      color: #3a5563;
+                      font-family: &quot;Outfit&quot;, sans-serif;
+                      transition: all 0.18s;
+                    "
+                    onmouseenter="
+                      this.style.background = '#EDF5F2';
+                      this.style.borderColor = '#9DD1C2';
+                    "
+                    onmouseleave="
+                      this.style.background = '#F4F8F7';
+                      this.style.borderColor = '#D1E4DE';
+                    "
+                  >
+                    <input type="checkbox" style="accent-color: #5dac96" />
+                    Doctor Dashboard
+                  </label>
+                  <label
+                    style="
+                      display: flex;
+                      align-items: center;
+                      gap: 8px;
+                      cursor: pointer;
+                      padding: 10px 12px;
+                      border-radius: 9px;
+                      border: 1px solid #d1e4de;
+                      background: #f4f8f7;
+                      font-size: 0.82rem;
+                      color: #3a5563;
+                      font-family: &quot;Outfit&quot;, sans-serif;
+                      transition: all 0.18s;
+                    "
+                    onmouseenter="
+                      this.style.background = '#EDF5F2';
+                      this.style.borderColor = '#9DD1C2';
+                    "
+                    onmouseleave="
+                      this.style.background = '#F4F8F7';
+                      this.style.borderColor = '#D1E4DE';
+                    "
+                  >
+                    <input type="checkbox" style="accent-color: #5dac96" /> EHR
+                    Integration
+                  </label>
+                  <label
+                    style="
+                      display: flex;
+                      align-items: center;
+                      gap: 8px;
+                      cursor: pointer;
+                      padding: 10px 12px;
+                      border-radius: 9px;
+                      border: 1px solid #d1e4de;
+                      background: #f4f8f7;
+                      font-size: 0.82rem;
+                      color: #3a5563;
+                      font-family: &quot;Outfit&quot;, sans-serif;
+                      transition: all 0.18s;
+                    "
+                    onmouseenter="
+                      this.style.background = '#EDF5F2';
+                      this.style.borderColor = '#9DD1C2';
+                    "
+                    onmouseleave="
+                      this.style.background = '#F4F8F7';
+                      this.style.borderColor = '#D1E4DE';
+                    "
+                  >
+                    <input type="checkbox" style="accent-color: #5dac96" />
+                    Analytics & Reports
+                  </label>
+                </div>
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Message</label>
+                <textarea
+                  class="form-control"
+                  id="message"
+                  rows="4"
+                  placeholder="Describe your current challenges with medication adherence, your patient population, or any specific requirements…"
+                ></textarea>
+              </div>
+              <button
+                type="submit"
+                class="btn-primary"
+                style="
+                  width: 100%;
+                  justify-content: center;
+                  font-size: 0.95rem;
+                  padding: 14px;
+                "
+              >
+                Send Inquiry →
+              </button>
+              <p
+                style="
+                  text-align: center;
+                  font-size: 0.73rem;
+                  color: #7a9ca8;
+                  margin-top: 14px;
+                "
+              >
+                We typically respond within 24 business hours. Your information
+                is never shared.
+              </p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="section section-alt">
+      <div class="container" style="max-width: 800px">
+        <div style="text-align: center; margin-bottom: 44px">
+          <span class="section-label">FAQ</span>
+          <h2 class="section-title" style="font-size: 1.8rem">
+            Common questions
+          </h2>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 14px">
+          <div class="faq-item">
+            <div class="faq-q">How long does onboarding take?</div>
+            <div class="faq-a">
+              Most hospitals are fully onboarded within 3–5 business days.
+              Enterprise integrations with EHR systems take 2–4 weeks depending
+              on the existing system.
             </div>
           </div>
-          <div class="contact-info-card">
-            <div class="contact-info-icon">📍</div>
-            <div>
-              <div class="contact-info-label">Office</div>
-              <div class="contact-info-val">Thome Square , Ushindi East Avenue <br>Nairobi, Kenya</div>
+          <div class="faq-item">
+            <div class="faq-q">
+              Is patient data secure? Can patients see doctor dashboards?
+            </div>
+            <div class="faq-a">
+              Yes — all data is end-to-end encrypted and access is strictly
+              role-based. Patients see only their own data and care feed.
+              Doctors see their patient panel. There is no crossover by design.
             </div>
           </div>
-          <div class="contact-info-card">
-            <div class="contact-info-icon">⏰</div>
-            <div>
-              <div class="contact-info-label">Business Hours</div>
-              <div class="contact-info-val">Mon – Fri, 8:00 AM – 6:00 PM EAT</div>
+          <div class="faq-item">
+            <div class="faq-q">How does the Care Feed work?</div>
+            <div class="faq-a">
+              Doctors write typed notes (Advice, Reminder, Praise, Urgent)
+              directly against a patient's medication log entry. The patient
+              sees it on their dashboard within 5 seconds — no app download
+              required, just their existing login.
+            </div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-q">Do patients need a smartphone?</div>
+            <div class="faq-a">
+              No. DawaTrack is fully web-based and works on any device with a
+              browser — including basic smartphones. SMS logging options are
+              available for patients without consistent data access.
+            </div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-q">Can we try it before committing?</div>
+            <div class="faq-a">
+              Absolutely. Our Starter tier is free for up to 50 patients — no
+              credit card required. You can also request a personalised demo
+              from our team using the form above.
             </div>
           </div>
         </div>
+      </div>
+    </section>
 
-        <!-- Trusted partners mini-card -->
-        <div style="background:#FFFFFF;border:1px solid #D1E4DE;border-radius:16px;padding:22px;">
-          <div style="font-size:0.7rem;font-weight:800;letter-spacing:0.10em;text-transform:uppercase;color:#7A9CA8;margin-bottom:16px;">Trusted Partners</div>
-          <div style="display:flex;flex-direction:column;gap:10px;">
-            <div style="display:flex;align-items:center;justify-content:space-between;">
-              <span style="font-size:0.875rem;color:#3A5563;">City Hospital Nairobi</span>
-              <span class="badge badge-green">Partner since 2021</span>
+    <footer class="main-footer">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-4 mb-4">
+            <div class="footer-brand">
+              <img src="logo.png" alt="" />DawaTrack
             </div>
-            <div style="display:flex;align-items:center;justify-content:space-between;">
-              <span style="font-size:0.875rem;color:#3A5563;">Aga Khan University Hospital</span>
-              <span class="badge badge-teal">Enterprise</span>
-            </div>
-            <div style="display:flex;align-items:center;justify-content:space-between;">
-              <span style="font-size:0.875rem;color:#3A5563;">Kenyatta National Hospital</span>
-              <span class="badge badge-navy">Growth</span>
-            </div>
+            <p class="footer-tagline">
+              Strengthening patient-doctor relationships through intelligent
+              medication tracking.
+            </p>
+          </div>
+          <div class="col-md-2 mb-4">
+            <div class="footer-heading">Platform</div>
+            <ul class="footer-links">
+              <li><a href="services.html">Services</a></li>
+              <li><a href="portal.html">Sign In</a></li>
+            </ul>
+          </div>
+          <div class="col-md-2 mb-4">
+            <div class="footer-heading">Company</div>
+            <ul class="footer-links">
+              <li><a href="about.html">About</a></li>
+              <li><a href="blog.html">Blog</a></li>
+              <li><a href="contact.html">Contact</a></li>
+            </ul>
+          </div>
+          <div class="col-md-4 mb-4">
+            <div class="footer-heading">Get in Touch</div>
+            <p
+              style="
+                color: #9dd1c2;
+                font-size: 0.875rem;
+                line-height: 1.9;
+                font-weight: 300;
+              "
+            >
+              dawa@memeyai.com<br />+254 794153677<br />Thome square/Ushindi
+              east avenue
+            </p>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <span class="footer-copy"
+            >© 2026 DawaTrack Hospital Partnership. All rights reserved.</span
+          >
+          <div class="footer-legal">
+            <a href="#">Privacy</a><a href="#">Terms</a><a href="#">HIPAA</a>
           </div>
         </div>
       </div>
+    </footer>
 
-      <!-- RIGHT: Form -->
-      <div style="background:#FFFFFF;border:1px solid #D1E4DE;border-radius:20px;padding:36px;box-shadow:0 8px 32px rgba(27,82,113,0.08);">
-        <div style="font-family:'Instrument Serif',serif;font-size:1.45rem;color:#1B5271;margin-bottom:4px;">Partnership Inquiry</div>
-        <div style="font-size:0.82rem;color:#7A9CA8;margin-bottom:28px;">Tell us about your facility — we'll be in touch within 24 hours.</div>
-
-        <form onsubmit="return validateForm()">
-          <div class="form-two-col">
-            <div class="mb-3">
-              <label class="form-label">Hospital / Clinic Name *</label>
-              <input type="text" class="form-control" id="name" placeholder="City Hospital" required>
-            </div>
-            <div class="mb-3">
-              <label class="form-label">Contact Person *</label>
-              <input type="text" class="form-control" id="contact" placeholder="Dr. Jane Doe" required>
-            </div>
-          </div>
-          <div class="form-two-col">
-            <div class="mb-3">
-              <label class="form-label">Email Address *</label>
-              <input type="email" class="form-control" id="email" placeholder="jane@hospital.com" required>
-            </div>
-            <div class="mb-3">
-              <label class="form-label">Phone Number</label>
-              <input type="tel" class="form-control" id="phone" placeholder="+254 700 000 000">
-            </div>
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Facility Size</label>
-            <select class="form-control" id="size">
-              <option value="" disabled selected>Select approximate patient volume</option>
-              <option>Small clinic — under 100 patients/month</option>
-              <option>Mid-size hospital — 100–500 patients/month</option>
-              <option>Large hospital — 500–2,000 patients/month</option>
-              <option>Health system / Network — 2,000+ patients/month</option>
-            </select>
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Primary Interests</label>
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:6px;">
-              <label style="display:flex;align-items:center;gap:8px;cursor:pointer;padding:10px 12px;border-radius:9px;border:1px solid #D1E4DE;background:#F4F8F7;font-size:0.82rem;color:#3A5563;font-family:'Outfit',sans-serif;transition:all 0.18s;" onmouseenter="this.style.background='#EDF5F2';this.style.borderColor='#9DD1C2'" onmouseleave="this.style.background='#F4F8F7';this.style.borderColor='#D1E4DE'">
-                <input type="checkbox" style="accent-color:#5DAC96;"> Medication Tracking
-              </label>
-              <label style="display:flex;align-items:center;gap:8px;cursor:pointer;padding:10px 12px;border-radius:9px;border:1px solid #D1E4DE;background:#F4F8F7;font-size:0.82rem;color:#3A5563;font-family:'Outfit',sans-serif;transition:all 0.18s;" onmouseenter="this.style.background='#EDF5F2';this.style.borderColor='#9DD1C2'" onmouseleave="this.style.background='#F4F8F7';this.style.borderColor='#D1E4DE'">
-                <input type="checkbox" style="accent-color:#5DAC96;"> Doctor Dashboard
-              </label>
-              <label style="display:flex;align-items:center;gap:8px;cursor:pointer;padding:10px 12px;border-radius:9px;border:1px solid #D1E4DE;background:#F4F8F7;font-size:0.82rem;color:#3A5563;font-family:'Outfit',sans-serif;transition:all 0.18s;" onmouseenter="this.style.background='#EDF5F2';this.style.borderColor='#9DD1C2'" onmouseleave="this.style.background='#F4F8F7';this.style.borderColor='#D1E4DE'">
-                <input type="checkbox" style="accent-color:#5DAC96;"> EHR Integration
-              </label>
-              <label style="display:flex;align-items:center;gap:8px;cursor:pointer;padding:10px 12px;border-radius:9px;border:1px solid #D1E4DE;background:#F4F8F7;font-size:0.82rem;color:#3A5563;font-family:'Outfit',sans-serif;transition:all 0.18s;" onmouseenter="this.style.background='#EDF5F2';this.style.borderColor='#9DD1C2'" onmouseleave="this.style.background='#F4F8F7';this.style.borderColor='#D1E4DE'">
-                <input type="checkbox" style="accent-color:#5DAC96;"> Analytics & Reports
-              </label>
-            </div>
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Message</label>
-            <textarea class="form-control" id="message" rows="4" placeholder="Describe your current challenges with medication adherence, your patient population, or any specific requirements…"></textarea>
-          </div>
-          <button type="submit" class="btn-primary" style="width:100%;justify-content:center;font-size:0.95rem;padding:14px;">Send Inquiry →</button>
-          <p style="text-align:center;font-size:0.73rem;color:#7A9CA8;margin-top:14px;">We typically respond within 24 business hours. Your information is never shared.</p>
-        </form>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- FAQ -->
-<section class="section section-alt">
-  <div class="container" style="max-width:800px;">
-    <div style="text-align:center;margin-bottom:44px;">
-      <span class="section-label">FAQ</span>
-      <h2 class="section-title" style="font-size:1.8rem;">Common questions</h2>
-    </div>
-    <div style="display:flex;flex-direction:column;gap:14px;">
-      <div class="faq-item">
-        <div class="faq-q">How long does onboarding take?</div>
-        <div class="faq-a">Most hospitals are fully onboarded within 3–5 business days. Enterprise integrations with EHR systems take 2–4 weeks depending on the existing system.</div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q">Is patient data secure? Can patients see doctor dashboards?</div>
-        <div class="faq-a">Yes — all data is end-to-end encrypted and access is strictly role-based. Patients see only their own data and care feed. Doctors see their patient panel. There is no crossover by design.</div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q">How does the Care Feed work?</div>
-        <div class="faq-a">Doctors write typed notes (Advice, Reminder, Praise, Urgent) directly against a patient's medication log entry. The patient sees it on their dashboard within 5 seconds — no app download required, just their existing login.</div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q">Do patients need a smartphone?</div>
-        <div class="faq-a">No. DawaTrack is fully web-based and works on any device with a browser — including basic smartphones. SMS logging options are available for patients without consistent data access.</div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q">Can we try it before committing?</div>
-        <div class="faq-a">Absolutely. Our Starter tier is free for up to 50 patients — no credit card required. You can also request a personalised demo from our team using the form above.</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<footer class="main-footer">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-4 mb-4"><div class="footer-brand"><img src="logo.png" alt="">DawaTrack</div><p class="footer-tagline">Strengthening patient-doctor relationships through intelligent medication tracking.</p></div>
-      <div class="col-md-2 mb-4"><div class="footer-heading">Platform</div><ul class="footer-links"><li><a href="services.html">Services</a></li><li><a href="portal.html">Sign In</a></li></ul></div>
-      <div class="col-md-2 mb-4"><div class="footer-heading">Company</div><ul class="footer-links"><li><a href="about.html">About</a></li><li><a href="blog.html">Blog</a></li><li><a href="contact.html">Contact</a></li></ul></div>
-      <div class="col-md-4 mb-4"><div class="footer-heading">Get in Touch</div><p style="color:#9DD1C2;font-size:0.875rem;line-height:1.9;font-weight:300;">dawa@memeyai.com<br>+254 794153677<br>Thome square/Ushindi east avenue</p></div>
-    </div>
-    <div class="footer-bottom"><span class="footer-copy">© 2026 DawaTrack Hospital Partnership. All rights reserved.</span><div class="footer-legal"><a href="#">Privacy</a><a href="#">Terms</a><a href="#">HIPAA</a></div></div>
-  </div>
-</footer>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="script.js"></script>
-</body>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js?v=20260820"></script>
+  </body>
 </html>

@@ -1,184 +1,443 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>About Us — DawaTrack</title>
-  <link rel="stylesheet" href="style.css">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <style>
-    .about-split { display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:center; }
-    .team-grid   { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:20px; }
-    .value-grid  { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:20px; }
-    @media(max-width:768px) { .about-split { grid-template-columns:1fr; gap:36px; } }
-  </style>
-</head>
-<body>
-
-<nav class="navbar navbar-expand-lg">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="index.html"><img src="logo.png" alt="DawaTrack"> Dawa<span class="brand-dot">Track</span></a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav"><span class="navbar-toggler-icon"></span></button>
-    <div class="collapse navbar-collapse" id="nav">
-      <ul class="navbar-nav ms-auto align-items-center" style="gap:2px;">
-        <li class="nav-item"><a class="nav-link active-link" href="index.html">Home</a></li>
-        <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
-        <li class="nav-item"><a class="nav-link" href="services.html">Services</a></li>
-        <li class="nav-item"><a class="nav-link" href="blog.html">Blog</a></li>
-        <li class="nav-item"><a class="nav-link" href="card.html">S/card</a></li>
-        <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
-        <li class="nav-item"><a class="nav-link" href="pharmacy-dashboard.html">Pharmacy</a></li>
-        <li class="nav-item ms-2"><a class="btn-nav-portal nav-link" href="portal.html">Sign In →</a></li>
-      </ul>
-    </div>
-  </div>
-</nav>
-
-<!-- HERO -->
-<header class="hero" style="padding:90px 24px 70px;position:relative;">
-  <div class="hero-bg" aria-hidden="true"></div>
-  <div class="hero-eyebrow">Our Story</div>
-  <h1>Built by people who care<br>about <em>healthcare</em></h1>
-  <p>DawaTrack was born in Nairobi from one frustration — patients weren't taking their medications, and doctors had no visibility into why. We built the bridge.</p>
-<!-- Hero background image style -->
-<style>
-  .hero .hero-bg {
-    position: absolute;
-    inset: 0;
-    background-image: url('dawa.jpg');
-    background-size: cover;
-    background-position: center top;
-    background-repeat: no-repeat;
-    opacity: 0.18;
-    pointer-events: none;
-    z-index: 0;
-  }
-  .hero .hero-eyebrow,
-  .hero h1,
-  .hero p,
-  .hero .hero-actions {
-    position: relative;
-    z-index: 1;
-  }
-</style>
-</header>
-
-<!-- MISSION -->
-<section class="section">
-  <div class="container">
-    <div class="about-split">
-      <div>
-        <span class="section-label">Our Mission</span>
-        <h2 class="section-title">Close the gap between appointments</h2>
-        <p style="color:#3A5563;font-size:0.95rem;line-height:1.85;margin-bottom:20px;font-weight:300;">Medication non-adherence costs healthcare systems billions annually — and costs patients their health. DawaTrack exists to close that gap with technology that's simple enough for any patient and powerful enough for any clinician.</p>
-        <p style="color:#3A5563;font-size:0.95rem;line-height:1.85;font-weight:300;">We empower hospitals with real-time adherence data, a direct care feed from doctor to patient, and analytics that transform how care teams operate between appointments.</p>
-        <div style="margin-top:28px;display:flex;gap:12px;flex-wrap:wrap;">
-          <a href="portal.html" class="btn-primary">Try the Platform →</a>
-          <a href="contact.html" class="btn-ghost">Partner With Us</a>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>About Us — DawaTrack</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      .about-split {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 60px;
+        align-items: center;
+      }
+      .team-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 20px;
+      }
+      .value-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 20px;
+      }
+      @media (max-width: 768px) {
+        .about-split {
+          grid-template-columns: 1fr;
+          gap: 36px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="index.html"
+          ><img src="logo.png" alt="DawaTrack" /> Dawa<span class="brand-dot"
+            >Track</span
+          ></a
+        >
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#nav"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="nav">
+          <ul class="navbar-nav ms-auto align-items-center" style="gap: 2px">
+            <li class="nav-item">
+              <a class="nav-link active-link" href="index.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="about.html">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="services.html">Services</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="blog.html">Blog</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="card.html">S/card</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="contact.html">Contact</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="pharmacy-dashboard.html">Pharmacy</a>
+            </li>
+            <li class="nav-item ms-2">
+              <a class="btn-nav-portal nav-link" href="portal.html"
+                >Sign In →</a
+              >
+            </li>
+          </ul>
         </div>
       </div>
-      <div class="value-grid" style="grid-template-columns:1fr 1fr;">
-        <div style="background:#EDF5F2;border:1px solid #D1E4DE;border-radius:16px;padding:28px 22px;text-align:center;">
-          <div style="font-family:'Instrument Serif',serif;font-size:2.6rem;color:#1B5271;line-height:1;margin-bottom:6px;">2020</div>
-          <div style="font-size:0.78rem;font-weight:600;color:#7A9CA8;letter-spacing:0.04em;text-transform:uppercase;">Founded in Nairobi</div>
-        </div>
-        <div style="background:#EDF5F2;border:1px solid #D1E4DE;border-radius:16px;padding:28px 22px;text-align:center;">
-          <div style="font-family:'Instrument Serif',serif;font-size:2.6rem;color:#5DAC96;line-height:1;margin-bottom:6px;">14<span style="color:#1B5271;">+</span></div>
-          <div style="font-size:0.78rem;font-weight:600;color:#7A9CA8;letter-spacing:0.04em;text-transform:uppercase;">Hospital Partners</div>
-        </div>
-        <div style="background:#EDF5F2;border:1px solid #D1E4DE;border-radius:16px;padding:28px 22px;text-align:center;">
-          <div style="font-family:'Instrument Serif',serif;font-size:2.6rem;color:#5DAC96;line-height:1;margin-bottom:6px;">12<span style="color:#1B5271;">K+</span></div>
-          <div style="font-size:0.78rem;font-weight:600;color:#7A9CA8;letter-spacing:0.04em;text-transform:uppercase;">Active Patients</div>
-        </div>
-        <div style="background:#EDF5F2;border:1px solid #D1E4DE;border-radius:16px;padding:28px 22px;text-align:center;">
-          <div style="font-family:'Instrument Serif',serif;font-size:2.6rem;color:#1B5271;line-height:1;margin-bottom:6px;">87<span style="color:#5DAC96;">%</span></div>
-          <div style="font-size:0.78rem;font-weight:600;color:#7A9CA8;letter-spacing:0.04em;text-transform:uppercase;">Avg Adherence</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+    </nav>
 
-<!-- VALUES -->
-<section class="section section-alt">
-  <div class="container">
-    <div style="text-align:center;margin-bottom:48px;">
-      <span class="section-label">What Drives Us</span>
-      <h2 class="section-title">Our core values</h2>
-    </div>
-    <div class="value-grid">
-      <div class="feat-card">
-        <div class="feat-icon">🎯</div>
-        <h3>Patient First</h3>
-        <p>Every feature we build is evaluated by a single question: does this make the patient's life better and healthier?</p>
-      </div>
-      <div class="feat-card">
-        <div class="feat-icon">🔬</div>
-        <h3>Evidence-Based</h3>
-        <p>We partner with clinicians and researchers to ensure DawaTrack is grounded in real-world healthcare science.</p>
-      </div>
-      <div class="feat-card">
-        <div class="feat-icon">🔒</div>
-        <h3>Privacy & Trust</h3>
-        <p>Healthcare data is sacred. Role-based access ensures patients and doctors each see only what they need — nothing more.</p>
-      </div>
-      <div class="feat-card">
-        <div class="feat-icon">🌍</div>
-        <h3>Africa-Built</h3>
-        <p>Designed in Nairobi for African healthcare realities — mobile-first, low-bandwidth-ready, and built for local workflows.</p>
-      </div>
-    </div>
-  </div>
-</section>
+    <!-- HERO -->
+    <header class="hero" style="padding: 90px 24px 70px; position: relative">
+      <div class="hero-bg" aria-hidden="true"></div>
+      <div class="hero-eyebrow">Our Story</div>
+      <h1>Built by people who care<br />about <em>healthcare</em></h1>
+      <p>
+        DawaTrack was born in Nairobi from one frustration — patients weren't
+        taking their medications, and doctors had no visibility into why. We
+        built the bridge.
+      </p>
+      <!-- Hero background image style -->
+      <style>
+        .hero .hero-bg {
+          position: absolute;
+          inset: 0;
+          background-image: url("dawa.jpg");
+          background-size: cover;
+          background-position: center top;
+          background-repeat: no-repeat;
+          opacity: 0.18;
+          pointer-events: none;
+          z-index: 0;
+        }
+        .hero .hero-eyebrow,
+        .hero h1,
+        .hero p,
+        .hero .hero-actions {
+          position: relative;
+          z-index: 1;
+        }
+      </style>
+    </header>
 
-<!-- CTA -->
-<section class="cta-band">
-  <div class="container" style="text-align:center;position:relative;z-index:1;">
-    <span class="section-label" style="color:#9DD1C2;">Join the mission</span>
-    <h2>Partner with <em>DawaTrack</em></h2>
-    <p>Whether you're a hospital, clinic, or health system — we have a model that fits your scale and your team.</p>
-    <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;">
-      <a href="contact.html" class="btn-primary">Start a Partnership →</a>
-      <a href="services.html" style="background:rgba(255,255,255,0.12);color:#FFFFFF;border:1.5px solid rgba(255,255,255,0.3);padding:13px 30px;border-radius:12px;font-family:'Outfit',sans-serif;font-weight:600;font-size:0.9rem;text-decoration:none;display:inline-flex;align-items:center;gap:8px;">View Services</a>
-    </div>
-  </div>
-</section>
+    <!-- MISSION -->
+    <section class="section">
+      <div class="container">
+        <div class="about-split">
+          <div>
+            <span class="section-label">Our Mission</span>
+            <h2 class="section-title">Close the gap between appointments</h2>
+            <p
+              style="
+                color: #3a5563;
+                font-size: 0.95rem;
+                line-height: 1.85;
+                margin-bottom: 20px;
+                font-weight: 300;
+              "
+            >
+              Medication non-adherence costs healthcare systems billions
+              annually — and costs patients their health. DawaTrack exists to
+              close that gap with technology that's simple enough for any
+              patient and powerful enough for any clinician.
+            </p>
+            <p
+              style="
+                color: #3a5563;
+                font-size: 0.95rem;
+                line-height: 1.85;
+                font-weight: 300;
+              "
+            >
+              We empower hospitals with real-time adherence data, a direct care
+              feed from doctor to patient, and analytics that transform how care
+              teams operate between appointments.
+            </p>
+            <div
+              style="
+                margin-top: 28px;
+                display: flex;
+                gap: 12px;
+                flex-wrap: wrap;
+              "
+            >
+              <a href="portal.html" class="btn-primary">Try the Platform →</a>
+              <a href="contact.html" class="btn-ghost">Partner With Us</a>
+            </div>
+          </div>
+          <div class="value-grid" style="grid-template-columns: 1fr 1fr">
+            <div
+              style="
+                background: #edf5f2;
+                border: 1px solid #d1e4de;
+                border-radius: 16px;
+                padding: 28px 22px;
+                text-align: center;
+              "
+            >
+              <div
+                style="
+                  font-family: &quot;Instrument Serif&quot;, serif;
+                  font-size: 2.6rem;
+                  color: #1b5271;
+                  line-height: 1;
+                  margin-bottom: 6px;
+                "
+              >
+                2020
+              </div>
+              <div
+                style="
+                  font-size: 0.78rem;
+                  font-weight: 600;
+                  color: #7a9ca8;
+                  letter-spacing: 0.04em;
+                  text-transform: uppercase;
+                "
+              >
+                Founded in Nairobi
+              </div>
+            </div>
+            <div
+              style="
+                background: #edf5f2;
+                border: 1px solid #d1e4de;
+                border-radius: 16px;
+                padding: 28px 22px;
+                text-align: center;
+              "
+            >
+              <div
+                style="
+                  font-family: &quot;Instrument Serif&quot;, serif;
+                  font-size: 2.6rem;
+                  color: #5dac96;
+                  line-height: 1;
+                  margin-bottom: 6px;
+                "
+              >
+                14<span style="color: #1b5271">+</span>
+              </div>
+              <div
+                style="
+                  font-size: 0.78rem;
+                  font-weight: 600;
+                  color: #7a9ca8;
+                  letter-spacing: 0.04em;
+                  text-transform: uppercase;
+                "
+              >
+                Hospital Partners
+              </div>
+            </div>
+            <div
+              style="
+                background: #edf5f2;
+                border: 1px solid #d1e4de;
+                border-radius: 16px;
+                padding: 28px 22px;
+                text-align: center;
+              "
+            >
+              <div
+                style="
+                  font-family: &quot;Instrument Serif&quot;, serif;
+                  font-size: 2.6rem;
+                  color: #5dac96;
+                  line-height: 1;
+                  margin-bottom: 6px;
+                "
+              >
+                12<span style="color: #1b5271">K+</span>
+              </div>
+              <div
+                style="
+                  font-size: 0.78rem;
+                  font-weight: 600;
+                  color: #7a9ca8;
+                  letter-spacing: 0.04em;
+                  text-transform: uppercase;
+                "
+              >
+                Active Patients
+              </div>
+            </div>
+            <div
+              style="
+                background: #edf5f2;
+                border: 1px solid #d1e4de;
+                border-radius: 16px;
+                padding: 28px 22px;
+                text-align: center;
+              "
+            >
+              <div
+                style="
+                  font-family: &quot;Instrument Serif&quot;, serif;
+                  font-size: 2.6rem;
+                  color: #1b5271;
+                  line-height: 1;
+                  margin-bottom: 6px;
+                "
+              >
+                87<span style="color: #5dac96">%</span>
+              </div>
+              <div
+                style="
+                  font-size: 0.78rem;
+                  font-weight: 600;
+                  color: #7a9ca8;
+                  letter-spacing: 0.04em;
+                  text-transform: uppercase;
+                "
+              >
+                Avg Adherence
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-<footer class="main-footer">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-4 mb-4">
-        <div class="footer-brand"><img src="logo.png" alt="">DawaTrack</div>
-        <p class="footer-tagline">Strengthening patient-doctor relationships through intelligent medication tracking.</p>
+    <!-- VALUES -->
+    <section class="section section-alt">
+      <div class="container">
+        <div style="text-align: center; margin-bottom: 48px">
+          <span class="section-label">What Drives Us</span>
+          <h2 class="section-title">Our core values</h2>
+        </div>
+        <div class="value-grid">
+          <div class="feat-card">
+            <div class="feat-icon">🎯</div>
+            <h3>Patient First</h3>
+            <p>
+              Every feature we build is evaluated by a single question: does
+              this make the patient's life better and healthier?
+            </p>
+          </div>
+          <div class="feat-card">
+            <div class="feat-icon">🔬</div>
+            <h3>Evidence-Based</h3>
+            <p>
+              We partner with clinicians and researchers to ensure DawaTrack is
+              grounded in real-world healthcare science.
+            </p>
+          </div>
+          <div class="feat-card">
+            <div class="feat-icon">🔒</div>
+            <h3>Privacy & Trust</h3>
+            <p>
+              Healthcare data is sacred. Role-based access ensures patients and
+              doctors each see only what they need — nothing more.
+            </p>
+          </div>
+          <div class="feat-card">
+            <div class="feat-icon">🌍</div>
+            <h3>Africa-Built</h3>
+            <p>
+              Designed in Nairobi for African healthcare realities —
+              mobile-first, low-bandwidth-ready, and built for local workflows.
+            </p>
+          </div>
+        </div>
       </div>
-      <div class="col-md-2 mb-4">
-        <div class="footer-heading">Platform</div>
-        <ul class="footer-links">
-          <li><a href="services.html">Services</a></li>
-          <li><a href="portal.html">Sign In</a></li>
-        </ul>
-      </div>
-      <div class="col-md-2 mb-4">
-        <div class="footer-heading">Company</div>
-        <ul class="footer-links">
-          <li><a href="about.html">About Us</a></li>
-          <li><a href="blog.html">Blog</a></li>
-          <li><a href="contact.html">Contact</a></li>
-        </ul>
-      </div>
-      <div class="col-md-4 mb-4">
-        <div class="footer-heading">Get in Touch</div>
-        <p style="color:#9DD1C2;font-size:0.875rem;line-height:1.9;font-weight:300;">dawa@memeyai.com<br>+254 794153677<br>Thome square/Ushindi east avenue</p>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <span class="footer-copy">© 2026 DawaTrack Hospital Partnership. All rights reserved.</span>
-      <div class="footer-legal"><a href="#">Privacy</a><a href="#">Terms</a><a href="#">HIPAA</a></div>
-    </div>
-  </div>
-</footer>
+    </section>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="script.js"></script>
-</body>
+    <!-- CTA -->
+    <section class="cta-band">
+      <div
+        class="container"
+        style="text-align: center; position: relative; z-index: 1"
+      >
+        <span class="section-label" style="color: #9dd1c2"
+          >Join the mission</span
+        >
+        <h2>Partner with <em>DawaTrack</em></h2>
+        <p>
+          Whether you're a hospital, clinic, or health system — we have a model
+          that fits your scale and your team.
+        </p>
+        <div
+          style="
+            display: flex;
+            gap: 14px;
+            justify-content: center;
+            flex-wrap: wrap;
+          "
+        >
+          <a href="contact.html" class="btn-primary">Start a Partnership →</a>
+          <a
+            href="services.html"
+            style="
+              background: rgba(255, 255, 255, 0.12);
+              color: #ffffff;
+              border: 1.5px solid rgba(255, 255, 255, 0.3);
+              padding: 13px 30px;
+              border-radius: 12px;
+              font-family: &quot;Outfit&quot;, sans-serif;
+              font-weight: 600;
+              font-size: 0.9rem;
+              text-decoration: none;
+              display: inline-flex;
+              align-items: center;
+              gap: 8px;
+            "
+            >View Services</a
+          >
+        </div>
+      </div>
+    </section>
+
+    <footer class="main-footer">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-4 mb-4">
+            <div class="footer-brand">
+              <img src="logo.png" alt="" />DawaTrack
+            </div>
+            <p class="footer-tagline">
+              Strengthening patient-doctor relationships through intelligent
+              medication tracking.
+            </p>
+          </div>
+          <div class="col-md-2 mb-4">
+            <div class="footer-heading">Platform</div>
+            <ul class="footer-links">
+              <li><a href="services.html">Services</a></li>
+              <li><a href="portal.html">Sign In</a></li>
+            </ul>
+          </div>
+          <div class="col-md-2 mb-4">
+            <div class="footer-heading">Company</div>
+            <ul class="footer-links">
+              <li><a href="about.html">About Us</a></li>
+              <li><a href="blog.html">Blog</a></li>
+              <li><a href="contact.html">Contact</a></li>
+            </ul>
+          </div>
+          <div class="col-md-4 mb-4">
+            <div class="footer-heading">Get in Touch</div>
+            <p
+              style="
+                color: #9dd1c2;
+                font-size: 0.875rem;
+                line-height: 1.9;
+                font-weight: 300;
+              "
+            >
+              dawa@memeyai.com<br />+254 794153677<br />Thome square/Ushindi
+              east avenue
+            </p>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <span class="footer-copy"
+            >© 2026 DawaTrack Hospital Partnership. All rights reserved.</span
+          >
+          <div class="footer-legal">
+            <a href="#">Privacy</a><a href="#">Terms</a><a href="#">HIPAA</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js?v=20260820"></script>
+  </body>
 </html>

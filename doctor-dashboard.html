@@ -1,323 +1,719 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Doctor Dashboard — DawaTrack</title>
-  <link rel="stylesheet" href="style.css">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-  <style>
-    .chart-row { display:grid; grid-template-columns:1fr 300px; gap:20px; margin-bottom:22px; }
-    @media(max-width:960px){ .chart-row{grid-template-columns:1fr;} }
-    .two-col { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
-    @media(max-width:768px){ .two-col{grid-template-columns:1fr;} }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Doctor Dashboard — DawaTrack</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+      .chart-row {
+        display: grid;
+        grid-template-columns: 1fr 300px;
+        gap: 20px;
+        margin-bottom: 22px;
+      }
+      @media (max-width: 960px) {
+        .chart-row {
+          grid-template-columns: 1fr;
+        }
+      }
+      .two-col {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+      }
+      @media (max-width: 768px) {
+        .two-col {
+          grid-template-columns: 1fr;
+        }
+      }
 
-    /* Doctor identity badge */
-    .dr-identity-banner {
-      background:linear-gradient(135deg,#1B5271,#0E2E42);
-      border-radius:16px; padding:20px 24px; margin-bottom:22px;
-      display:flex; align-items:center; gap:16px; flex-wrap:wrap;
-      position:relative; overflow:hidden;
-    }
-    .dr-identity-banner::before {
-      content:''; position:absolute; top:-60px; right:-60px;
-      width:200px; height:200px; border-radius:50%;
-      background:radial-gradient(circle,rgba(93,172,150,0.18) 0%,transparent 70%);
-      pointer-events:none;
-    }
-    .dr-id-avatar {
-      width:52px; height:52px; border-radius:50%;
-      background:linear-gradient(135deg,#5DAC96,#9DD1C2);
-      display:flex; align-items:center; justify-content:center;
-      font-weight:800; font-size:1rem; color:#FFFFFF; flex-shrink:0;
-      position:relative; z-index:1;
-    }
-    .dr-id-name   { font-family:'Instrument Serif',serif; font-size:1.35rem; color:#FFFFFF; line-height:1.2; position:relative; z-index:1; }
-    .dr-id-meta   { font-size:0.78rem; color:#9DD1C2; margin-top:3px; position:relative; z-index:1; }
-    .dr-id-stat   { text-align:center; position:relative; z-index:1; }
-    .dr-id-stat-val { font-family:'Instrument Serif',serif; font-size:2rem; color:#FFFFFF; line-height:1; }
-    .dr-id-stat-lbl { font-size:0.65rem; font-weight:700; color:rgba(255,255,255,0.5); letter-spacing:0.06em; text-transform:uppercase; margin-top:3px; }
-    .dr-id-divider { width:1px; height:48px; background:rgba(255,255,255,0.14); }
+      /* Doctor identity badge */
+      .dr-identity-banner {
+        background: linear-gradient(135deg, #1b5271, #0e2e42);
+        border-radius: 16px;
+        padding: 20px 24px;
+        margin-bottom: 22px;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        flex-wrap: wrap;
+        position: relative;
+        overflow: hidden;
+      }
+      .dr-identity-banner::before {
+        content: "";
+        position: absolute;
+        top: -60px;
+        right: -60px;
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        background: radial-gradient(
+          circle,
+          rgba(93, 172, 150, 0.18) 0%,
+          transparent 70%
+        );
+        pointer-events: none;
+      }
+      .dr-id-avatar {
+        width: 52px;
+        height: 52px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #5dac96, #9dd1c2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 800;
+        font-size: 1rem;
+        color: #ffffff;
+        flex-shrink: 0;
+        position: relative;
+        z-index: 1;
+      }
+      .dr-id-name {
+        font-family: "Instrument Serif", serif;
+        font-size: 1.35rem;
+        color: #ffffff;
+        line-height: 1.2;
+        position: relative;
+        z-index: 1;
+      }
+      .dr-id-meta {
+        font-size: 0.78rem;
+        color: #9dd1c2;
+        margin-top: 3px;
+        position: relative;
+        z-index: 1;
+      }
+      .dr-id-stat {
+        text-align: center;
+        position: relative;
+        z-index: 1;
+      }
+      .dr-id-stat-val {
+        font-family: "Instrument Serif", serif;
+        font-size: 2rem;
+        color: #ffffff;
+        line-height: 1;
+      }
+      .dr-id-stat-lbl {
+        font-size: 0.65rem;
+        font-weight: 700;
+        color: rgba(255, 255, 255, 0.5);
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        margin-top: 3px;
+      }
+      .dr-id-divider {
+        width: 1px;
+        height: 48px;
+        background: rgba(255, 255, 255, 0.14);
+      }
 
-    /* Empty patient state */
-    .no-patients-state {
-      background:#FFFFFF; border:1px solid #D1E4DE; border-radius:16px;
-      padding:60px 40px; text-align:center;
-    }
-  </style>
-</head>
-<body>
-
-<nav class="navbar navbar-expand-lg">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="index.html">
-      <img src="logo.png" alt="DawaTrack"> Dawa<span class="brand-dot">Track</span>
-    </a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="nav">
-      <ul class="navbar-nav ms-auto align-items-center" style="gap:2px;">
-        <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-        <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
-        <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
-        <li class="nav-item ms-2">
-          <button data-logout class="btn-nav-portal nav-link"
-            style="cursor:pointer;border:none;background:none;">Sign Out</button>
-        </li>
-      </ul>
-    </div>
-  </div>
-</nav>
-
-<div class="dashboard-layout">
-
-  <!-- SIDEBAR -->
-  <aside class="sidebar">
-    <div class="sidebar-logo"><img src="logo.png" alt=""> Clinical</div>
-
-    <div class="sidebar-section">
-      <div class="sidebar-section-label">Navigation</div>
-      <button class="sidebar-link active" onclick="switchDocTab('tab-overview',this)"><span class="icon">📊</span> Overview</button>
-      <button class="sidebar-link" onclick="switchDocTab('tab-patients',this)"><span class="icon">👥</span> My Patients</button>
-      <button class="sidebar-link" onclick="switchDocTab('tab-atrisk',this)">
-        <span class="icon">⚠️</span> At-Risk Patients
-      </button>
-      <button class="sidebar-link" onclick="switchDocTab('tab-requests',this)">
-        <span class="icon">💊</span> Medicine Requests
-        <span id="drReqBadge" style="display:none;background:#D94F4F;color:#FFFFFF;font-size:0.60rem;font-weight:800;border-radius:100px;padding:2px 7px;margin-left:auto;"></span>
-      </button>
-    </div>
-
-    <div class="sidebar-section">
-      <div class="sidebar-section-label">Account</div>
-      <button data-logout class="sidebar-link"><span class="icon">🚪</span> Sign Out</button>
-    </div>
-
-    <!-- At-risk widget -->
-    <div style="margin-top:auto;padding-top:20px;">
-      <div class="sidebar-widget sidebar-widget-red">
-        <div class="sidebar-widget-label">⚠ At-Risk (my patients)</div>
-        <div class="sidebar-widget-value" id="sidebar-atrisk">—</div>
-        <div class="sidebar-widget-sub">below 60% adherence</div>
-        <button id="review-btn"
-          style="margin-top:12px;width:100%;background:#D94F4F;border:none;color:#FFFFFF;border-radius:8px;padding:8px;font-size:0.78rem;font-family:'Outfit',sans-serif;font-weight:700;cursor:pointer;transition:background 0.2s;"
-          onmouseenter="this.style.background='#B03030'" onmouseleave="this.style.background='#D94F4F'">
-          Review Now →
+      /* Empty patient state */
+      .no-patients-state {
+        background: #ffffff;
+        border: 1px solid #d1e4de;
+        border-radius: 16px;
+        padding: 60px 40px;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="index.html">
+          <img src="logo.png" alt="DawaTrack" /> Dawa<span class="brand-dot"
+            >Track</span
+          >
+        </a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#nav"
+        >
+          <span class="navbar-toggler-icon"></span>
         </button>
-      </div>
-    </div>
-  </aside>
-
-  <!-- Mobile tab bar -->
-  <div class="mobile-tab-bar" style="display:none;">
-    <button class="mobile-tab-btn active" data-tab="tab-overview">Overview</button>
-    <button class="mobile-tab-btn" data-tab="tab-patients">Patients</button>
-    <button class="mobile-tab-btn" data-tab="tab-atrisk">At-Risk</button>
-    <button class="mobile-tab-btn" data-tab="tab-requests">Requests</button>
-  </div>
-
-  <!-- MAIN -->
-  <main class="dash-main">
-
-    <!-- Doctor identity banner -->
-    <div class="dr-identity-banner">
-      <div class="dr-id-avatar" id="drAvatar">DR</div>
-      <div style="flex:1;min-width:120px;">
-        <div class="dr-id-name" id="doctorName">Doctor</div>
-        <div class="dr-id-meta" id="doctorMeta">Loading…</div>
-      </div>
-      <div class="dr-id-stat">
-        <div class="dr-id-stat-val" id="dr-patients">—</div>
-        <div class="dr-id-stat-lbl">My Patients</div>
-      </div>
-      <div class="dr-id-divider"></div>
-      <div class="dr-id-stat">
-        <div class="dr-id-stat-val" id="dr-rate">—</div>
-        <div class="dr-id-stat-lbl">Avg Adherence</div>
-      </div>
-      <div class="dr-id-divider"></div>
-      <div class="dr-id-stat">
-        <div class="dr-id-stat-val" id="dr-atrisk">—</div>
-        <div class="dr-id-stat-lbl">At Risk</div>
-      </div>
-      <div class="dr-id-divider"></div>
-      <div class="dr-id-stat">
-        <div class="dr-id-stat-val" id="dr-logs">—</div>
-        <div class="dr-id-stat-lbl">Total Logs</div>
-      </div>
-    </div>
-
-    <!-- Header -->
-    <div class="dash-header" style="margin-bottom:22px;">
-      <div>
-        <div class="dash-subtitle">Showing only patients who have selected you as their doctor</div>
-      </div>
-      <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
-        <div class="date-chip">📅 <strong id="todayDate"></strong></div>
-        <button onclick="location.reload()"
-          style="background:#FFFFFF;border:1px solid #D1E4DE;color:#3A5563;padding:8px 14px;border-radius:8px;font-size:0.8rem;cursor:pointer;font-family:'Outfit',sans-serif;font-weight:500;transition:all 0.2s;"
-          onmouseenter="this.style.background='#EDF5F2'" onmouseleave="this.style.background='#FFFFFF'">↻ Refresh</button>
-      </div>
-    </div>
-
-    <!-- ══ TAB: OVERVIEW ══ -->
-    <div id="tab-overview" class="doc-tab-panel" style="display:block;">
-
-      <!-- Unassigned patients notice -->
-      <div id="unassignedNotice" style="display:none;background:#EAF3FA;border:1px solid #9DD0F0;border-radius:12px;padding:13px 18px;margin-bottom:20px;display:flex;gap:10px;align-items:flex-start;">
-        <span style="font-size:1.05rem;flex-shrink:0;">ℹ️</span>
-        <div style="font-size:0.875rem;color:#1A6496;">
-          <strong><span id="dr-unassigned">0</span> patient(s)</strong> in the system have not yet selected a doctor.
-          They won't appear in any doctor's dashboard until they do so from their patient portal.
+        <div class="collapse navbar-collapse" id="nav">
+          <ul class="navbar-nav ms-auto align-items-center" style="gap: 2px">
+            <li class="nav-item">
+              <a class="nav-link" href="index.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="about.html">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="contact.html">Contact</a>
+            </li>
+            <li class="nav-item ms-2">
+              <button
+                data-logout
+                class="btn-nav-portal nav-link"
+                style="cursor: pointer; border: none; background: none"
+              >
+                Sign Out
+              </button>
+            </li>
+          </ul>
         </div>
       </div>
+    </nav>
 
-      <!-- Charts -->
-      <div class="chart-row">
-        <div class="chart-panel">
-          <div class="chart-panel-title">7-Day Adherence Trend</div>
-          <div class="chart-panel-sub">Daily medication adherence across your patients</div>
-          <div style="height:230px;"><canvas id="trendChart"></canvas></div>
+    <div class="dashboard-layout">
+      <!-- SIDEBAR -->
+      <aside class="sidebar">
+        <div class="sidebar-logo"><img src="logo.png" alt="" /> Clinical</div>
+
+        <div class="sidebar-section">
+          <div class="sidebar-section-label">Navigation</div>
+          <button
+            class="sidebar-link active"
+            onclick="switchDocTab('tab-overview', this)"
+          >
+            <span class="icon">📊</span> Overview
+          </button>
+          <button
+            class="sidebar-link"
+            onclick="switchDocTab('tab-patients', this)"
+          >
+            <span class="icon">👥</span> My Patients
+          </button>
+          <button
+            class="sidebar-link"
+            onclick="switchDocTab('tab-atrisk', this)"
+          >
+            <span class="icon">⚠️</span> At-Risk Patients
+          </button>
+          <button
+            class="sidebar-link"
+            onclick="switchDocTab('tab-requests', this)"
+          >
+            <span class="icon">💊</span> Medicine Requests
+            <span
+              id="drReqBadge"
+              style="
+                display: none;
+                background: #d94f4f;
+                color: #ffffff;
+                font-size: 0.6rem;
+                font-weight: 800;
+                border-radius: 100px;
+                padding: 2px 7px;
+                margin-left: auto;
+              "
+            ></span>
+          </button>
         </div>
-        <div class="chart-panel">
-          <div class="chart-panel-title">Patient Risk Breakdown</div>
-          <div class="chart-panel-sub">Distribution by adherence level</div>
-          <div style="height:175px;display:flex;align-items:center;justify-content:center;">
-            <canvas id="donutChart"></canvas>
+
+        <div class="sidebar-section">
+          <div class="sidebar-section-label">Account</div>
+          <button data-logout class="sidebar-link">
+            <span class="icon">🚪</span> Sign Out
+          </button>
+        </div>
+
+        <!-- At-risk widget -->
+        <div style="margin-top: auto; padding-top: 20px">
+          <div class="sidebar-widget sidebar-widget-red">
+            <div class="sidebar-widget-label">⚠ At-Risk (my patients)</div>
+            <div class="sidebar-widget-value" id="sidebar-atrisk">—</div>
+            <div class="sidebar-widget-sub">below 60% adherence</div>
+            <button
+              id="review-btn"
+              style="
+                margin-top: 12px;
+                width: 100%;
+                background: #d94f4f;
+                border: none;
+                color: #ffffff;
+                border-radius: 8px;
+                padding: 8px;
+                font-size: 0.78rem;
+                font-family: &quot;Outfit&quot;, sans-serif;
+                font-weight: 700;
+                cursor: pointer;
+                transition: background 0.2s;
+              "
+              onmouseenter="this.style.background = '#B03030'"
+              onmouseleave="this.style.background = '#D94F4F'"
+            >
+              Review Now →
+            </button>
           </div>
-          <div style="display:flex;justify-content:center;gap:16px;margin-top:10px;flex-wrap:wrap;">
-            <div style="display:flex;align-items:center;gap:5px;font-size:0.73rem;color:#3A5563;"><div style="width:9px;height:9px;border-radius:50%;background:#5DAC96;"></div>Good ≥80%</div>
-            <div style="display:flex;align-items:center;gap:5px;font-size:0.73rem;color:#3A5563;"><div style="width:9px;height:9px;border-radius:50%;background:#D98A2A;"></div>Fair 60–79%</div>
-            <div style="display:flex;align-items:center;gap:5px;font-size:0.73rem;color:#3A5563;"><div style="width:9px;height:9px;border-radius:50%;background:#D94F4F;"></div>At Risk &lt;60%</div>
+        </div>
+      </aside>
+
+      <!-- Mobile tab bar -->
+      <div class="mobile-tab-bar" style="display: none">
+        <button class="mobile-tab-btn active" data-tab="tab-overview">
+          Overview
+        </button>
+        <button class="mobile-tab-btn" data-tab="tab-patients">Patients</button>
+        <button class="mobile-tab-btn" data-tab="tab-atrisk">At-Risk</button>
+        <button class="mobile-tab-btn" data-tab="tab-requests">Requests</button>
+      </div>
+
+      <!-- MAIN -->
+      <main class="dash-main">
+        <!-- Doctor identity banner -->
+        <div class="dr-identity-banner">
+          <div class="dr-id-avatar" id="drAvatar">DR</div>
+          <div style="flex: 1; min-width: 120px">
+            <div class="dr-id-name" id="doctorName">Doctor</div>
+            <div class="dr-id-meta" id="doctorMeta">Loading…</div>
+          </div>
+          <div class="dr-id-stat">
+            <div class="dr-id-stat-val" id="dr-patients">—</div>
+            <div class="dr-id-stat-lbl">My Patients</div>
+          </div>
+          <div class="dr-id-divider"></div>
+          <div class="dr-id-stat">
+            <div class="dr-id-stat-val" id="dr-rate">—</div>
+            <div class="dr-id-stat-lbl">Avg Adherence</div>
+          </div>
+          <div class="dr-id-divider"></div>
+          <div class="dr-id-stat">
+            <div class="dr-id-stat-val" id="dr-atrisk">—</div>
+            <div class="dr-id-stat-lbl">At Risk</div>
+          </div>
+          <div class="dr-id-divider"></div>
+          <div class="dr-id-stat">
+            <div class="dr-id-stat-val" id="dr-logs">—</div>
+            <div class="dr-id-stat-lbl">Total Logs</div>
           </div>
         </div>
-      </div>
 
-      <!-- How care feed works + recent requests -->
-      <div class="two-col">
-        <div class="alert-info" style="margin:0;display:flex;gap:10px;align-items:flex-start;height:fit-content;">
-          <span style="font-size:1.05rem;flex-shrink:0;">📡</span>
-          <div style="font-size:0.875rem;color:#1A6496;">
-            <strong>Care Feed:</strong> Expand any patient below →
-            find a log entry → choose note type → write message → click <strong>Send →</strong>.
-            The patient sees it within 5 seconds. Only patients who selected you appear here.
-          </div>
-        </div>
-        <div class="chart-panel" style="padding:18px 20px;">
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
-            <div class="chart-panel-title" style="font-size:0.88rem;">💊 Recent Medicine Requests</div>
-            <button class="btn-secondary" style="font-size:0.75rem;padding:4px 12px;" onclick="switchDocTab('tab-requests',null)">View All →</button>
-          </div>
-          <div id="drOverviewReqs" style="max-height:130px;overflow-y:auto;"></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ══ TAB: MY PATIENTS ══ -->
-    <div id="tab-patients" class="doc-tab-panel" style="display:none;">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap;gap:12px;">
-        <div>
-          <div style="font-family:'Instrument Serif',serif;font-weight:400;font-size:1.25rem;color:#1B5271;">My Patient Logs</div>
-          <div style="font-size:0.80rem;color:#7A9CA8;margin-top:3px;">Only patients who selected you as their doctor · expand to see logs and send care notes</div>
-        </div>
-        <div style="display:flex;gap:8px;flex-wrap:wrap;">
-          <button class="filter-btn active" data-filter="all">All My Patients</button>
-          <button class="filter-btn" data-filter="atrisk" style="color:#D94F4F;border-color:#F0AAAA;">⚠ At Risk</button>
-          <button class="filter-btn" data-filter="good"   style="color:#2DAF83;border-color:#A8E4D0;">✓ Good</button>
-        </div>
-      </div>
-      <div id="doctorPatientList"></div>
-    </div>
-
-    <!-- ══ TAB: AT RISK ══ -->
-    <div id="tab-atrisk" class="doc-tab-panel" style="display:none;">
-      <div style="background:#FAE8E8;border:1px solid #F0AAAA;border-radius:12px;padding:14px 18px;display:flex;gap:10px;align-items:flex-start;margin-bottom:20px;">
-        <span style="font-size:1.1rem;flex-shrink:0;">⚠️</span>
-        <div style="font-size:0.875rem;color:#B03030;">
-          <strong>These are your patients below 60% adherence.</strong>
-          Expand each one to review their logs and send a targeted care note.
-          A single message can significantly improve their consistency.
-        </div>
-      </div>
-      <div id="atRiskList"></div>
-    </div>
-
-    <!-- ══ TAB: MEDICINE REQUESTS ══ -->
-    <div id="tab-requests" class="doc-tab-panel" style="display:none;">
-      <div class="alert-info" style="margin-bottom:18px;display:flex;gap:10px;align-items:flex-start;">
-        <span style="font-size:1.05rem;flex-shrink:0;">💊</span>
-        <div style="font-size:0.875rem;color:#1A6496;">
-          These are <strong>medicine-out requests</strong> from your patients.
-          The pharmacy has been notified. You can add a clinical note to support
-          the patient's refill — it will appear in their Care Feed immediately.
-        </div>
-      </div>
-      <div class="chart-panel" style="padding:0;">
-        <div style="padding:16px 20px;border-bottom:1px solid #D1E4DE;background:#F4F8F7;display:flex;align-items:center;justify-content:space-between;border-radius:16px 16px 0 0;">
+        <!-- Header -->
+        <div class="dash-header" style="margin-bottom: 22px">
           <div>
-            <div style="font-weight:700;font-size:0.92rem;color:#1B5271;">Patient Medicine Requests</div>
-            <div style="font-size:0.75rem;color:#7A9CA8;margin-top:2px;" id="reqCount">Loading…</div>
+            <div class="dash-subtitle">
+              Showing only patients who have selected you as their doctor
+            </div>
+          </div>
+          <div
+            style="
+              display: flex;
+              gap: 10px;
+              flex-wrap: wrap;
+              align-items: center;
+            "
+          >
+            <div class="date-chip">📅 <strong id="todayDate"></strong></div>
+            <button
+              onclick="location.reload()"
+              style="
+                background: #ffffff;
+                border: 1px solid #d1e4de;
+                color: #3a5563;
+                padding: 8px 14px;
+                border-radius: 8px;
+                font-size: 0.8rem;
+                cursor: pointer;
+                font-family: &quot;Outfit&quot;, sans-serif;
+                font-weight: 500;
+                transition: all 0.2s;
+              "
+              onmouseenter="this.style.background = '#EDF5F2'"
+              onmouseleave="this.style.background = '#FFFFFF'"
+            >
+              ↻ Refresh
+            </button>
           </div>
         </div>
-        <div id="drReqList" style="max-height:580px;overflow-y:auto;"></div>
-      </div>
+
+        <!-- ══ TAB: OVERVIEW ══ -->
+        <div id="tab-overview" class="doc-tab-panel" style="display: block">
+          <!-- Unassigned patients notice -->
+          <div
+            id="unassignedNotice"
+            style="
+              display: none;
+              background: #eaf3fa;
+              border: 1px solid #9dd0f0;
+              border-radius: 12px;
+              padding: 13px 18px;
+              margin-bottom: 20px;
+              display: flex;
+              gap: 10px;
+              align-items: flex-start;
+            "
+          >
+            <span style="font-size: 1.05rem; flex-shrink: 0">ℹ️</span>
+            <div style="font-size: 0.875rem; color: #1a6496">
+              <strong><span id="dr-unassigned">0</span> patient(s)</strong> in
+              the system have not yet selected a doctor. They won't appear in
+              any doctor's dashboard until they do so from their patient portal.
+            </div>
+          </div>
+
+          <!-- Charts -->
+          <div class="chart-row">
+            <div class="chart-panel">
+              <div class="chart-panel-title">7-Day Adherence Trend</div>
+              <div class="chart-panel-sub">
+                Daily medication adherence across your patients
+              </div>
+              <div style="height: 230px"><canvas id="trendChart"></canvas></div>
+            </div>
+            <div class="chart-panel">
+              <div class="chart-panel-title">Patient Risk Breakdown</div>
+              <div class="chart-panel-sub">Distribution by adherence level</div>
+              <div
+                style="
+                  height: 175px;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                "
+              >
+                <canvas id="donutChart"></canvas>
+              </div>
+              <div
+                style="
+                  display: flex;
+                  justify-content: center;
+                  gap: 16px;
+                  margin-top: 10px;
+                  flex-wrap: wrap;
+                "
+              >
+                <div
+                  style="
+                    display: flex;
+                    align-items: center;
+                    gap: 5px;
+                    font-size: 0.73rem;
+                    color: #3a5563;
+                  "
+                >
+                  <div
+                    style="
+                      width: 9px;
+                      height: 9px;
+                      border-radius: 50%;
+                      background: #5dac96;
+                    "
+                  ></div>
+                  Good ≥80%
+                </div>
+                <div
+                  style="
+                    display: flex;
+                    align-items: center;
+                    gap: 5px;
+                    font-size: 0.73rem;
+                    color: #3a5563;
+                  "
+                >
+                  <div
+                    style="
+                      width: 9px;
+                      height: 9px;
+                      border-radius: 50%;
+                      background: #d98a2a;
+                    "
+                  ></div>
+                  Fair 60–79%
+                </div>
+                <div
+                  style="
+                    display: flex;
+                    align-items: center;
+                    gap: 5px;
+                    font-size: 0.73rem;
+                    color: #3a5563;
+                  "
+                >
+                  <div
+                    style="
+                      width: 9px;
+                      height: 9px;
+                      border-radius: 50%;
+                      background: #d94f4f;
+                    "
+                  ></div>
+                  At Risk &lt;60%
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- How care feed works + recent requests -->
+          <div class="two-col">
+            <div
+              class="alert-info"
+              style="
+                margin: 0;
+                display: flex;
+                gap: 10px;
+                align-items: flex-start;
+                height: fit-content;
+              "
+            >
+              <span style="font-size: 1.05rem; flex-shrink: 0">📡</span>
+              <div style="font-size: 0.875rem; color: #1a6496">
+                <strong>Care Feed:</strong> Expand any patient below → find a
+                log entry → choose note type → write message → click
+                <strong>Send →</strong>. The patient sees it within 5 seconds.
+                Only patients who selected you appear here.
+              </div>
+            </div>
+            <div class="chart-panel" style="padding: 18px 20px">
+              <div
+                style="
+                  display: flex;
+                  align-items: center;
+                  justify-content: space-between;
+                  margin-bottom: 8px;
+                "
+              >
+                <div class="chart-panel-title" style="font-size: 0.88rem">
+                  💊 Recent Medicine Requests
+                </div>
+                <button
+                  class="btn-secondary"
+                  style="font-size: 0.75rem; padding: 4px 12px"
+                  onclick="switchDocTab('tab-requests', null)"
+                >
+                  View All →
+                </button>
+              </div>
+              <div
+                id="drOverviewReqs"
+                style="max-height: 130px; overflow-y: auto"
+              ></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ══ TAB: MY PATIENTS ══ -->
+        <div id="tab-patients" class="doc-tab-panel" style="display: none">
+          <div
+            style="
+              display: flex;
+              align-items: center;
+              justify-content: space-between;
+              margin-bottom: 18px;
+              flex-wrap: wrap;
+              gap: 12px;
+            "
+          >
+            <div>
+              <div
+                style="
+                  font-family: &quot;Instrument Serif&quot;, serif;
+                  font-weight: 400;
+                  font-size: 1.25rem;
+                  color: #1b5271;
+                "
+              >
+                My Patient Logs
+              </div>
+              <div style="font-size: 0.8rem; color: #7a9ca8; margin-top: 3px">
+                Only patients who selected you as their doctor · expand to see
+                logs and send care notes
+              </div>
+            </div>
+            <div style="display: flex; gap: 8px; flex-wrap: wrap">
+              <button class="filter-btn active" data-filter="all">
+                All My Patients
+              </button>
+              <button
+                class="filter-btn"
+                data-filter="atrisk"
+                style="color: #d94f4f; border-color: #f0aaaa"
+              >
+                ⚠ At Risk
+              </button>
+              <button
+                class="filter-btn"
+                data-filter="good"
+                style="color: #2daf83; border-color: #a8e4d0"
+              >
+                ✓ Good
+              </button>
+            </div>
+          </div>
+          <div id="doctorPatientList"></div>
+        </div>
+
+        <!-- ══ TAB: AT RISK ══ -->
+        <div id="tab-atrisk" class="doc-tab-panel" style="display: none">
+          <div
+            style="
+              background: #fae8e8;
+              border: 1px solid #f0aaaa;
+              border-radius: 12px;
+              padding: 14px 18px;
+              display: flex;
+              gap: 10px;
+              align-items: flex-start;
+              margin-bottom: 20px;
+            "
+          >
+            <span style="font-size: 1.1rem; flex-shrink: 0">⚠️</span>
+            <div style="font-size: 0.875rem; color: #b03030">
+              <strong>These are your patients below 60% adherence.</strong>
+              Expand each one to review their logs and send a targeted care
+              note. A single message can significantly improve their
+              consistency.
+            </div>
+          </div>
+          <div id="atRiskList"></div>
+        </div>
+
+        <!-- ══ TAB: MEDICINE REQUESTS ══ -->
+        <div id="tab-requests" class="doc-tab-panel" style="display: none">
+          <div
+            class="alert-info"
+            style="
+              margin-bottom: 18px;
+              display: flex;
+              gap: 10px;
+              align-items: flex-start;
+            "
+          >
+            <span style="font-size: 1.05rem; flex-shrink: 0">💊</span>
+            <div style="font-size: 0.875rem; color: #1a6496">
+              These are <strong>medicine-out requests</strong> from your
+              patients. The pharmacy has been notified. You can add a clinical
+              note to support the patient's refill — it will appear in their
+              Care Feed immediately.
+            </div>
+          </div>
+          <div class="chart-panel" style="padding: 0">
+            <div
+              style="
+                padding: 16px 20px;
+                border-bottom: 1px solid #d1e4de;
+                background: #f4f8f7;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                border-radius: 16px 16px 0 0;
+              "
+            >
+              <div>
+                <div
+                  style="font-weight: 700; font-size: 0.92rem; color: #1b5271"
+                >
+                  Patient Medicine Requests
+                </div>
+                <div
+                  style="font-size: 0.75rem; color: #7a9ca8; margin-top: 2px"
+                  id="reqCount"
+                >
+                  Loading…
+                </div>
+              </div>
+            </div>
+            <div
+              id="drReqList"
+              style="max-height: 580px; overflow-y: auto"
+            ></div>
+          </div>
+        </div>
+      </main>
     </div>
 
-  </main>
-</div>
+    <footer
+      style="
+        background: #1b5271;
+        padding: 14px 32px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 10px;
+      "
+    >
+      <span
+        style="
+          color: #9dd1c2;
+          font-size: 0.78rem;
+          font-family: &quot;Outfit&quot;, sans-serif;
+        "
+        >© 2026 DawaTrack Hospital Partnership</span
+      >
+      <span
+        style="
+          color: rgba(157, 209, 194, 0.45);
+          font-size: 0.72rem;
+          font-family: &quot;Outfit&quot;, sans-serif;
+        "
+        >Doctor Portal · Confidential</span
+      >
+    </footer>
 
-<footer style="background:#1B5271;padding:14px 32px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;">
-  <span style="color:#9DD1C2;font-size:0.78rem;font-family:'Outfit',sans-serif;">© 2026 DawaTrack Hospital Partnership</span>
-  <span style="color:rgba(157,209,194,0.45);font-size:0.72rem;font-family:'Outfit',sans-serif;">Doctor Portal · Confidential</span>
-</footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js?v=20260820"></script>
+    <script>
+      /* ── Tab switching ─────────────────────────────────────── */
+      function switchDocTab(id, btn) {
+        document
+          .querySelectorAll(".doc-tab-panel")
+          .forEach((p) => (p.style.display = "none"));
+        document
+          .querySelectorAll(".sidebar-link")
+          .forEach((l) => l.classList.remove("active"));
+        const panel = document.getElementById(id);
+        if (panel) panel.style.display = "block";
+        if (btn) btn.classList.add("active");
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="script.js"></script>
-<script>
-/* ── Tab switching ─────────────────────────────────────── */
-function switchDocTab(id, btn) {
-  document.querySelectorAll('.doc-tab-panel').forEach(p => p.style.display='none');
-  document.querySelectorAll('.sidebar-link').forEach(l => l.classList.remove('active'));
-  const panel = document.getElementById(id);
-  if (panel) panel.style.display='block';
-  if (btn)   btn.classList.add('active');
+        if (id === "tab-patients") renderPatientList("all");
+        if (id === "tab-atrisk") renderPatientList("atrisk", "atRiskList");
+        if (id === "tab-requests") renderDrRequests();
+        if (id === "tab-overview") renderDrOverviewReqs();
+      }
 
-  if (id==='tab-patients')  renderPatientList('all');
-  if (id==='tab-atrisk')    renderPatientList('atrisk', 'atRiskList');
-  if (id==='tab-requests')  renderDrRequests();
-  if (id==='tab-overview')  renderDrOverviewReqs();
-}
+      document.addEventListener("DOMContentLoaded", () => {
+        const td = document.getElementById("todayDate");
+        if (td)
+          td.textContent = new Date().toLocaleDateString("en-KE", {
+            weekday: "long",
+            day: "numeric",
+            month: "long",
+            year: "numeric",
+          });
 
-document.addEventListener('DOMContentLoaded', () => {
-  const td = document.getElementById('todayDate');
-  if (td) td.textContent = new Date().toLocaleDateString('en-KE',
-    {weekday:'long',day:'numeric',month:'long',year:'numeric'});
+        /* filter buttons */
+        document.querySelectorAll(".filter-btn").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            document
+              .querySelectorAll(".filter-btn")
+              .forEach((b) => b.classList.remove("active"));
+            btn.classList.add("active");
+            renderPatientList(btn.dataset.filter || "all");
+          });
+        });
 
-  /* filter buttons */
-  document.querySelectorAll('.filter-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
-      btn.classList.add('active');
-      renderPatientList(btn.dataset.filter||'all');
-    });
-  });
+        /* At-risk sidebar button */
+        document.getElementById("review-btn")?.addEventListener("click", () => {
+          switchDocTab(
+            "tab-atrisk",
+            document.querySelectorAll(".sidebar-link")[2],
+          );
+        });
 
-  /* At-risk sidebar button */
-  document.getElementById('review-btn')?.addEventListener('click', () => {
-    switchDocTab('tab-atrisk', document.querySelectorAll('.sidebar-link')[2]);
-  });
-
-  /* Mobile tab bar handler */
-  document.querySelectorAll('.mobile-tab-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('.mobile-tab-btn').forEach(b=>b.classList.remove('active'));
-      btn.classList.add('active');
-      switchDocTab(btn.dataset.tab);
-    });
-  });
-});
-</script>
-</body>
+        /* Mobile tab bar handler */
+        document.querySelectorAll(".mobile-tab-btn").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            document
+              .querySelectorAll(".mobile-tab-btn")
+              .forEach((b) => b.classList.remove("active"));
+            btn.classList.add("active");
+            switchDocTab(btn.dataset.tab);
+          });
+        });
+      });
+    </script>
+  </body>
 </html>

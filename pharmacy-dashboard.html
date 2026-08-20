@@ -1,12 +1,15 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pharmacy Dashboard — DawaTrack</title>
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <style>
-    /*
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pharmacy Dashboard — DawaTrack</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Outfit:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /*
     ══════════════════════════════════════════════════════════
     DAWATRACK · PHARMACY DASHBOARD  — embedded CSS + JS
     No :root block — every color is a literal value
@@ -31,1061 +34,2722 @@
     ══════════════════════════════════════════════════════════
     */
 
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; font-size: 16px; }
-    body { font-family: 'Outfit', sans-serif; background: #F4F8F7; color: #0E1C28; min-height: 100vh; -webkit-font-smoothing: antialiased; }
-    ::selection { background: #C8E9E1; color: #1B5271; }
-    ::-webkit-scrollbar { width: 5px; height: 5px; }
-    ::-webkit-scrollbar-track { background: #F4F8F7; }
-    ::-webkit-scrollbar-thumb { background: #9DD1C2; border-radius: 10px; }
-    ::-webkit-scrollbar-thumb:hover { background: #5DAC96; }
-
-    /* ── NAVBAR (login screen) ── */
-    .portal-nav {
-      background: rgba(244,248,247,0.96);
-      backdrop-filter: blur(20px);
-      border-bottom: 1px solid #D1E4DE;
-      height: 64px; display: flex; align-items: center;
-      padding: 0 32px; justify-content: space-between;
-      position: sticky; top: 0; z-index: 100;
-    }
-    .portal-nav-brand {
-      display: flex; align-items: center; gap: 10px;
-      font-family: 'Outfit', sans-serif; font-weight: 800;
-      font-size: 1.3rem; color: #1B5271; text-decoration: none;
-      letter-spacing: -0.025em;
-    }
-    .portal-nav-brand img { height: 30px; width: auto; }
-    .portal-nav-brand .dot { color: #5DAC96; }
-    .portal-nav-back { font-size: 0.84rem; color: #7A9CA8; text-decoration: none; font-family: 'Outfit', sans-serif; font-weight: 500; transition: color 0.18s; }
-    .portal-nav-back:hover { color: #5DAC96; }
-
-    /* Login screen navbar classes (matching portal.html styling) */
-.login-nav {
-       background: rgba(244,248,247,0.96);
-       backdrop-filter: blur(20px);
-       border-bottom: 1px solid #D1E4DE;
-       height: 64px; display: flex; align-items: center;
-       padding: 0 32px; justify-content: space-between;
-       width: 100%;
-     }
-    .pharm-nav-brand {
-      display: flex; align-items: center; gap: 10px;
-      font-family: 'Outfit', sans-serif; font-weight: 800;
-      font-size: 1.3rem; color: #1B5271; text-decoration: none;
-      letter-spacing: -0.025em;
-    }
-    .pharm-nav-brand img { height: 30px; width: auto; }
-    .pharm-nav-brand .dot { color: #5DAC96; }
-    .login-nav-back { font-size: 0.84rem; color: #7A9CA8; text-decoration: none; font-family: 'Outfit', sans-serif; font-weight: 500; transition: color 0.18s; }
-    .login-nav-back:hover { color: #5DAC96; }
-
-/* ── PH-NAV (dashboard navbar) ── */
-     .ph-nav {
-       background: rgba(244,248,247,0.95);
-       backdrop-filter: blur(20px);
-       border-bottom: 1px solid #D1E4DE;
-       height: 56px; position: sticky; top: 0; z-index: 1000;
-       display: flex; align-items: center; padding: 0 24px; gap: 16px;
-     }
-    .ph-brand {
-      font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 1.3rem;
-      color: #1B5271; letter-spacing: -0.025em; text-decoration: none;
-      display: flex; align-items: center; gap: 8px; white-space: nowrap;
-    }
-    .ph-brand .dot { color: #5DAC96; }
-    .ph-pill {
-      background: #EDF5F2; border: 1px solid #D1E4DE; border-radius: 8px;
-      padding: 4px 12px; font-size: 0.7rem; font-weight: 700;
-      color: #5DAC96; letter-spacing: 0.07em; text-transform: uppercase;
-    }
-    .ph-nav-right { margin-left: auto; display: flex; align-items: center; gap: 10px; }
-    .ph-user-chip {
-      display: flex; align-items: center; gap: 9px;
-      background: #FFFFFF; border: 1px solid #D1E4DE; border-radius: 10px;
-      padding: 7px 14px; cursor: default;
-    }
-    .ph-avatar {
-      width: 30px; height: 30px; border-radius: 50%;
-      background: linear-gradient(135deg, #5DAC96, #1B5271);
-      display: flex; align-items: center; justify-content: center;
-      font-weight: 800; font-size: 0.70rem; color: #FFFFFF; flex-shrink: 0;
-    }
-    .ph-user-name { font-size: 0.82rem; font-weight: 700; color: #1B5271; }
-    .ph-user-role { font-size: 0.68rem; color: #7A9CA8; }
-    .btn-logout {
-      background: none; border: 1.5px solid #D1E4DE; border-radius: 9px;
-      padding: 7px 16px; font-family: 'Outfit', sans-serif; font-weight: 600;
-      font-size: 0.8rem; color: #7A9CA8; cursor: pointer; transition: all 0.18s;
-    }
-    .btn-logout:hover { border-color: #D94F4F; color: #D94F4F; background: #FAE8E8; }
-
-    /* ── LAYOUT ── */
-    .ph-layout { display: grid; grid-template-columns: 240px 1fr; min-height: calc(100vh - 64px); }
-
-    /* ── SIDEBAR ── */
-    .ph-sidebar {
-      background: #FFFFFF; border-right: 1px solid #D1E4DE;
-      padding: 24px 14px; position: sticky; top: 64px;
-      height: calc(100vh - 64px); overflow-y: auto;
-      display: flex; flex-direction: column;
-    }
-    .ph-sb-logo {
-      display: flex; align-items: center; gap: 9px;
-      font-weight: 800; font-size: 1rem; color: #1B5271;
-      margin-bottom: 28px; padding: 0 8px; letter-spacing: -0.02em;
-    }
-    .ph-sb-section { margin-bottom: 22px; }
-    .ph-sb-lbl {
-      font-size: 0.62rem; font-weight: 800; letter-spacing: 0.12em;
-      text-transform: uppercase; color: #7A9CA8; margin-bottom: 6px; padding: 0 8px;
-    }
-    .ph-sb-link {
-      display: flex; align-items: center; gap: 9px; padding: 9px 10px;
-      border-radius: 9px; color: #3A5563; font-size: 0.85rem; font-weight: 500;
-      cursor: pointer; border: none; background: none; width: 100%;
-      text-align: left; font-family: 'Outfit', sans-serif; transition: all 0.18s;
-      margin-bottom: 2px; text-decoration: none;
-    }
-    .ph-sb-link:hover { background: #EDF5F2; color: #1B5271; }
-    .ph-sb-link.active { background: #EDF5F2; color: #5DAC96; font-weight: 600; border: 1px solid #D1E4DE; }
-    .ph-sb-link .ico { width: 17px; text-align: center; font-size: 0.9rem; flex-shrink: 0; }
-
-    /* Requests badge on sidebar */
-    .req-badge {
-      background: #D94F4F; color: #FFFFFF; font-size: 0.60rem;
-      font-weight: 800; border-radius: 100px; padding: 2px 7px; margin-left: auto;
-    }
-
-    /* Sidebar alert */
-    .sb-alert {
-      border-radius: 12px; padding: 14px; margin-top: auto;
-    }
-    .sb-alert-red { background: #FAE8E8; border: 1px solid #F0BBBB; }
-    .sb-alert-lbl { font-size: 0.60rem; font-weight: 800; letter-spacing: 0.09em; text-transform: uppercase; margin-bottom: 5px; }
-    .sb-alert-red .sb-alert-lbl { color: #D94F4F; }
-    .sb-alert-val { font-family: 'Instrument Serif', serif; font-size: 2.3rem; line-height: 1; margin-bottom: 3px; }
-    .sb-alert-red .sb-alert-val { color: #D94F4F; }
-    .sb-alert-sub { font-size: 0.70rem; margin-bottom: 10px; }
-    .sb-alert-red .sb-alert-sub { color: #B03030; }
-
-    /* ── MAIN ── */
-    .ph-main { background: #F4F8F7; padding: 28px; overflow-y: auto; }
-    .ph-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 24px; gap: 14px; flex-wrap: wrap; }
-    .ph-page-title { font-family: 'Instrument Serif', serif; font-weight: 400; font-size: 1.6rem; letter-spacing: -0.02em; color: #1B5271; }
-    .ph-page-sub { font-size: 0.82rem; color: #7A9CA8; margin-top: 4px; }
-    .date-chip { background: #FFFFFF; border: 1px solid #D1E4DE; border-radius: 8px; padding: 7px 13px; font-size: 0.78rem; color: #3A5563; display: inline-flex; align-items: center; gap: 6px; font-weight: 500; white-space: nowrap; }
-
-    /* ── KPI GRID ── */
-    .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 14px; margin-bottom: 22px; }
-    .kpi-card { background: #FFFFFF; border: 1px solid #D1E4DE; border-radius: 14px; padding: 18px 20px; position: relative; overflow: hidden; transition: all 0.22s; }
-    .kpi-card:hover { border-color: #9DD1C2; box-shadow: 0 6px 24px rgba(27,82,113,0.10); transform: translateY(-2px); }
-    .kpi-accent { position: absolute; top: 0; left: 0; right: 0; height: 3px; }
-    .kpi-accent.teal   { background: linear-gradient(90deg, #5DAC96, #9DD1C2); }
-    .kpi-accent.green  { background: linear-gradient(90deg, #2DAF83, #5DAC96); }
-    .kpi-accent.amber  { background: linear-gradient(90deg, #D98A2A, #F0C070); }
-    .kpi-accent.red    { background: linear-gradient(90deg, #D94F4F, #F09090); }
-    .kpi-accent.navy   { background: linear-gradient(90deg, #1B5271, #5DAC96); }
-    .kpi-lbl { font-size: 0.67rem; font-weight: 700; color: #7A9CA8; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 7px; }
-    .kpi-val { font-family: 'Instrument Serif', serif; font-size: 2rem; color: #1B5271; line-height: 1; margin-bottom: 5px; }
-    .kpi-sub { font-size: 0.70rem; color: #7A9CA8; }
-
-    /* ── PANEL ── */
-    .panel { background: #FFFFFF; border: 1px solid #D1E4DE; border-radius: 14px; overflow: hidden; margin-bottom: 18px; }
-    .panel-hdr { padding: 16px 20px; border-bottom: 1px solid #D1E4DE; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; background: #F4F8F7; }
-    .panel-title { font-weight: 700; font-size: 0.92rem; color: #1B5271; }
-    .panel-sub   { font-size: 0.72rem; color: #7A9CA8; margin-top: 2px; }
-    .panel-body  { padding: 0; }
-
-    /* ── TABS ── */
-    .ph-tabs { display: flex; gap: 4px; background: #EDF5F2; border: 1px solid #D1E4DE; border-radius: 10px; padding: 4px; margin-bottom: 20px; flex-wrap: wrap; }
-    .ph-tab  { flex: none; padding: 8px 18px; border: none; border-radius: 7px; background: transparent; color: #7A9CA8; font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 0.82rem; cursor: pointer; transition: all 0.18s; white-space: nowrap; }
-    .ph-tab.active { background: #FFFFFF; color: #1B5271; border: 1px solid #D1E4DE; box-shadow: 0 2px 8px rgba(27,82,113,0.08); }
-    .ph-panel { display: none; }
-    .ph-panel.active { display: block; }
-
-    /* ── TABLE ── */
-    .ph-table { width: 100%; border-collapse: collapse; }
-    .ph-table th { font-size: 0.67rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #7A9CA8; padding: 11px 14px; border-bottom: 1.5px solid #D1E4DE; background: #F4F8F7; text-align: left; white-space: nowrap; }
-    .ph-table td { padding: 12px 14px; border-bottom: 1px solid #D1E4DE; font-size: 0.85rem; color: #3A5563; vertical-align: middle; }
-    .ph-table tr:last-child td { border-bottom: none; }
-    .ph-table tr:hover td { background: #EDF5F2; color: #1B5271; }
-
-    /* ── BADGES ── */
-    .badge { padding: 3px 10px; border-radius: 100px; font-size: 0.67rem; font-weight: 700; letter-spacing: 0.04em; display: inline-flex; align-items: center; gap: 4px; }
-    .bg    { background: #D5F3EB; color: #1E8A65; border: 1px solid #A8E4D0; }
-    .ba    { background: #FBF0DC; color: #A0620A; border: 1px solid #F0CC88; }
-    .br    { background: #FAE0E0; color: #B03030; border: 1px solid #F0AAAA; }
-    .bb    { background: #DCF0FA; color: #1A6496; border: 1px solid #9DD0F0; }
-    .bt    { background: #C8E9E1; color: #2E7A65; border: 1px solid #9DD1C2; }
-    .bn    { background: #D4E4EE; color: #1B5271; border: 1px solid #9BBBD4; }
-    .bgr   { background: #EDF5F2; color: #7A9CA8; border: 1px solid #D1E4DE; }
-
-    /* ── FORM CONTROLS ── */
-    .f-label { font-size: 0.78rem; font-weight: 700; color: #1B5271; display: block; margin-bottom: 6px; }
-    .f-input, .f-select, .f-textarea {
-      width: 100%; background: #FFFFFF; border: 1.5px solid #D1E4DE; border-radius: 9px;
-      color: #0E1C28; font-family: 'Outfit', sans-serif; font-size: 0.88rem; padding: 9px 13px;
-      transition: border-color 0.2s, box-shadow 0.2s; appearance: none;
-    }
-    .f-input:focus, .f-select:focus, .f-textarea:focus { outline: none; border-color: #5DAC96; box-shadow: 0 0 0 3px rgba(93,172,150,0.13); }
-    .f-input::placeholder, .f-textarea::placeholder { color: #7A9CA8; }
-    .f-select option { background: #FFFFFF; color: #0E1C28; }
-    .mb2 { margin-bottom: 14px; }
-    .mb3 { margin-bottom: 18px; }
-    .g2  { display: grid; grid-template-columns: 1fr 1fr; gap: 13px; }
-    @media(max-width:520px){ .g2{grid-template-columns:1fr;} }
-
-    /* ── BUTTONS ── */
-    .btn-t {
-      background: #5DAC96; color: #FFFFFF; border: none; padding: 9px 22px; border-radius: 9px;
-      font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 0.85rem; cursor: pointer;
-      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
-      box-shadow: 0 3px 14px rgba(93,172,150,0.30); display: inline-flex; align-items: center; gap: 7px;
-    }
-    .btn-t:hover { background: #3D8F7A; transform: translateY(-2px); box-shadow: 0 5px 22px rgba(93,172,150,0.42); }
-    .btn-n {
-      background: #1B5271; color: #FFFFFF; border: none; padding: 9px 22px; border-radius: 9px;
-      font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 0.85rem; cursor: pointer;
-      transition: background 0.2s, transform 0.15s; box-shadow: 0 3px 14px rgba(27,82,113,0.22);
-      display: inline-flex; align-items: center; gap: 7px;
-    }
-    .btn-n:hover { background: #0E2E42; transform: translateY(-2px); }
-    .btn-g {
-      background: #FFFFFF; color: #1B5271; border: 1.5px solid #D1E4DE; padding: 9px 20px;
-      border-radius: 9px; font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 0.85rem;
-      cursor: pointer; transition: all 0.18s; display: inline-flex; align-items: center; gap: 7px;
-    }
-    .btn-g:hover { border-color: #5DAC96; background: #EDF5F2; }
-    .btn-sm {
-      padding: 5px 12px; border-radius: 7px; font-family: 'Outfit', sans-serif; font-weight: 700;
-      font-size: 0.75rem; cursor: pointer; transition: all 0.18s; border: none;
-      display: inline-flex; align-items: center; gap: 4px;
-    }
-    .bsm-t  { background: #EDF5F2; color: #5DAC96; border: 1px solid #D1E4DE; }
-    .bsm-t:hover { background: #C8E9E1; border-color: #9DD1C2; }
-    .bsm-r  { background: #FAE8E8; color: #D94F4F; border: 1px solid #F0AAAA; }
-    .bsm-r:hover { background: #F0AAAA; }
-    .bsm-n  { background: #D4E4EE; color: #1B5271; border: 1px solid #9BBBD4; }
-    .bsm-n:hover { background: #9BBBD4; }
-    .w100 { width: 100%; justify-content: center; }
-
-    /* ── SEARCH BAR ── */
-    .srch-wrap { position: relative; flex: 1; min-width: 180px; }
-    .srch-ico { position: absolute; left: 11px; top: 50%; transform: translateY(-50%); font-size: 0.83rem; color: #7A9CA8; pointer-events: none; }
-    .srch-input { width: 100%; background: #FFFFFF; border: 1.5px solid #D1E4DE; border-radius: 9px; color: #0E1C28; font-family: 'Outfit', sans-serif; font-size: 0.85rem; padding: 8px 12px 8px 34px; transition: border-color 0.2s, box-shadow 0.2s; }
-    .srch-input:focus { outline: none; border-color: #5DAC96; box-shadow: 0 0 0 3px rgba(93,172,150,0.12); }
-    .srch-input::placeholder { color: #7A9CA8; }
-    .toolbar { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 14px; }
-
-    /* ── MODAL ── */
-    .ph-modal-ov {
-      position: fixed; inset: 0; background: rgba(14,28,40,0.44); backdrop-filter: blur(4px);
-      z-index: 2000; display: flex; align-items: center; justify-content: center; padding: 24px;
-      opacity: 0; pointer-events: none; transition: opacity 0.26s;
-    }
-    .ph-modal-ov.open { opacity: 1; pointer-events: all; }
-    .ph-modal {
-      background: #FFFFFF; border: 1px solid #D1E4DE; border-radius: 18px;
-      width: 100%; max-width: 540px; max-height: 90vh; overflow-y: auto;
-      box-shadow: 0 24px 72px rgba(27,82,113,0.20); transform: translateY(14px);
-      transition: transform 0.26s cubic-bezier(0.4,0.2,0.2,1);
-    }
-    .ph-modal-ov.open .ph-modal { transform: translateY(0); }
-    .ph-modal-hdr { display: flex; align-items: center; justify-content: space-between; padding: 17px 22px; border-bottom: 1px solid #D1E4DE; background: #F4F8F7; border-radius: 18px 18px 0 0; }
-    .ph-modal-title { font-family: 'Instrument Serif', serif; font-size: 1.2rem; color: #1B5271; }
-    .ph-modal-close { width: 30px; height: 30px; border-radius: 50%; background: #FFFFFF; border: 1px solid #D1E4DE; font-size: 0.85rem; color: #7A9CA8; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.18s; }
-    .ph-modal-close:hover { background: #FAE8E8; border-color: #F0AAAA; color: #D94F4F; }
-    .ph-modal-body { padding: 20px 22px; }
-    .ph-modal-foot { padding: 13px 22px; border-top: 1px solid #D1E4DE; display: flex; justify-content: flex-end; gap: 10px; background: #F4F8F7; border-radius: 0 0 18px 18px; }
-
-    /* ── TOAST ── */
-    .ph-toasts { position: fixed; bottom: 24px; right: 24px; z-index: 9999; display: flex; flex-direction: column; gap: 10px; }
-    .ph-toast { background: #FFFFFF; border: 1px solid #D1E4DE; border-radius: 11px; padding: 12px 17px; min-width: 270px; display: flex; align-items: center; gap: 10px; box-shadow: 0 6px 28px rgba(27,82,113,0.13); animation: phIn 0.3s cubic-bezier(0.34,1.56,0.64,1) both; font-family: 'Outfit', sans-serif; }
-    .ph-toast.s { border-left: 3px solid #2DAF83; }
-    .ph-toast.e { border-left: 3px solid #D94F4F; }
-    .ph-toast.i { border-left: 3px solid #3A8DC4; }
-    .ph-toast.w { border-left: 3px solid #D98A2A; }
-    @keyframes phIn { from{opacity:0;transform:translateX(16px)} to{opacity:1;transform:translateX(0)} }
-
-    /* ── PROFILE PANEL ── */
-    .prof-header { background: linear-gradient(135deg, #1B5271, #0E2E42); padding: 28px 24px; border-radius: 14px; margin-bottom: 18px; color: #FFFFFF; position: relative; overflow: hidden; }
-    .prof-header::before { content: ''; position: absolute; width: 300px; height: 300px; border-radius: 50%; background: radial-gradient(circle, rgba(93,172,150,0.18) 0%, transparent 70%); top: -100px; right: -80px; pointer-events: none; }
-    .prof-avatar { width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(135deg, #5DAC96, #9DD1C2); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.3rem; color: #FFFFFF; margin-bottom: 14px; flex-shrink: 0; }
-    .prof-name { font-family: 'Instrument Serif', serif; font-size: 1.6rem; color: #FFFFFF; margin-bottom: 4px; }
-    .prof-meta { font-size: 0.82rem; color: #9DD1C2; }
-
-    /* adherence bar inside profile */
-    .adh-bar { height: 6px; border-radius: 100px; background: rgba(255,255,255,0.15); overflow: hidden; margin-top: 8px; }
-    .adh-fill { height: 100%; border-radius: 100px; transition: width 1.1s cubic-bezier(0.4,0,0.2,1); }
-    .adh-fill.hi { background: linear-gradient(90deg, #5DAC96, #9DD1C2); }
-    .adh-fill.md { background: linear-gradient(90deg, #D98A2A, #F0C070); }
-    .adh-fill.lo { background: linear-gradient(90deg, #D94F4F, #F09090); }
-
-    /* card info tile */
-    .card-tile { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 10px; padding: 10px 14px; text-align: center; }
-    .card-tile-lbl { font-size: 0.60rem; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: rgba(255,255,255,0.55); margin-bottom: 4px; }
-    .card-tile-val { font-size: 0.85rem; font-weight: 700; color: #FFFFFF; }
-
-    /* ── ALERT BOX ── */
-    .ph-alert { border-radius: 9px; padding: 11px 14px; font-size: 0.85rem; display: flex; gap: 9px; align-items: flex-start; margin-bottom: 14px; }
-    .ph-alert.info    { background: #DCF0FA; border: 1px solid #9DD0F0; color: #1A6496; }
-    .ph-alert.warning { background: #FBF5E6; border: 1px solid #F0CC88; color: #A0620A; }
-    .ph-alert.danger  { background: #FAE8E8; border: 1px solid #F0AAAA; color: #B03030; }
-    .ph-alert.success { background: #D5F3EB; border: 1px solid #A8E4D0; color: #1E8A65; }
-
-/* ── LOGIN SCREEN ── */
-     .login-wrap { min-height: 100vh; background: #F4F8F7; padding: 40px 24px; }
-     .login-nav {
-       background: rgba(244,248,247,0.96);
-       backdrop-filter: blur(20px);
-       border: 1px solid #D1E4DE;
-       height: 56px; display: flex; align-items: center;
-       padding: 0 24px; justify-content: space-between;
-       border-radius: 8px;
-       margin-bottom: 20px;
-     }
-     .login-panel {
-       display: grid; grid-template-columns: 1fr 1fr;
-       background: #FFFFFF; border: 1px solid #D1E4DE; border-radius: 20px;
-       overflow: hidden; box-shadow: 0 8px 40px rgba(27,82,113,0.12);
-       width: 100%; max-width: 860px;
-       margin: 0 auto;
-     }
-     @media(max-width:700px){ .login-panel{grid-template-columns:1fr;} .login-left{display:none!important;} }
-     .login-left {
-      background: #1B5271; padding: 48px 40px;
-      display: flex; flex-direction: column; justify-content: center; position: relative; overflow: hidden;
-    }
-    .login-left::before { content:''; position:absolute; width:300px; height:300px; border-radius:50%; background:radial-gradient(circle,rgba(93,172,150,0.18) 0%,transparent 70%); top:-80px; right:-80px; pointer-events:none; }
-    .login-left h2 { font-family:'Instrument Serif',serif; font-weight:400; font-size:2rem; color:#FFFFFF; line-height:1.2; margin-bottom:14px; letter-spacing:-0.02em; }
-    .login-left h2 em { font-style:italic; color:#9DD1C2; }
-    .login-left p { color:rgba(255,255,255,0.6); font-size:0.88rem; line-height:1.7; margin-bottom:28px; font-weight:300; }
-    .login-feat { display:flex; align-items:center; gap:11px; margin-bottom:13px; }
-    .login-feat-icon { width:32px; height:32px; border-radius:9px; background:rgba(93,172,150,0.15); border:1px solid rgba(93,172,150,0.28); display:flex; align-items:center; justify-content:center; font-size:0.9rem; flex-shrink:0; }
-    .login-feat span { font-size:0.83rem; color:rgba(255,255,255,0.7); }
-    .login-right { padding: 48px 40px; }
-    .login-logo { font-family:'Outfit',sans-serif; font-weight:800; font-size:1.35rem; color:#1B5271; margin-bottom:5px; letter-spacing:-0.025em; }
-    .login-logo span { color:#5DAC96; }
-    .login-badge { display:inline-block; background:#EDF5F2; border:1px solid #D1E4DE; border-radius:7px; padding:3px 11px; font-size:0.68rem; font-weight:700; color:#5DAC96; letter-spacing:0.07em; text-transform:uppercase; margin-bottom:26px; }
-    .login-title { font-family:'Instrument Serif',serif; font-size:1.55rem; color:#1B5271; margin-bottom:4px; }
-    .login-sub   { font-size:0.80rem; color:#7A9CA8; margin-bottom:26px; }
-    .tab-row { display:flex; gap:4px; background:#EDF5F2; border:1px solid #D1E4DE; border-radius:9px; padding:4px; margin-bottom:22px; }
-    .t-btn { flex:1; padding:8px 12px; border:none; border-radius:7px; background:transparent; color:#7A9CA8; font-family:'Outfit',sans-serif; font-weight:600; font-size:0.82rem; cursor:pointer; transition:all 0.18s; }
-    .t-btn.active { background:#FFFFFF; color:#1B5271; border:1px solid #D1E4DE; box-shadow:0 2px 8px rgba(27,82,113,0.08); }
-    .t-panel { display:none; }
-    .t-panel.active { display:block; }
-
-    /* ── DISPENSE LOG ENTRY ── */
-    .disp-entry { padding: 14px 18px; border-bottom: 1px solid #D1E4DE; display: flex; align-items: flex-start; gap: 13px; transition: background 0.18s; }
-    .disp-entry:hover { background: #EDF5F2; }
-    .disp-entry:last-child { border-bottom: none; }
-    .disp-icon { width: 38px; height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0; }
-
-    /* ── RESPONSIVE ── */
-    @media(max-width:900px){ .ph-layout{grid-template-columns:1fr;} .ph-sidebar{display:none;} .ph-main{padding:16px;} }
-    @media(max-width:768px){
-      .ph-main { padding: 12px; }
-      /* Mobile tab bar */
-      .mobile-tab-bar {
-        display: flex; gap: 6px;
-        padding: 6px 2px 10px; margin: 0 0 16px;
-        flex-wrap: wrap; justify-content: center;
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
       }
-      .mobile-tab-bar::-webkit-scrollbar { display: none; }
-      .mobile-tab-btn {
-        flex: 0 0 auto; padding: 7px 14px; border-radius: 18px;
-        border: 1.5px solid #D1E4DE; background: #FFFFFF;
-        color: #7A9CA8; font-family: 'Outfit', sans-serif;
-        font-weight: 600; font-size: 0.76rem; cursor: pointer;
-        white-space: nowrap; transition: all 0.18s ease;
+      html {
+        scroll-behavior: smooth;
+        font-size: 16px;
       }
-      .mobile-tab-btn.active {
-        background: #EDF5F2; color: #1B5271;
-        border-color: #5DAC96; font-weight: 700;
+      body {
+        font-family: "Outfit", sans-serif;
+        background: #f4f8f7;
+        color: #0e1c28;
+        min-height: 100vh;
+        -webkit-font-smoothing: antialiased;
       }
-      .kpi-grid { grid-template-columns: repeat(2,1fr); }
-    }
-  </style>
-</head>
-<body>
+      ::selection {
+        background: #c8e9e1;
+        color: #1b5271;
+      }
+      ::-webkit-scrollbar {
+        width: 5px;
+        height: 5px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #f4f8f7;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #9dd1c2;
+        border-radius: 10px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #5dac96;
+      }
 
-<!-- ══ LOGIN SCREEN ══════════════════════════════════════ -->
-<div id="loginScreen" class="login-wrap">
-  <!-- Navbar (logo on left, back to home on right) -->
-  <nav class="login-nav">
-    <a href="index.html" class="pharm-nav-brand">
-      <img src="logo.png" alt=""> Dawa<span class="dot">Track</span>
-    </a>
-    <a href="index.html" class="login-nav-back">← Back to home</a>
-  </nav>
+      /* ── NAVBAR (login screen) ── */
+      .portal-nav {
+        background: rgba(244, 248, 247, 0.96);
+        backdrop-filter: blur(20px);
+        border-bottom: 1px solid #d1e4de;
+        height: 64px;
+        display: flex;
+        align-items: center;
+        padding: 0 32px;
+        justify-content: space-between;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+      }
+      .portal-nav-brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-family: "Outfit", sans-serif;
+        font-weight: 800;
+        font-size: 1.3rem;
+        color: #1b5271;
+        text-decoration: none;
+        letter-spacing: -0.025em;
+      }
+      .portal-nav-brand img {
+        height: 30px;
+        width: auto;
+      }
+      .portal-nav-brand .dot {
+        color: #5dac96;
+      }
+      .portal-nav-back {
+        font-size: 0.84rem;
+        color: #7a9ca8;
+        text-decoration: none;
+        font-family: "Outfit", sans-serif;
+        font-weight: 500;
+        transition: color 0.18s;
+      }
+      .portal-nav-back:hover {
+        color: #5dac96;
+      }
 
-  <div class="login-panel">
+      /* Login screen navbar classes (matching portal.html styling) */
+      .login-nav {
+        background: rgba(244, 248, 247, 0.96);
+        backdrop-filter: blur(20px);
+        border-bottom: 1px solid #d1e4de;
+        height: 64px;
+        display: flex;
+        align-items: center;
+        padding: 0 32px;
+        justify-content: space-between;
+        width: 100%;
+      }
+      .pharm-nav-brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-family: "Outfit", sans-serif;
+        font-weight: 800;
+        font-size: 1.3rem;
+        color: #1b5271;
+        text-decoration: none;
+        letter-spacing: -0.025em;
+      }
+      .pharm-nav-brand img {
+        height: 30px;
+        width: auto;
+      }
+      .pharm-nav-brand .dot {
+        color: #5dac96;
+      }
+      .login-nav-back {
+        font-size: 0.84rem;
+        color: #7a9ca8;
+        text-decoration: none;
+        font-family: "Outfit", sans-serif;
+        font-weight: 500;
+        transition: color 0.18s;
+      }
+      .login-nav-back:hover {
+        color: #5dac96;
+      }
 
-    <!-- Left branding -->
-    <div class="login-left">
-      <div style="font-family:'Outfit',sans-serif;font-weight:800;font-size:1.3rem;color:#FFFFFF;margin-bottom:24px;letter-spacing:-0.025em;">Dawa<span style="color:#9DD1C2;">Track</span></div>
-      <h2>Pharmacy,<br><em>powered up</em></h2>
-      <p>View patient prescriptions, track medication dispensing, manage Smart Card discounts — all in one focused workspace.</p>
-      <div class="login-feat"><div class="login-feat-icon">👥</div><span>Search and open any patient profile</span></div>
-      <div class="login-feat"><div class="login-feat-icon">💊</div><span>View prescriptions with dosage details</span></div>
-      <div class="login-feat"><div class="login-feat-icon">📋</div><span>Record taken, missed, or dispensed doses</span></div>
-      <div class="login-feat"><div class="login-feat-icon">🏷️</div><span>HAMAT Smart Card automatic discounts</span></div>
-      <div class="login-feat"><div class="login-feat-icon">📡</div><span>Receive medicine requests from patients live</span></div>
+      /* ── PH-NAV (dashboard navbar) ── */
+      .ph-nav {
+        background: rgba(244, 248, 247, 0.95);
+        backdrop-filter: blur(20px);
+        border-bottom: 1px solid #d1e4de;
+        height: 56px;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+        padding: 0 24px;
+        gap: 16px;
+      }
+      .ph-brand {
+        font-family: "Outfit", sans-serif;
+        font-weight: 800;
+        font-size: 1.3rem;
+        color: #1b5271;
+        letter-spacing: -0.025em;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        white-space: nowrap;
+      }
+      .ph-brand .dot {
+        color: #5dac96;
+      }
+      .ph-pill {
+        background: #edf5f2;
+        border: 1px solid #d1e4de;
+        border-radius: 8px;
+        padding: 4px 12px;
+        font-size: 0.7rem;
+        font-weight: 700;
+        color: #5dac96;
+        letter-spacing: 0.07em;
+        text-transform: uppercase;
+      }
+      .ph-nav-right {
+        margin-left: auto;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .ph-user-chip {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        background: #ffffff;
+        border: 1px solid #d1e4de;
+        border-radius: 10px;
+        padding: 7px 14px;
+        cursor: default;
+      }
+      .ph-avatar {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #5dac96, #1b5271);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 800;
+        font-size: 0.7rem;
+        color: #ffffff;
+        flex-shrink: 0;
+      }
+      .ph-user-name {
+        font-size: 0.82rem;
+        font-weight: 700;
+        color: #1b5271;
+      }
+      .ph-user-role {
+        font-size: 0.68rem;
+        color: #7a9ca8;
+      }
+      .btn-logout {
+        background: none;
+        border: 1.5px solid #d1e4de;
+        border-radius: 9px;
+        padding: 7px 16px;
+        font-family: "Outfit", sans-serif;
+        font-weight: 600;
+        font-size: 0.8rem;
+        color: #7a9ca8;
+        cursor: pointer;
+        transition: all 0.18s;
+      }
+      .btn-logout:hover {
+        border-color: #d94f4f;
+        color: #d94f4f;
+        background: #fae8e8;
+      }
+
+      /* ── LAYOUT ── */
+      .ph-layout {
+        display: grid;
+        grid-template-columns: 240px 1fr;
+        min-height: calc(100vh - 64px);
+      }
+
+      /* ── SIDEBAR ── */
+      .ph-sidebar {
+        background: #ffffff;
+        border-right: 1px solid #d1e4de;
+        padding: 24px 14px;
+        position: sticky;
+        top: 64px;
+        height: calc(100vh - 64px);
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+      }
+      .ph-sb-logo {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        font-weight: 800;
+        font-size: 1rem;
+        color: #1b5271;
+        margin-bottom: 28px;
+        padding: 0 8px;
+        letter-spacing: -0.02em;
+      }
+      .ph-sb-section {
+        margin-bottom: 22px;
+      }
+      .ph-sb-lbl {
+        font-size: 0.62rem;
+        font-weight: 800;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: #7a9ca8;
+        margin-bottom: 6px;
+        padding: 0 8px;
+      }
+      .ph-sb-link {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        padding: 9px 10px;
+        border-radius: 9px;
+        color: #3a5563;
+        font-size: 0.85rem;
+        font-weight: 500;
+        cursor: pointer;
+        border: none;
+        background: none;
+        width: 100%;
+        text-align: left;
+        font-family: "Outfit", sans-serif;
+        transition: all 0.18s;
+        margin-bottom: 2px;
+        text-decoration: none;
+      }
+      .ph-sb-link:hover {
+        background: #edf5f2;
+        color: #1b5271;
+      }
+      .ph-sb-link.active {
+        background: #edf5f2;
+        color: #5dac96;
+        font-weight: 600;
+        border: 1px solid #d1e4de;
+      }
+      .ph-sb-link .ico {
+        width: 17px;
+        text-align: center;
+        font-size: 0.9rem;
+        flex-shrink: 0;
+      }
+
+      /* Requests badge on sidebar */
+      .req-badge {
+        background: #d94f4f;
+        color: #ffffff;
+        font-size: 0.6rem;
+        font-weight: 800;
+        border-radius: 100px;
+        padding: 2px 7px;
+        margin-left: auto;
+      }
+
+      /* Sidebar alert */
+      .sb-alert {
+        border-radius: 12px;
+        padding: 14px;
+        margin-top: auto;
+      }
+      .sb-alert-red {
+        background: #fae8e8;
+        border: 1px solid #f0bbbb;
+      }
+      .sb-alert-lbl {
+        font-size: 0.6rem;
+        font-weight: 800;
+        letter-spacing: 0.09em;
+        text-transform: uppercase;
+        margin-bottom: 5px;
+      }
+      .sb-alert-red .sb-alert-lbl {
+        color: #d94f4f;
+      }
+      .sb-alert-val {
+        font-family: "Instrument Serif", serif;
+        font-size: 2.3rem;
+        line-height: 1;
+        margin-bottom: 3px;
+      }
+      .sb-alert-red .sb-alert-val {
+        color: #d94f4f;
+      }
+      .sb-alert-sub {
+        font-size: 0.7rem;
+        margin-bottom: 10px;
+      }
+      .sb-alert-red .sb-alert-sub {
+        color: #b03030;
+      }
+
+      /* ── MAIN ── */
+      .ph-main {
+        background: #f4f8f7;
+        padding: 28px;
+        overflow-y: auto;
+      }
+      .ph-header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        margin-bottom: 24px;
+        gap: 14px;
+        flex-wrap: wrap;
+      }
+      .ph-page-title {
+        font-family: "Instrument Serif", serif;
+        font-weight: 400;
+        font-size: 1.6rem;
+        letter-spacing: -0.02em;
+        color: #1b5271;
+      }
+      .ph-page-sub {
+        font-size: 0.82rem;
+        color: #7a9ca8;
+        margin-top: 4px;
+      }
+      .date-chip {
+        background: #ffffff;
+        border: 1px solid #d1e4de;
+        border-radius: 8px;
+        padding: 7px 13px;
+        font-size: 0.78rem;
+        color: #3a5563;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-weight: 500;
+        white-space: nowrap;
+      }
+
+      /* ── KPI GRID ── */
+      .kpi-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+        gap: 14px;
+        margin-bottom: 22px;
+      }
+      .kpi-card {
+        background: #ffffff;
+        border: 1px solid #d1e4de;
+        border-radius: 14px;
+        padding: 18px 20px;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.22s;
+      }
+      .kpi-card:hover {
+        border-color: #9dd1c2;
+        box-shadow: 0 6px 24px rgba(27, 82, 113, 0.1);
+        transform: translateY(-2px);
+      }
+      .kpi-accent {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+      }
+      .kpi-accent.teal {
+        background: linear-gradient(90deg, #5dac96, #9dd1c2);
+      }
+      .kpi-accent.green {
+        background: linear-gradient(90deg, #2daf83, #5dac96);
+      }
+      .kpi-accent.amber {
+        background: linear-gradient(90deg, #d98a2a, #f0c070);
+      }
+      .kpi-accent.red {
+        background: linear-gradient(90deg, #d94f4f, #f09090);
+      }
+      .kpi-accent.navy {
+        background: linear-gradient(90deg, #1b5271, #5dac96);
+      }
+      .kpi-lbl {
+        font-size: 0.67rem;
+        font-weight: 700;
+        color: #7a9ca8;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        margin-bottom: 7px;
+      }
+      .kpi-val {
+        font-family: "Instrument Serif", serif;
+        font-size: 2rem;
+        color: #1b5271;
+        line-height: 1;
+        margin-bottom: 5px;
+      }
+      .kpi-sub {
+        font-size: 0.7rem;
+        color: #7a9ca8;
+      }
+
+      /* ── PANEL ── */
+      .panel {
+        background: #ffffff;
+        border: 1px solid #d1e4de;
+        border-radius: 14px;
+        overflow: hidden;
+        margin-bottom: 18px;
+      }
+      .panel-hdr {
+        padding: 16px 20px;
+        border-bottom: 1px solid #d1e4de;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        flex-wrap: wrap;
+        background: #f4f8f7;
+      }
+      .panel-title {
+        font-weight: 700;
+        font-size: 0.92rem;
+        color: #1b5271;
+      }
+      .panel-sub {
+        font-size: 0.72rem;
+        color: #7a9ca8;
+        margin-top: 2px;
+      }
+      .panel-body {
+        padding: 0;
+      }
+
+      /* ── TABS ── */
+      .ph-tabs {
+        display: flex;
+        gap: 4px;
+        background: #edf5f2;
+        border: 1px solid #d1e4de;
+        border-radius: 10px;
+        padding: 4px;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+      }
+      .ph-tab {
+        flex: none;
+        padding: 8px 18px;
+        border: none;
+        border-radius: 7px;
+        background: transparent;
+        color: #7a9ca8;
+        font-family: "Outfit", sans-serif;
+        font-weight: 600;
+        font-size: 0.82rem;
+        cursor: pointer;
+        transition: all 0.18s;
+        white-space: nowrap;
+      }
+      .ph-tab.active {
+        background: #ffffff;
+        color: #1b5271;
+        border: 1px solid #d1e4de;
+        box-shadow: 0 2px 8px rgba(27, 82, 113, 0.08);
+      }
+      .ph-panel {
+        display: none;
+      }
+      .ph-panel.active {
+        display: block;
+      }
+
+      /* ── TABLE ── */
+      .ph-table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      .ph-table th {
+        font-size: 0.67rem;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: #7a9ca8;
+        padding: 11px 14px;
+        border-bottom: 1.5px solid #d1e4de;
+        background: #f4f8f7;
+        text-align: left;
+        white-space: nowrap;
+      }
+      .ph-table td {
+        padding: 12px 14px;
+        border-bottom: 1px solid #d1e4de;
+        font-size: 0.85rem;
+        color: #3a5563;
+        vertical-align: middle;
+      }
+      .ph-table tr:last-child td {
+        border-bottom: none;
+      }
+      .ph-table tr:hover td {
+        background: #edf5f2;
+        color: #1b5271;
+      }
+
+      /* ── BADGES ── */
+      .badge {
+        padding: 3px 10px;
+        border-radius: 100px;
+        font-size: 0.67rem;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+      }
+      .bg {
+        background: #d5f3eb;
+        color: #1e8a65;
+        border: 1px solid #a8e4d0;
+      }
+      .ba {
+        background: #fbf0dc;
+        color: #a0620a;
+        border: 1px solid #f0cc88;
+      }
+      .br {
+        background: #fae0e0;
+        color: #b03030;
+        border: 1px solid #f0aaaa;
+      }
+      .bb {
+        background: #dcf0fa;
+        color: #1a6496;
+        border: 1px solid #9dd0f0;
+      }
+      .bt {
+        background: #c8e9e1;
+        color: #2e7a65;
+        border: 1px solid #9dd1c2;
+      }
+      .bn {
+        background: #d4e4ee;
+        color: #1b5271;
+        border: 1px solid #9bbbd4;
+      }
+      .bgr {
+        background: #edf5f2;
+        color: #7a9ca8;
+        border: 1px solid #d1e4de;
+      }
+
+      /* ── FORM CONTROLS ── */
+      .f-label {
+        font-size: 0.78rem;
+        font-weight: 700;
+        color: #1b5271;
+        display: block;
+        margin-bottom: 6px;
+      }
+      .f-input,
+      .f-select,
+      .f-textarea {
+        width: 100%;
+        background: #ffffff;
+        border: 1.5px solid #d1e4de;
+        border-radius: 9px;
+        color: #0e1c28;
+        font-family: "Outfit", sans-serif;
+        font-size: 0.88rem;
+        padding: 9px 13px;
+        transition:
+          border-color 0.2s,
+          box-shadow 0.2s;
+        appearance: none;
+      }
+      .f-input:focus,
+      .f-select:focus,
+      .f-textarea:focus {
+        outline: none;
+        border-color: #5dac96;
+        box-shadow: 0 0 0 3px rgba(93, 172, 150, 0.13);
+      }
+      .f-input::placeholder,
+      .f-textarea::placeholder {
+        color: #7a9ca8;
+      }
+      .f-select option {
+        background: #ffffff;
+        color: #0e1c28;
+      }
+      .mb2 {
+        margin-bottom: 14px;
+      }
+      .mb3 {
+        margin-bottom: 18px;
+      }
+      .g2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 13px;
+      }
+      @media (max-width: 520px) {
+        .g2 {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* ── BUTTONS ── */
+      .btn-t {
+        background: #5dac96;
+        color: #ffffff;
+        border: none;
+        padding: 9px 22px;
+        border-radius: 9px;
+        font-family: "Outfit", sans-serif;
+        font-weight: 700;
+        font-size: 0.85rem;
+        cursor: pointer;
+        transition:
+          background 0.2s,
+          transform 0.15s,
+          box-shadow 0.2s;
+        box-shadow: 0 3px 14px rgba(93, 172, 150, 0.3);
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+      }
+      .btn-t:hover {
+        background: #3d8f7a;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 22px rgba(93, 172, 150, 0.42);
+      }
+      .btn-n {
+        background: #1b5271;
+        color: #ffffff;
+        border: none;
+        padding: 9px 22px;
+        border-radius: 9px;
+        font-family: "Outfit", sans-serif;
+        font-weight: 700;
+        font-size: 0.85rem;
+        cursor: pointer;
+        transition:
+          background 0.2s,
+          transform 0.15s;
+        box-shadow: 0 3px 14px rgba(27, 82, 113, 0.22);
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+      }
+      .btn-n:hover {
+        background: #0e2e42;
+        transform: translateY(-2px);
+      }
+      .btn-g {
+        background: #ffffff;
+        color: #1b5271;
+        border: 1.5px solid #d1e4de;
+        padding: 9px 20px;
+        border-radius: 9px;
+        font-family: "Outfit", sans-serif;
+        font-weight: 600;
+        font-size: 0.85rem;
+        cursor: pointer;
+        transition: all 0.18s;
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+      }
+      .btn-g:hover {
+        border-color: #5dac96;
+        background: #edf5f2;
+      }
+      .btn-sm {
+        padding: 5px 12px;
+        border-radius: 7px;
+        font-family: "Outfit", sans-serif;
+        font-weight: 700;
+        font-size: 0.75rem;
+        cursor: pointer;
+        transition: all 0.18s;
+        border: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+      }
+      .bsm-t {
+        background: #edf5f2;
+        color: #5dac96;
+        border: 1px solid #d1e4de;
+      }
+      .bsm-t:hover {
+        background: #c8e9e1;
+        border-color: #9dd1c2;
+      }
+      .bsm-r {
+        background: #fae8e8;
+        color: #d94f4f;
+        border: 1px solid #f0aaaa;
+      }
+      .bsm-r:hover {
+        background: #f0aaaa;
+      }
+      .bsm-n {
+        background: #d4e4ee;
+        color: #1b5271;
+        border: 1px solid #9bbbd4;
+      }
+      .bsm-n:hover {
+        background: #9bbbd4;
+      }
+      .w100 {
+        width: 100%;
+        justify-content: center;
+      }
+
+      /* ── SEARCH BAR ── */
+      .srch-wrap {
+        position: relative;
+        flex: 1;
+        min-width: 180px;
+      }
+      .srch-ico {
+        position: absolute;
+        left: 11px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 0.83rem;
+        color: #7a9ca8;
+        pointer-events: none;
+      }
+      .srch-input {
+        width: 100%;
+        background: #ffffff;
+        border: 1.5px solid #d1e4de;
+        border-radius: 9px;
+        color: #0e1c28;
+        font-family: "Outfit", sans-serif;
+        font-size: 0.85rem;
+        padding: 8px 12px 8px 34px;
+        transition:
+          border-color 0.2s,
+          box-shadow 0.2s;
+      }
+      .srch-input:focus {
+        outline: none;
+        border-color: #5dac96;
+        box-shadow: 0 0 0 3px rgba(93, 172, 150, 0.12);
+      }
+      .srch-input::placeholder {
+        color: #7a9ca8;
+      }
+      .toolbar {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-bottom: 14px;
+      }
+
+      /* ── MODAL ── */
+      .ph-modal-ov {
+        position: fixed;
+        inset: 0;
+        background: rgba(14, 28, 40, 0.44);
+        backdrop-filter: blur(4px);
+        z-index: 2000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 24px;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.26s;
+      }
+      .ph-modal-ov.open {
+        opacity: 1;
+        pointer-events: all;
+      }
+      .ph-modal {
+        background: #ffffff;
+        border: 1px solid #d1e4de;
+        border-radius: 18px;
+        width: 100%;
+        max-width: 540px;
+        max-height: 90vh;
+        overflow-y: auto;
+        box-shadow: 0 24px 72px rgba(27, 82, 113, 0.2);
+        transform: translateY(14px);
+        transition: transform 0.26s cubic-bezier(0.4, 0.2, 0.2, 1);
+      }
+      .ph-modal-ov.open .ph-modal {
+        transform: translateY(0);
+      }
+      .ph-modal-hdr {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 17px 22px;
+        border-bottom: 1px solid #d1e4de;
+        background: #f4f8f7;
+        border-radius: 18px 18px 0 0;
+      }
+      .ph-modal-title {
+        font-family: "Instrument Serif", serif;
+        font-size: 1.2rem;
+        color: #1b5271;
+      }
+      .ph-modal-close {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background: #ffffff;
+        border: 1px solid #d1e4de;
+        font-size: 0.85rem;
+        color: #7a9ca8;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.18s;
+      }
+      .ph-modal-close:hover {
+        background: #fae8e8;
+        border-color: #f0aaaa;
+        color: #d94f4f;
+      }
+      .ph-modal-body {
+        padding: 20px 22px;
+      }
+      .ph-modal-foot {
+        padding: 13px 22px;
+        border-top: 1px solid #d1e4de;
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+        background: #f4f8f7;
+        border-radius: 0 0 18px 18px;
+      }
+
+      /* ── TOAST ── */
+      .ph-toasts {
+        position: fixed;
+        bottom: 24px;
+        right: 24px;
+        z-index: 9999;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      .ph-toast {
+        background: #ffffff;
+        border: 1px solid #d1e4de;
+        border-radius: 11px;
+        padding: 12px 17px;
+        min-width: 270px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        box-shadow: 0 6px 28px rgba(27, 82, 113, 0.13);
+        animation: phIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+        font-family: "Outfit", sans-serif;
+      }
+      .ph-toast.s {
+        border-left: 3px solid #2daf83;
+      }
+      .ph-toast.e {
+        border-left: 3px solid #d94f4f;
+      }
+      .ph-toast.i {
+        border-left: 3px solid #3a8dc4;
+      }
+      .ph-toast.w {
+        border-left: 3px solid #d98a2a;
+      }
+      @keyframes phIn {
+        from {
+          opacity: 0;
+          transform: translateX(16px);
+        }
+        to {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+
+      /* ── PROFILE PANEL ── */
+      .prof-header {
+        background: linear-gradient(135deg, #1b5271, #0e2e42);
+        padding: 28px 24px;
+        border-radius: 14px;
+        margin-bottom: 18px;
+        color: #ffffff;
+        position: relative;
+        overflow: hidden;
+      }
+      .prof-header::before {
+        content: "";
+        position: absolute;
+        width: 300px;
+        height: 300px;
+        border-radius: 50%;
+        background: radial-gradient(
+          circle,
+          rgba(93, 172, 150, 0.18) 0%,
+          transparent 70%
+        );
+        top: -100px;
+        right: -80px;
+        pointer-events: none;
+      }
+      .prof-avatar {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #5dac96, #9dd1c2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 800;
+        font-size: 1.3rem;
+        color: #ffffff;
+        margin-bottom: 14px;
+        flex-shrink: 0;
+      }
+      .prof-name {
+        font-family: "Instrument Serif", serif;
+        font-size: 1.6rem;
+        color: #ffffff;
+        margin-bottom: 4px;
+      }
+      .prof-meta {
+        font-size: 0.82rem;
+        color: #9dd1c2;
+      }
+
+      /* adherence bar inside profile */
+      .adh-bar {
+        height: 6px;
+        border-radius: 100px;
+        background: rgba(255, 255, 255, 0.15);
+        overflow: hidden;
+        margin-top: 8px;
+      }
+      .adh-fill {
+        height: 100%;
+        border-radius: 100px;
+        transition: width 1.1s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .adh-fill.hi {
+        background: linear-gradient(90deg, #5dac96, #9dd1c2);
+      }
+      .adh-fill.md {
+        background: linear-gradient(90deg, #d98a2a, #f0c070);
+      }
+      .adh-fill.lo {
+        background: linear-gradient(90deg, #d94f4f, #f09090);
+      }
+
+      /* card info tile */
+      .card-tile {
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        border-radius: 10px;
+        padding: 10px 14px;
+        text-align: center;
+      }
+      .card-tile-lbl {
+        font-size: 0.6rem;
+        font-weight: 700;
+        letter-spacing: 0.07em;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.55);
+        margin-bottom: 4px;
+      }
+      .card-tile-val {
+        font-size: 0.85rem;
+        font-weight: 700;
+        color: #ffffff;
+      }
+
+      /* ── ALERT BOX ── */
+      .ph-alert {
+        border-radius: 9px;
+        padding: 11px 14px;
+        font-size: 0.85rem;
+        display: flex;
+        gap: 9px;
+        align-items: flex-start;
+        margin-bottom: 14px;
+      }
+      .ph-alert.info {
+        background: #dcf0fa;
+        border: 1px solid #9dd0f0;
+        color: #1a6496;
+      }
+      .ph-alert.warning {
+        background: #fbf5e6;
+        border: 1px solid #f0cc88;
+        color: #a0620a;
+      }
+      .ph-alert.danger {
+        background: #fae8e8;
+        border: 1px solid #f0aaaa;
+        color: #b03030;
+      }
+      .ph-alert.success {
+        background: #d5f3eb;
+        border: 1px solid #a8e4d0;
+        color: #1e8a65;
+      }
+
+      /* ── LOGIN SCREEN ── */
+      .login-wrap {
+        min-height: 100vh;
+        background: #f4f8f7;
+        padding: 40px 24px;
+      }
+      .login-nav {
+        background: rgba(244, 248, 247, 0.96);
+        backdrop-filter: blur(20px);
+        border: 1px solid #d1e4de;
+        height: 56px;
+        display: flex;
+        align-items: center;
+        padding: 0 24px;
+        justify-content: space-between;
+        border-radius: 8px;
+        margin-bottom: 20px;
+      }
+      .login-panel {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        background: #ffffff;
+        border: 1px solid #d1e4de;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 8px 40px rgba(27, 82, 113, 0.12);
+        width: 100%;
+        max-width: 860px;
+        margin: 0 auto;
+      }
+      @media (max-width: 700px) {
+        .login-panel {
+          grid-template-columns: 1fr;
+        }
+        .login-left {
+          display: none !important;
+        }
+      }
+      .login-left {
+        background: #1b5271;
+        padding: 48px 40px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+      }
+      .login-left::before {
+        content: "";
+        position: absolute;
+        width: 300px;
+        height: 300px;
+        border-radius: 50%;
+        background: radial-gradient(
+          circle,
+          rgba(93, 172, 150, 0.18) 0%,
+          transparent 70%
+        );
+        top: -80px;
+        right: -80px;
+        pointer-events: none;
+      }
+      .login-left h2 {
+        font-family: "Instrument Serif", serif;
+        font-weight: 400;
+        font-size: 2rem;
+        color: #ffffff;
+        line-height: 1.2;
+        margin-bottom: 14px;
+        letter-spacing: -0.02em;
+      }
+      .login-left h2 em {
+        font-style: italic;
+        color: #9dd1c2;
+      }
+      .login-left p {
+        color: rgba(255, 255, 255, 0.6);
+        font-size: 0.88rem;
+        line-height: 1.7;
+        margin-bottom: 28px;
+        font-weight: 300;
+      }
+      .login-feat {
+        display: flex;
+        align-items: center;
+        gap: 11px;
+        margin-bottom: 13px;
+      }
+      .login-feat-icon {
+        width: 32px;
+        height: 32px;
+        border-radius: 9px;
+        background: rgba(93, 172, 150, 0.15);
+        border: 1px solid rgba(93, 172, 150, 0.28);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.9rem;
+        flex-shrink: 0;
+      }
+      .login-feat span {
+        font-size: 0.83rem;
+        color: rgba(255, 255, 255, 0.7);
+      }
+      .login-right {
+        padding: 48px 40px;
+      }
+      .login-logo {
+        font-family: "Outfit", sans-serif;
+        font-weight: 800;
+        font-size: 1.35rem;
+        color: #1b5271;
+        margin-bottom: 5px;
+        letter-spacing: -0.025em;
+      }
+      .login-logo span {
+        color: #5dac96;
+      }
+      .login-badge {
+        display: inline-block;
+        background: #edf5f2;
+        border: 1px solid #d1e4de;
+        border-radius: 7px;
+        padding: 3px 11px;
+        font-size: 0.68rem;
+        font-weight: 700;
+        color: #5dac96;
+        letter-spacing: 0.07em;
+        text-transform: uppercase;
+        margin-bottom: 26px;
+      }
+      .login-title {
+        font-family: "Instrument Serif", serif;
+        font-size: 1.55rem;
+        color: #1b5271;
+        margin-bottom: 4px;
+      }
+      .login-sub {
+        font-size: 0.8rem;
+        color: #7a9ca8;
+        margin-bottom: 26px;
+      }
+      .tab-row {
+        display: flex;
+        gap: 4px;
+        background: #edf5f2;
+        border: 1px solid #d1e4de;
+        border-radius: 9px;
+        padding: 4px;
+        margin-bottom: 22px;
+      }
+      .t-btn {
+        flex: 1;
+        padding: 8px 12px;
+        border: none;
+        border-radius: 7px;
+        background: transparent;
+        color: #7a9ca8;
+        font-family: "Outfit", sans-serif;
+        font-weight: 600;
+        font-size: 0.82rem;
+        cursor: pointer;
+        transition: all 0.18s;
+      }
+      .t-btn.active {
+        background: #ffffff;
+        color: #1b5271;
+        border: 1px solid #d1e4de;
+        box-shadow: 0 2px 8px rgba(27, 82, 113, 0.08);
+      }
+      .t-panel {
+        display: none;
+      }
+      .t-panel.active {
+        display: block;
+      }
+
+      /* ── DISPENSE LOG ENTRY ── */
+      .disp-entry {
+        padding: 14px 18px;
+        border-bottom: 1px solid #d1e4de;
+        display: flex;
+        align-items: flex-start;
+        gap: 13px;
+        transition: background 0.18s;
+      }
+      .disp-entry:hover {
+        background: #edf5f2;
+      }
+      .disp-entry:last-child {
+        border-bottom: none;
+      }
+      .disp-icon {
+        width: 38px;
+        height: 38px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.1rem;
+        flex-shrink: 0;
+      }
+
+      /* ── RESPONSIVE ── */
+      @media (max-width: 900px) {
+        .ph-layout {
+          grid-template-columns: 1fr;
+        }
+        .ph-sidebar {
+          display: none;
+        }
+        .ph-main {
+          padding: 16px;
+        }
+      }
+      @media (max-width: 768px) {
+        .ph-main {
+          padding: 12px;
+        }
+        /* Mobile tab bar */
+        .mobile-tab-bar {
+          display: flex;
+          gap: 6px;
+          padding: 6px 2px 10px;
+          margin: 0 0 16px;
+          flex-wrap: wrap;
+          justify-content: center;
+        }
+        .mobile-tab-bar::-webkit-scrollbar {
+          display: none;
+        }
+        .mobile-tab-btn {
+          flex: 0 0 auto;
+          padding: 7px 14px;
+          border-radius: 18px;
+          border: 1.5px solid #d1e4de;
+          background: #ffffff;
+          color: #7a9ca8;
+          font-family: "Outfit", sans-serif;
+          font-weight: 600;
+          font-size: 0.76rem;
+          cursor: pointer;
+          white-space: nowrap;
+          transition: all 0.18s ease;
+        }
+        .mobile-tab-btn.active {
+          background: #edf5f2;
+          color: #1b5271;
+          border-color: #5dac96;
+          font-weight: 700;
+        }
+        .kpi-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ══ LOGIN SCREEN ══════════════════════════════════════ -->
+    <div id="loginScreen" class="login-wrap">
+      <!-- Navbar (logo on left, back to home on right) -->
+      <nav class="login-nav">
+        <a href="index.html" class="pharm-nav-brand">
+          <img src="logo.png" alt="" /> Dawa<span class="dot">Track</span>
+        </a>
+        <a href="index.html" class="login-nav-back">← Back to home</a>
+      </nav>
+
+      <div class="login-panel">
+        <!-- Left branding -->
+        <div class="login-left">
+          <div
+            style="
+              font-family: &quot;Outfit&quot;, sans-serif;
+              font-weight: 800;
+              font-size: 1.3rem;
+              color: #ffffff;
+              margin-bottom: 24px;
+              letter-spacing: -0.025em;
+            "
+          >
+            Dawa<span style="color: #9dd1c2">Track</span>
+          </div>
+          <h2>Pharmacy,<br /><em>powered up</em></h2>
+          <p>
+            View patient prescriptions, track medication dispensing, manage
+            Smart Card discounts — all in one focused workspace.
+          </p>
+          <div class="login-feat">
+            <div class="login-feat-icon">👥</div>
+            <span>Search and open any patient profile</span>
+          </div>
+          <div class="login-feat">
+            <div class="login-feat-icon">💊</div>
+            <span>View prescriptions with dosage details</span>
+          </div>
+          <div class="login-feat">
+            <div class="login-feat-icon">📋</div>
+            <span>Record taken, missed, or dispensed doses</span>
+          </div>
+          <div class="login-feat">
+            <div class="login-feat-icon">🏷️</div>
+            <span>HAMAT Smart Card automatic discounts</span>
+          </div>
+          <div class="login-feat">
+            <div class="login-feat-icon">📡</div>
+            <span>Receive medicine requests from patients live</span>
+          </div>
+        </div>
+
+        <!-- Right form -->
+        <div class="login-right">
+          <div class="login-logo">Dawa<span>Track</span></div>
+          <div class="login-badge">💊 Pharmacy Portal</div>
+
+          <div class="tab-row">
+            <button
+              class="t-btn active"
+              onclick="switchLoginTab('tl-login', this)"
+            >
+              Sign In
+            </button>
+            <button class="t-btn" onclick="switchLoginTab('tl-register', this)">
+              Create Account
+            </button>
+          </div>
+
+          <!-- Sign In -->
+          <div id="tl-login" class="t-panel active">
+            <div class="login-title">Welcome back</div>
+            <div class="login-sub">Sign in to the pharmacy dashboard</div>
+            <div class="mb3">
+              <label class="f-label">Email Address</label>
+              <input
+                type="email"
+                id="loginEmail"
+                class="f-input"
+                placeholder="pharmacy@email.com"
+              />
+            </div>
+            <div class="mb3">
+              <label class="f-label">Password</label>
+              <input
+                type="password"
+                id="loginPass"
+                class="f-input"
+                placeholder="••••••••"
+                onkeydown="if (event.key === 'Enter') handlePhLogin();"
+              />
+            </div>
+            <button
+              class="btn-t w100"
+              onclick="handlePhLogin()"
+              style="padding: 12px; font-size: 0.92rem"
+            >
+              Sign In →
+            </button>
+            <p
+              style="
+                margin-top: 14px;
+                text-align: center;
+                font-size: 0.76rem;
+                color: #7a9ca8;
+              "
+            >
+              Back to
+              <a
+                href="portal.html"
+                style="color: #5dac96; font-weight: 600; text-decoration: none"
+                >Patient / Doctor portal</a
+              >
+            </p>
+          </div>
+
+          <!-- Create Account -->
+          <div id="tl-register" class="t-panel">
+            <div class="login-title">Create pharmacy account</div>
+            <div class="login-sub">
+              Use access code PH2026 to register as a pharmacist
+            </div>
+            <div class="mb3">
+              <label class="f-label">Full Name *</label
+              ><input
+                type="text"
+                id="regName"
+                class="f-input"
+                placeholder="Purity Wanjiru"
+              />
+            </div>
+            <div class="mb3">
+              <label class="f-label">Pharmacy / Branch Name *</label
+              ><input
+                type="text"
+                id="regBranch"
+                class="f-input"
+                placeholder="HAMAT Pharmacy – Ruiru Branch"
+              />
+            </div>
+            <div class="mb3">
+              <label class="f-label">Email Address *</label
+              ><input
+                type="email"
+                id="regEmail"
+                class="f-input"
+                placeholder="purity@hamatpharmacy.com"
+              />
+            </div>
+            <div class="mb3">
+              <label class="f-label">Phone Number</label
+              ><input
+                type="tel"
+                id="regPhone"
+                class="f-input"
+                placeholder="+254 7xx xxx xxx"
+              />
+            </div>
+            <div class="g2">
+              <div class="mb3">
+                <label class="f-label">Password *</label
+                ><input
+                  type="password"
+                  id="regPass"
+                  class="f-input"
+                  placeholder="Min 6 chars"
+                />
+              </div>
+              <div class="mb3">
+                <label class="f-label">Access Code *</label
+                ><input
+                  type="text"
+                  id="regCode"
+                  class="f-input"
+                  placeholder="PH2026"
+                />
+              </div>
+            </div>
+            <button
+              class="btn-t w100"
+              onclick="handlePhRegister()"
+              style="padding: 12px; font-size: 0.92rem"
+            >
+              Create Account →
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <!-- Right form -->
-    <div class="login-right">
-      <div class="login-logo">Dawa<span>Track</span></div>
-      <div class="login-badge">💊 Pharmacy Portal</div>
-
-      <div class="tab-row">
-        <button class="t-btn active" onclick="switchLoginTab('tl-login',this)">Sign In</button>
-        <button class="t-btn" onclick="switchLoginTab('tl-register',this)">Create Account</button>
-      </div>
-
-      <!-- Sign In -->
-      <div id="tl-login" class="t-panel active">
-        <div class="login-title">Welcome back</div>
-        <div class="login-sub">Sign in to the pharmacy dashboard</div>
-        <div class="mb3">
-          <label class="f-label">Email Address</label>
-          <input type="email" id="loginEmail" class="f-input" placeholder="pharmacy@email.com">
+    <!-- ══ MAIN DASHBOARD (hidden until logged in) ═════════ -->
+    <div id="dashScreen" style="display: none">
+      <!-- NAVBAR -->
+      <nav class="ph-nav">
+        <a href="index.html" class="ph-brand">DawaTrack</a>
+        <div class="ph-pill">💊 Pharmacy</div>
+        <div class="ph-nav-right">
+          <div class="ph-user-chip">
+            <div class="ph-avatar" id="navAvatar">PH</div>
+            <div>
+              <div class="ph-user-name" id="navName">—</div>
+              <div class="ph-user-role" id="navBranch">Pharmacist</div>
+            </div>
+          </div>
         </div>
-        <div class="mb3">
-          <label class="f-label">Password</label>
-          <input type="password" id="loginPass" class="f-input" placeholder="••••••••"
-                 onkeydown="if(event.key==='Enter')handlePhLogin()">
-        </div>
-        <button class="btn-t w100" onclick="handlePhLogin()" style="padding:12px;font-size:0.92rem;">Sign In →</button>
-        <p style="margin-top:14px;text-align:center;font-size:0.76rem;color:#7A9CA8;">Back to <a href="portal.html" style="color:#5DAC96;font-weight:600;text-decoration:none;">Patient / Doctor portal</a></p>
-      </div>
+      </nav>
 
-      <!-- Create Account -->
-      <div id="tl-register" class="t-panel">
-        <div class="login-title">Create pharmacy account</div>
-        <div class="login-sub">Use access code PH2026 to register as a pharmacist</div>
-        <div class="mb3"><label class="f-label">Full Name *</label><input type="text" id="regName" class="f-input" placeholder="Purity Wanjiru"></div>
-        <div class="mb3"><label class="f-label">Pharmacy / Branch Name *</label><input type="text" id="regBranch" class="f-input" placeholder="HAMAT Pharmacy – Ruiru Branch"></div>
-        <div class="mb3"><label class="f-label">Email Address *</label><input type="email" id="regEmail" class="f-input" placeholder="purity@hamatpharmacy.com"></div>
-        <div class="mb3"><label class="f-label">Phone Number</label><input type="tel" id="regPhone" class="f-input" placeholder="+254 7xx xxx xxx"></div>
-        <div class="g2">
-          <div class="mb3"><label class="f-label">Password *</label><input type="password" id="regPass" class="f-input" placeholder="Min 6 chars"></div>
-          <div class="mb3"><label class="f-label">Access Code *</label><input type="text" id="regCode" class="f-input" placeholder="PH2026"></div>
-        </div>
-        <button class="btn-t w100" onclick="handlePhRegister()" style="padding:12px;font-size:0.92rem;">Create Account →</button>
-      </div>
+      <!-- LAYOUT -->
+      <div class="ph-layout">
+        <!-- SIDEBAR -->
+        <aside class="ph-sidebar">
+          <div class="ph-sb-logo"><span>💊</span> Pharmacy</div>
 
+          <div class="ph-sb-section">
+            <div class="ph-sb-lbl">Core</div>
+            <button
+              class="ph-sb-link active"
+              onclick="showPanel('p-overview', this)"
+            >
+              <span class="ico">📊</span> Overview
+            </button>
+            <button class="ph-sb-link" onclick="showPanel('p-search', this)">
+              <span class="ico">🔍</span> Patient Search
+            </button>
+            <button class="ph-sb-link" onclick="showPanel('p-requests', this)">
+              <span class="ico">📬</span> Patient Requests
+              <span class="req-badge" id="reqBadge" style="display: none"
+                >0</span
+              >
+            </button>
+            <button class="ph-sb-link" onclick="showPanel('p-log', this)">
+              <span class="ico">📋</span> Dispensing Log
+            </button>
+          </div>
+
+          <div class="ph-sb-section">
+            <div class="ph-sb-lbl">HAMAT Card</div>
+            <button class="ph-sb-link" onclick="showPanel('p-card', this)">
+              <span class="ico">🏷️</span> Smart Card Discounts
+            </button>
+          </div>
+
+          <div class="ph-sb-section">
+            <div class="ph-sb-lbl">Account</div>
+            <button class="ph-sb-link" onclick="handlePhLogout()">
+              <span class="ico">🚪</span> Sign Out
+            </button>
+          </div>
+
+          <!-- Pending requests alert -->
+          <div class="sb-alert sb-alert-red" id="sbAlertReq">
+            <div class="sb-alert-lbl">📬 Pending Requests</div>
+            <div class="sb-alert-val" id="sbReqCount">0</div>
+            <div class="sb-alert-sub">medicine refill requests</div>
+            <button
+              onclick="showPanel('p-requests', null)"
+              style="
+                width: 100%;
+                background: #d94f4f;
+                border: none;
+                color: #ffffff;
+                border-radius: 7px;
+                padding: 7px;
+                font-size: 0.76rem;
+                font-family: &quot;Outfit&quot;, sans-serif;
+                font-weight: 700;
+                cursor: pointer;
+              "
+            >
+              Review →
+            </button>
+          </div>
+        </aside>
+
+        <!-- MAIN -->
+        <main class="ph-main">
+          <!-- Mobile tab bar (hidden on desktop) -->
+          <div class="mobile-tab-bar" style="display: none">
+            <button
+              class="mobile-tab-btn active"
+              onclick="showPanel('p-overview', this)"
+            >
+              📊 Overview
+            </button>
+            <button
+              class="mobile-tab-btn"
+              onclick="showPanel('p-search', this)"
+            >
+              🔍 Search
+            </button>
+            <button
+              class="mobile-tab-btn"
+              onclick="showPanel('p-requests', this)"
+            >
+              💬 Requests
+            </button>
+            <button class="mobile-tab-btn" onclick="showPanel('p-log', this)">
+              📋 Log
+            </button>
+            <button class="mobile-tab-btn" onclick="showPanel('p-card', this)">
+              🏷️ Smart Card
+            </button>
+            <button class="mobile-tab-btn" onclick="handlePhLogout()">
+              🚪 Logout
+            </button>
+          </div>
+
+          <!-- Header -->
+          <div class="ph-header">
+            <div>
+              <div class="ph-page-title" id="pageTitle">Overview</div>
+              <div class="ph-page-sub" id="pageSub">
+                Today's pharmacy activity
+              </div>
+            </div>
+            <div
+              style="
+                display: flex;
+                gap: 10px;
+                flex-wrap: wrap;
+                align-items: center;
+              "
+            >
+              <div class="date-chip">📅 <strong id="todayDate"></strong></div>
+              <button class="btn-t" onclick="openDispenseModal()">
+                + Dispense Medicine
+              </button>
+            </div>
+          </div>
+
+          <!-- ═══ PANEL: OVERVIEW ═══ -->
+          <div id="p-overview" class="ph-panel active">
+            <div class="kpi-grid">
+              <div class="kpi-card">
+                <div class="kpi-accent teal"></div>
+                <div class="kpi-lbl">Patients Served Today</div>
+                <div class="kpi-val" id="k-today">—</div>
+                <div class="kpi-sub">dispensing events</div>
+              </div>
+              <div class="kpi-card">
+                <div class="kpi-accent green"></div>
+                <div class="kpi-lbl">Total Dispensed</div>
+                <div class="kpi-val" id="k-total">—</div>
+                <div class="kpi-sub">all time</div>
+              </div>
+              <div class="kpi-card">
+                <div class="kpi-accent amber"></div>
+                <div class="kpi-lbl">Pending Requests</div>
+                <div class="kpi-val" id="k-req">—</div>
+                <div class="kpi-sub">from patients</div>
+              </div>
+              <div class="kpi-card">
+                <div class="kpi-accent navy"></div>
+                <div class="kpi-lbl">Smart Card Patients</div>
+                <div class="kpi-val" id="k-sc">—</div>
+                <div class="kpi-sub">HAMAT card holders</div>
+              </div>
+            </div>
+
+            <!-- Live request feed -->
+            <div class="panel">
+              <div class="panel-hdr">
+                <div>
+                  <div class="panel-title">📬 Live Patient Requests</div>
+                  <div class="panel-sub">
+                    Medicine refill requests — updates every 5 seconds
+                  </div>
+                </div>
+                <div
+                  style="
+                    display: flex;
+                    align-items: center;
+                    gap: 6px;
+                    font-size: 0.73rem;
+                    color: #2daf83;
+                    font-weight: 600;
+                  "
+                >
+                  <div
+                    style="
+                      width: 7px;
+                      height: 7px;
+                      border-radius: 50%;
+                      background: #2daf83;
+                      animation: phIn 2s ease infinite;
+                    "
+                  ></div>
+                  Live
+                </div>
+              </div>
+              <div
+                class="panel-body"
+                id="overviewRequests"
+                style="max-height: 320px; overflow-y: auto"
+              ></div>
+            </div>
+
+            <!-- Recent dispensing -->
+            <div class="panel">
+              <div class="panel-hdr">
+                <div>
+                  <div class="panel-title">Recent Dispensing Activity</div>
+                  <div class="panel-sub">Last 8 dispensing events</div>
+                </div>
+                <button class="btn-sm bsm-t" onclick="showPanel('p-log', null)">
+                  Full Log →
+                </button>
+              </div>
+              <div class="panel-body" style="overflow-x: auto">
+                <table class="ph-table" id="recentDispTable">
+                  <thead>
+                    <tr>
+                      <th>Patient</th>
+                      <th>Medicine</th>
+                      <th>Dosage</th>
+                      <th>Qty</th>
+                      <th>Status</th>
+                      <th>Smart Card</th>
+                      <th>Time</th>
+                    </tr>
+                  </thead>
+                  <tbody id="recentDispBody"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- ═══ PANEL: PATIENT SEARCH ═══ -->
+          <div id="p-search" class="ph-panel">
+            <div class="toolbar">
+              <div class="srch-wrap">
+                <span class="srch-ico">🔍</span>
+                <input
+                  type="text"
+                  class="srch-input"
+                  id="patSearchInput"
+                  placeholder="Search by name, ID or email…"
+                  oninput="searchPatients()"
+                />
+              </div>
+            </div>
+
+            <div class="ph-alert info">
+              <span>💡</span>
+              <div>
+                Search for a patient to view their full prescription history,
+                medication log, dosage details, and update their dose status.
+              </div>
+            </div>
+
+            <!-- Search results -->
+            <div id="searchResults">
+              <div
+                style="
+                  text-align: center;
+                  padding: 48px 20px;
+                  background: #ffffff;
+                  border: 1px solid #d1e4de;
+                  border-radius: 14px;
+                "
+              >
+                <div style="font-size: 3rem; margin-bottom: 14px">🔍</div>
+                <div
+                  style="font-weight: 700; color: #1b5271; margin-bottom: 6px"
+                >
+                  Search for a patient
+                </div>
+                <p style="font-size: 0.85rem; color: #7a9ca8">
+                  Type a name, ID, or email above to find patient records.
+                </p>
+              </div>
+            </div>
+
+            <!-- Patient profile (shown after clicking a result) -->
+            <div
+              id="patientProfile"
+              style="display: none; margin-top: 18px"
+            ></div>
+          </div>
+
+          <!-- ═══ PANEL: PATIENT REQUESTS ═══ -->
+          <div id="p-requests" class="ph-panel">
+            <div class="ph-alert warning">
+              <span>⚠</span>
+              <div>
+                These are <strong>medicine-out requests</strong> submitted by
+                patients from their dashboard. Reply with availability and
+                pricing to help them get their medication.
+              </div>
+            </div>
+            <div class="panel">
+              <div class="panel-hdr">
+                <div>
+                  <div class="panel-title">📬 All Patient Requests</div>
+                  <div class="panel-sub" id="reqCount">Loading…</div>
+                </div>
+                <div style="display: flex; gap: 8px; flex-wrap: wrap">
+                  <button
+                    class="btn-sm bsm-t active"
+                    id="rf-all"
+                    onclick="filterReqs('all', this)"
+                  >
+                    All
+                  </button>
+                  <button
+                    class="btn-sm bsm-t"
+                    id="rf-pending"
+                    onclick="filterReqs('pending', this)"
+                  >
+                    Pending
+                  </button>
+                  <button
+                    class="btn-sm bsm-t"
+                    id="rf-done"
+                    onclick="filterReqs('fulfilled', this)"
+                  >
+                    Fulfilled
+                  </button>
+                </div>
+              </div>
+              <div
+                class="panel-body"
+                id="reqListBody"
+                style="max-height: 600px; overflow-y: auto"
+              ></div>
+            </div>
+          </div>
+
+          <!-- ═══ PANEL: DISPENSING LOG ═══ -->
+          <div id="p-log" class="ph-panel">
+            <div class="toolbar">
+              <div class="srch-wrap">
+                <span class="srch-ico">🔍</span
+                ><input
+                  type="text"
+                  class="srch-input"
+                  id="logSearch"
+                  placeholder="Search patient or medicine…"
+                  oninput="renderDispLog()"
+                />
+              </div>
+            </div>
+            <div class="panel">
+              <div class="panel-hdr">
+                <div>
+                  <div class="panel-title">Full Dispensing Log</div>
+                  <div class="panel-sub" id="logCount">All records</div>
+                </div>
+              </div>
+              <div class="panel-body" style="overflow-x: auto">
+                <table class="ph-table">
+                  <thead>
+                    <tr>
+                      <th>Time</th>
+                      <th>Patient</th>
+                      <th>Medicine</th>
+                      <th>Dosage</th>
+                      <th>Qty</th>
+                      <th>Status Logged</th>
+                      <th>Smart Card</th>
+                      <th>Discount</th>
+                      <th>Pharmacist</th>
+                    </tr>
+                  </thead>
+                  <tbody id="logBody"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- ═══ PANEL: SMART CARD DISCOUNTS ═══ -->
+          <div id="p-card" class="ph-panel">
+            <div class="kpi-grid" style="grid-template-columns: repeat(3, 1fr)">
+              <div class="kpi-card">
+                <div class="kpi-accent teal"></div>
+                <div class="kpi-lbl">Card Holders Served</div>
+                <div class="kpi-val" id="sc-served">—</div>
+                <div class="kpi-sub">all time</div>
+              </div>
+              <div class="kpi-card">
+                <div class="kpi-accent green"></div>
+                <div class="kpi-lbl">Total Discount Given</div>
+                <div class="kpi-val" id="sc-disc">—</div>
+                <div class="kpi-sub">KSh saved by patients</div>
+              </div>
+              <div class="kpi-card">
+                <div class="kpi-accent navy"></div>
+                <div class="kpi-lbl">Transactions</div>
+                <div class="kpi-val" id="sc-txn">—</div>
+                <div class="kpi-sub">card-used visits</div>
+              </div>
+            </div>
+            <div class="panel">
+              <div class="panel-hdr">
+                <div>
+                  <div class="panel-title">HAMAT Smart Card Discount Tiers</div>
+                  <div class="panel-sub">
+                    Applied automatically at dispensing
+                  </div>
+                </div>
+              </div>
+              <div class="panel-body" style="overflow-x: auto">
+                <table class="ph-table">
+                  <thead>
+                    <tr>
+                      <th>Plan</th>
+                      <th>Card Code</th>
+                      <th>Pharmacy Discount</th>
+                      <th>Free Consultations</th>
+                      <th>How to Verify</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <strong style="color: #1b5271">Basic Rider</strong>
+                      </td>
+                      <td><span class="badge bt">HMT-BAS</span></td>
+                      <td>
+                        <span
+                          style="
+                            font-weight: 700;
+                            color: #5dac96;
+                            font-size: 1rem;
+                          "
+                          >10%</span
+                        >
+                      </td>
+                      <td style="color: #7a9ca8">None</td>
+                      <td style="font-size: 0.8rem; color: #3a5563">
+                        Scan barcode on card back
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <strong style="color: #1b5271">Plus Rider</strong>
+                      </td>
+                      <td><span class="badge bn">HMT-PLU</span></td>
+                      <td>
+                        <span
+                          style="
+                            font-weight: 700;
+                            color: #5dac96;
+                            font-size: 1rem;
+                          "
+                          >20%</span
+                        >
+                      </td>
+                      <td>1 / month</td>
+                      <td style="font-size: 0.8rem; color: #3a5563">
+                        Scan barcode on card back
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <strong style="color: #1b5271">Family Plan</strong>
+                      </td>
+                      <td><span class="badge bg">HMT-FAM</span></td>
+                      <td>
+                        <span
+                          style="
+                            font-weight: 700;
+                            color: #2daf83;
+                            font-size: 1rem;
+                          "
+                          >30%</span
+                        >
+                      </td>
+                      <td>2 / month</td>
+                      <td style="font-size: 0.8rem; color: #3a5563">
+                        Scan barcode on card back
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
     </div>
-  </div>
-</div>
 
-<!-- ══ MAIN DASHBOARD (hidden until logged in) ═════════ -->
-<div id="dashScreen" style="display:none;">
-
-  <!-- NAVBAR -->
-  <nav class="ph-nav">
-    <a href="index.html" class="ph-brand">DawaTrack</a>
-    <div class="ph-pill">💊 Pharmacy</div>
-    <div class="ph-nav-right">
-      <div class="ph-user-chip">
-        <div class="ph-avatar" id="navAvatar">PH</div>
-        <div><div class="ph-user-name" id="navName">—</div><div class="ph-user-role" id="navBranch">Pharmacist</div></div>
+    <!-- ═══ DISPENSE MODAL ════════════════════════════════ -->
+    <div class="ph-modal-ov" id="dispModal">
+      <div class="ph-modal">
+        <div class="ph-modal-hdr">
+          <div class="ph-modal-title">💊 Dispense Medicine</div>
+          <button class="ph-modal-close" onclick="closeModal('dispModal')">
+            ✕
+          </button>
+        </div>
+        <div class="ph-modal-body">
+          <div class="g2">
+            <div class="mb2">
+              <label class="f-label">Patient Name *</label
+              ><input
+                type="text"
+                id="d-patient"
+                class="f-input"
+                placeholder="e.g. Alice Kamau"
+              />
+            </div>
+            <div class="mb2">
+              <label class="f-label">Patient ID</label
+              ><input
+                type="text"
+                id="d-pid"
+                class="f-input"
+                placeholder="e.g. p_self"
+              />
+            </div>
+          </div>
+          <div class="mb2">
+            <label class="f-label">Medicine Name *</label
+            ><input
+              type="text"
+              id="d-medicine"
+              class="f-input"
+              placeholder="e.g. Metformin 500mg"
+            />
+          </div>
+          <div class="g2">
+            <div class="mb2">
+              <label class="f-label">Dosage / Strength *</label
+              ><input
+                type="text"
+                id="d-dosage"
+                class="f-input"
+                placeholder="e.g. 500mg"
+              />
+            </div>
+            <div class="mb2">
+              <label class="f-label">Quantity</label
+              ><input
+                type="number"
+                id="d-qty"
+                class="f-input"
+                placeholder="e.g. 30"
+                min="1"
+                value="30"
+              />
+            </div>
+          </div>
+          <div class="mb2">
+            <label class="f-label">Dose Status Recorded</label>
+            <select id="d-status" class="f-input" style="cursor: pointer">
+              <option value="dispensed">✅ Dispensed — given to patient</option>
+              <option value="taken">✓ Taken — patient confirms took</option>
+              <option value="missed">✗ Missed — patient missed dose</option>
+              <option value="pending">⏳ Pending — awaiting pickup</option>
+            </select>
+          </div>
+          <div class="mb2">
+            <label class="f-label">HAMAT Smart Card</label>
+            <select
+              id="d-card"
+              class="f-input"
+              style="cursor: pointer"
+              onchange="updateDiscPreview()"
+            >
+              <option value="none">No card</option>
+              <option value="HMT-BAS">Basic Rider — 10% off</option>
+              <option value="HMT-PLU">Plus Rider — 20% off</option>
+              <option value="HMT-FAM">Family Plan — 30% off</option>
+            </select>
+          </div>
+          <div
+            id="discPreview"
+            style="
+              display: none;
+              background: #edf5f2;
+              border: 1px solid #9dd1c2;
+              border-radius: 9px;
+              padding: 11px 14px;
+              margin-bottom: 12px;
+            "
+          >
+            <div
+              style="
+                font-size: 0.65rem;
+                font-weight: 800;
+                letter-spacing: 0.07em;
+                text-transform: uppercase;
+                color: #5dac96;
+                margin-bottom: 4px;
+              "
+            >
+              Smart Card Discount Applied
+            </div>
+            <div
+              id="discPreviewText"
+              style="font-size: 0.875rem; font-weight: 700; color: #1b5271"
+            ></div>
+          </div>
+          <div class="mb2">
+            <label class="f-label">Notes</label
+            ><textarea
+              id="d-notes"
+              class="f-input"
+              rows="2"
+              placeholder="Special instructions, allergies, side effects…"
+            ></textarea>
+          </div>
+        </div>
+        <div class="ph-modal-foot">
+          <button class="btn-g" onclick="closeModal('dispModal')">
+            Cancel
+          </button>
+          <button class="btn-t" onclick="submitDispense()">
+            💊 Record &amp; Log
+          </button>
+        </div>
       </div>
     </div>
-  </nav>
 
-  <!-- LAYOUT -->
-  <div class="ph-layout">
-
-    <!-- SIDEBAR -->
-    <aside class="ph-sidebar">
-      <div class="ph-sb-logo"><span>💊</span> Pharmacy</div>
-
-      <div class="ph-sb-section">
-        <div class="ph-sb-lbl">Core</div>
-        <button class="ph-sb-link active" onclick="showPanel('p-overview',this)"><span class="ico">📊</span> Overview</button>
-        <button class="ph-sb-link" onclick="showPanel('p-search',this)"><span class="ico">🔍</span> Patient Search</button>
-        <button class="ph-sb-link" onclick="showPanel('p-requests',this)">
-          <span class="ico">📬</span> Patient Requests
-          <span class="req-badge" id="reqBadge" style="display:none;">0</span>
-        </button>
-        <button class="ph-sb-link" onclick="showPanel('p-log',this)"><span class="ico">📋</span> Dispensing Log</button>
-      </div>
-
-      <div class="ph-sb-section">
-        <div class="ph-sb-lbl">HAMAT Card</div>
-        <button class="ph-sb-link" onclick="showPanel('p-card',this)"><span class="ico">🏷️</span> Smart Card Discounts</button>
-      </div>
-
-      <div class="ph-sb-section">
-        <div class="ph-sb-lbl">Account</div>
-        <button class="ph-sb-link" onclick="handlePhLogout()"><span class="ico">🚪</span> Sign Out</button>
-      </div>
-
-      <!-- Pending requests alert -->
-      <div class="sb-alert sb-alert-red" id="sbAlertReq">
-        <div class="sb-alert-lbl">📬 Pending Requests</div>
-        <div class="sb-alert-val" id="sbReqCount">0</div>
-        <div class="sb-alert-sub">medicine refill requests</div>
-        <button onclick="showPanel('p-requests',null)" style="width:100%;background:#D94F4F;border:none;color:#FFFFFF;border-radius:7px;padding:7px;font-size:0.76rem;font-family:'Outfit',sans-serif;font-weight:700;cursor:pointer;">Review →</button>
-      </div>
-    </aside>
-
-    <!-- MAIN -->
-    <main class="ph-main">
-
-    <!-- Mobile tab bar (hidden on desktop) -->
-<div class="mobile-tab-bar" style="display:none;">
-       <button class="mobile-tab-btn active" onclick="showPanel('p-overview',this)">📊 Overview</button>
-       <button class="mobile-tab-btn" onclick="showPanel('p-search',this)">🔍 Search</button>
-       <button class="mobile-tab-btn" onclick="showPanel('p-requests',this)">💬 Requests</button>
-       <button class="mobile-tab-btn" onclick="showPanel('p-log',this)">📋 Log</button>
-       <button class="mobile-tab-btn" onclick="showPanel('p-card',this)">🏷️ Smart Card</button>
-       <button class="mobile-tab-btn" onclick="handlePhLogout()">🚪 Logout</button>
-     </div>
-
-      <!-- Header -->
-      <div class="ph-header">
-        <div>
-          <div class="ph-page-title" id="pageTitle">Overview</div>
-          <div class="ph-page-sub"  id="pageSub">Today's pharmacy activity</div>
+    <!-- Reply to patient request modal -->
+    <div class="ph-modal-ov" id="replyModal">
+      <div class="ph-modal">
+        <div class="ph-modal-hdr">
+          <div class="ph-modal-title">💬 Reply to Patient Request</div>
+          <button class="ph-modal-close" onclick="closeModal('replyModal')">
+            ✕
+          </button>
         </div>
-        <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
-          <div class="date-chip">📅 <strong id="todayDate"></strong></div>
-          <button class="btn-t" onclick="openDispenseModal()">+ Dispense Medicine</button>
-        </div>
-      </div>
-
-      <!-- ═══ PANEL: OVERVIEW ═══ -->
-      <div id="p-overview" class="ph-panel active">
-        <div class="kpi-grid">
-          <div class="kpi-card"><div class="kpi-accent teal"></div><div class="kpi-lbl">Patients Served Today</div><div class="kpi-val" id="k-today">—</div><div class="kpi-sub">dispensing events</div></div>
-          <div class="kpi-card"><div class="kpi-accent green"></div><div class="kpi-lbl">Total Dispensed</div><div class="kpi-val" id="k-total">—</div><div class="kpi-sub">all time</div></div>
-          <div class="kpi-card"><div class="kpi-accent amber"></div><div class="kpi-lbl">Pending Requests</div><div class="kpi-val" id="k-req">—</div><div class="kpi-sub">from patients</div></div>
-          <div class="kpi-card"><div class="kpi-accent navy"></div><div class="kpi-lbl">Smart Card Patients</div><div class="kpi-val" id="k-sc">—</div><div class="kpi-sub">HAMAT card holders</div></div>
-        </div>
-
-        <!-- Live request feed -->
-        <div class="panel">
-          <div class="panel-hdr">
-            <div><div class="panel-title">📬 Live Patient Requests</div><div class="panel-sub">Medicine refill requests — updates every 5 seconds</div></div>
-            <div style="display:flex;align-items:center;gap:6px;font-size:0.73rem;color:#2DAF83;font-weight:600;"><div style="width:7px;height:7px;border-radius:50%;background:#2DAF83;animation:phIn 2s ease infinite;"></div>Live</div>
+        <div class="ph-modal-body">
+          <div
+            id="replyReqDetails"
+            style="
+              background: #edf5f2;
+              border: 1px solid #d1e4de;
+              border-radius: 10px;
+              padding: 14px;
+              margin-bottom: 16px;
+            "
+          ></div>
+          <div class="mb2">
+            <label class="f-label">Your Reply to Patient *</label
+            ><textarea
+              id="replyText"
+              class="f-input"
+              rows="4"
+              placeholder="e.g. We have Metformin 500mg in stock — 30 tablets at KSh 240. Come in today or we can arrange delivery. Call +254 721 600 700."
+            ></textarea>
           </div>
-          <div class="panel-body" id="overviewRequests" style="max-height:320px;overflow-y:auto;"></div>
-        </div>
-
-        <!-- Recent dispensing -->
-        <div class="panel">
-          <div class="panel-hdr">
-            <div><div class="panel-title">Recent Dispensing Activity</div><div class="panel-sub">Last 8 dispensing events</div></div>
-            <button class="btn-sm bsm-t" onclick="showPanel('p-log',null)">Full Log →</button>
+          <div class="mb2">
+            <label class="f-label">Mark Request As</label>
+            <select id="replyStatus" class="f-input" style="cursor: pointer">
+              <option value="replied">Replied — waiting for patient</option>
+              <option value="fulfilled">Fulfilled — medicine dispensed</option>
+              <option value="unavailable">Unavailable — out of stock</option>
+            </select>
           </div>
-          <div class="panel-body" style="overflow-x:auto;">
-            <table class="ph-table" id="recentDispTable">
-              <thead><tr><th>Patient</th><th>Medicine</th><th>Dosage</th><th>Qty</th><th>Status</th><th>Smart Card</th><th>Time</th></tr></thead>
-              <tbody id="recentDispBody"></tbody>
-            </table>
-          </div>
+          <input type="hidden" id="replyReqId" />
+        </div>
+        <div class="ph-modal-foot">
+          <button class="btn-g" onclick="closeModal('replyModal')">
+            Cancel
+          </button>
+          <button class="btn-t" onclick="submitReply()">📤 Send Reply</button>
         </div>
       </div>
-
-      <!-- ═══ PANEL: PATIENT SEARCH ═══ -->
-      <div id="p-search" class="ph-panel">
-        <div class="toolbar">
-          <div class="srch-wrap">
-            <span class="srch-ico">🔍</span>
-            <input type="text" class="srch-input" id="patSearchInput" placeholder="Search by name, ID or email…" oninput="searchPatients()">
-          </div>
-        </div>
-
-        <div class="ph-alert info"><span>💡</span><div>Search for a patient to view their full prescription history, medication log, dosage details, and update their dose status.</div></div>
-
-        <!-- Search results -->
-        <div id="searchResults">
-          <div style="text-align:center;padding:48px 20px;background:#FFFFFF;border:1px solid #D1E4DE;border-radius:14px;">
-            <div style="font-size:3rem;margin-bottom:14px;">🔍</div>
-            <div style="font-weight:700;color:#1B5271;margin-bottom:6px;">Search for a patient</div>
-            <p style="font-size:0.85rem;color:#7A9CA8;">Type a name, ID, or email above to find patient records.</p>
-          </div>
-        </div>
-
-        <!-- Patient profile (shown after clicking a result) -->
-        <div id="patientProfile" style="display:none;margin-top:18px;"></div>
-      </div>
-
-      <!-- ═══ PANEL: PATIENT REQUESTS ═══ -->
-      <div id="p-requests" class="ph-panel">
-        <div class="ph-alert warning"><span>⚠</span><div>These are <strong>medicine-out requests</strong> submitted by patients from their dashboard. Reply with availability and pricing to help them get their medication.</div></div>
-        <div class="panel">
-          <div class="panel-hdr">
-            <div><div class="panel-title">📬 All Patient Requests</div><div class="panel-sub" id="reqCount">Loading…</div></div>
-<div style="display:flex;gap:8px;flex-wrap:wrap;">
-               <button class="btn-sm bsm-t active" id="rf-all"     onclick="filterReqs('all',this)">All</button>
-               <button class="btn-sm bsm-t"        id="rf-pending" onclick="filterReqs('pending',this)">Pending</button>
-               <button class="btn-sm bsm-t"        id="rf-done"    onclick="filterReqs('fulfilled',this)">Fulfilled</button>
-             </div>
-          </div>
-          <div class="panel-body" id="reqListBody" style="max-height:600px;overflow-y:auto;"></div>
-        </div>
-      </div>
-
-      <!-- ═══ PANEL: DISPENSING LOG ═══ -->
-      <div id="p-log" class="ph-panel">
-        <div class="toolbar">
-          <div class="srch-wrap"><span class="srch-ico">🔍</span><input type="text" class="srch-input" id="logSearch" placeholder="Search patient or medicine…" oninput="renderDispLog()"></div>
-        </div>
-        <div class="panel">
-          <div class="panel-hdr"><div><div class="panel-title">Full Dispensing Log</div><div class="panel-sub" id="logCount">All records</div></div></div>
-          <div class="panel-body" style="overflow-x:auto;">
-            <table class="ph-table">
-              <thead><tr><th>Time</th><th>Patient</th><th>Medicine</th><th>Dosage</th><th>Qty</th><th>Status Logged</th><th>Smart Card</th><th>Discount</th><th>Pharmacist</th></tr></thead>
-              <tbody id="logBody"></tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-
-      <!-- ═══ PANEL: SMART CARD DISCOUNTS ═══ -->
-      <div id="p-card" class="ph-panel">
-        <div class="kpi-grid" style="grid-template-columns:repeat(3,1fr);">
-          <div class="kpi-card"><div class="kpi-accent teal"></div><div class="kpi-lbl">Card Holders Served</div><div class="kpi-val" id="sc-served">—</div><div class="kpi-sub">all time</div></div>
-          <div class="kpi-card"><div class="kpi-accent green"></div><div class="kpi-lbl">Total Discount Given</div><div class="kpi-val" id="sc-disc">—</div><div class="kpi-sub">KSh saved by patients</div></div>
-          <div class="kpi-card"><div class="kpi-accent navy"></div><div class="kpi-lbl">Transactions</div><div class="kpi-val" id="sc-txn">—</div><div class="kpi-sub">card-used visits</div></div>
-        </div>
-        <div class="panel">
-          <div class="panel-hdr"><div><div class="panel-title">HAMAT Smart Card Discount Tiers</div><div class="panel-sub">Applied automatically at dispensing</div></div></div>
-          <div class="panel-body" style="overflow-x:auto;">
-            <table class="ph-table">
-              <thead><tr><th>Plan</th><th>Card Code</th><th>Pharmacy Discount</th><th>Free Consultations</th><th>How to Verify</th></tr></thead>
-              <tbody>
-                <tr><td><strong style="color:#1B5271;">Basic Rider</strong></td><td><span class="badge bt">HMT-BAS</span></td><td><span style="font-weight:700;color:#5DAC96;font-size:1rem;">10%</span></td><td style="color:#7A9CA8;">None</td><td style="font-size:0.80rem;color:#3A5563;">Scan barcode on card back</td></tr>
-                <tr><td><strong style="color:#1B5271;">Plus Rider</strong></td><td><span class="badge bn">HMT-PLU</span></td><td><span style="font-weight:700;color:#5DAC96;font-size:1rem;">20%</span></td><td>1 / month</td><td style="font-size:0.80rem;color:#3A5563;">Scan barcode on card back</td></tr>
-                <tr><td><strong style="color:#1B5271;">Family Plan</strong></td><td><span class="badge bg">HMT-FAM</span></td><td><span style="font-weight:700;color:#2DAF83;font-size:1rem;">30%</span></td><td>2 / month</td><td style="font-size:0.80rem;color:#3A5563;">Scan barcode on card back</td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-
-    </main>
-  </div>
-</div>
-
-<!-- ═══ DISPENSE MODAL ════════════════════════════════ -->
-<div class="ph-modal-ov" id="dispModal">
-  <div class="ph-modal">
-    <div class="ph-modal-hdr"><div class="ph-modal-title">💊 Dispense Medicine</div><button class="ph-modal-close" onclick="closeModal('dispModal')">✕</button></div>
-    <div class="ph-modal-body">
-      <div class="g2">
-        <div class="mb2"><label class="f-label">Patient Name *</label><input type="text" id="d-patient" class="f-input" placeholder="e.g. Alice Kamau"></div>
-        <div class="mb2"><label class="f-label">Patient ID</label><input type="text" id="d-pid" class="f-input" placeholder="e.g. p_self"></div>
-      </div>
-      <div class="mb2"><label class="f-label">Medicine Name *</label><input type="text" id="d-medicine" class="f-input" placeholder="e.g. Metformin 500mg"></div>
-      <div class="g2">
-        <div class="mb2"><label class="f-label">Dosage / Strength *</label><input type="text" id="d-dosage" class="f-input" placeholder="e.g. 500mg"></div>
-        <div class="mb2"><label class="f-label">Quantity</label><input type="number" id="d-qty" class="f-input" placeholder="e.g. 30" min="1" value="30"></div>
-      </div>
-      <div class="mb2">
-        <label class="f-label">Dose Status Recorded</label>
-        <select id="d-status" class="f-input" style="cursor:pointer;">
-          <option value="dispensed">✅ Dispensed — given to patient</option>
-          <option value="taken">✓ Taken — patient confirms took</option>
-          <option value="missed">✗ Missed — patient missed dose</option>
-          <option value="pending">⏳ Pending — awaiting pickup</option>
-        </select>
-      </div>
-      <div class="mb2">
-        <label class="f-label">HAMAT Smart Card</label>
-        <select id="d-card" class="f-input" style="cursor:pointer;" onchange="updateDiscPreview()">
-          <option value="none">No card</option>
-          <option value="HMT-BAS">Basic Rider — 10% off</option>
-          <option value="HMT-PLU">Plus Rider — 20% off</option>
-          <option value="HMT-FAM">Family Plan — 30% off</option>
-        </select>
-      </div>
-      <div id="discPreview" style="display:none;background:#EDF5F2;border:1px solid #9DD1C2;border-radius:9px;padding:11px 14px;margin-bottom:12px;">
-        <div style="font-size:0.65rem;font-weight:800;letter-spacing:0.07em;text-transform:uppercase;color:#5DAC96;margin-bottom:4px;">Smart Card Discount Applied</div>
-        <div id="discPreviewText" style="font-size:0.875rem;font-weight:700;color:#1B5271;"></div>
-      </div>
-      <div class="mb2"><label class="f-label">Notes</label><textarea id="d-notes" class="f-input" rows="2" placeholder="Special instructions, allergies, side effects…"></textarea></div>
     </div>
-    <div class="ph-modal-foot">
-      <button class="btn-g" onclick="closeModal('dispModal')">Cancel</button>
-      <button class="btn-t" onclick="submitDispense()">💊 Record &amp; Log</button>
-    </div>
-  </div>
-</div>
 
-<!-- Reply to patient request modal -->
-<div class="ph-modal-ov" id="replyModal">
-  <div class="ph-modal">
-    <div class="ph-modal-hdr"><div class="ph-modal-title">💬 Reply to Patient Request</div><button class="ph-modal-close" onclick="closeModal('replyModal')">✕</button></div>
-    <div class="ph-modal-body">
-      <div id="replyReqDetails" style="background:#EDF5F2;border:1px solid #D1E4DE;border-radius:10px;padding:14px;margin-bottom:16px;"></div>
-      <div class="mb2"><label class="f-label">Your Reply to Patient *</label><textarea id="replyText" class="f-input" rows="4" placeholder="e.g. We have Metformin 500mg in stock — 30 tablets at KSh 240. Come in today or we can arrange delivery. Call +254 721 600 700."></textarea></div>
-      <div class="mb2">
-        <label class="f-label">Mark Request As</label>
-        <select id="replyStatus" class="f-input" style="cursor:pointer;">
-          <option value="replied">Replied — waiting for patient</option>
-          <option value="fulfilled">Fulfilled — medicine dispensed</option>
-          <option value="unavailable">Unavailable — out of stock</option>
-        </select>
-      </div>
-      <input type="hidden" id="replyReqId">
-    </div>
-    <div class="ph-modal-foot">
-      <button class="btn-g" onclick="closeModal('replyModal')">Cancel</button>
-      <button class="btn-t" onclick="submitReply()">📤 Send Reply</button>
-    </div>
-  </div>
-</div>
+    <!-- Toast container -->
+    <div class="ph-toasts" id="phToasts"></div>
 
-<!-- Toast container -->
-<div class="ph-toasts" id="phToasts"></div>
+    <!-- ══ JAVASCRIPT ════════════════════════════════════════ -->
+    <script src="script.js?v=20260820"></script>
+    <script>
+      "use strict";
 
-<!-- ══ JAVASCRIPT ════════════════════════════════════════ -->
-<script src="script.js"></script>
-<script>
-'use strict';
-
-/* ─── Session — reuses the same JWT/session helpers as the rest of
+      /* ─── Session — reuses the same JWT/session helpers as the rest of
    DawaTrack (getToken/setToken/api/etc. all come from script.js) ─── */
-function getPhSession() {
-  const u = getCachedUser();
-  return u ? { id: u.id, name: u.name, email: u.email, branch: u.hospital || 'Pharmacy' } : null;
-}
-function clearPhSession() { clearToken(); clearCachedUser(); }
+      function getPhSession() {
+        const u = getCachedUser();
+        return u
+          ? {
+              id: u.id,
+              name: u.name,
+              email: u.email,
+              branch: u.hospital || "Pharmacy",
+            }
+          : null;
+      }
+      function clearPhSession() {
+        clearToken();
+        clearCachedUser();
+      }
 
-/* ─── Helpers ─────────────────────────────────────────── */
-function fmtTS(iso) {
-  if (!iso) return '—';
-  const d = new Date(iso);
-  return d.toLocaleDateString('en-KE',{day:'numeric',month:'short'}) + ' ' + d.toLocaleTimeString('en-KE',{hour:'2-digit',minute:'2-digit'});
-}
-function fmtDate(str) {
-  if (!str) return '—';
-  return new Date(str+'T00:00:00').toLocaleDateString('en-KE',{day:'numeric',month:'short',year:'numeric'});
-}
-function timeAgo(iso) {
-  const diff=(Date.now()-new Date(iso))/1000;
-  if(diff<60) return 'just now';
-  if(diff<3600) return Math.floor(diff/60)+'m ago';
-  if(diff<86400) return Math.floor(diff/3600)+'h ago';
-  return Math.floor(diff/86400)+'d ago';
-}
-function cardBadge(card) {
-  if (!card || card==='none') return '<span class="badge bgr">No card</span>';
-  const m={'HMT-BAS':'bt HMT-BAS 10%','HMT-PLU':'bn HMT-PLU 20%','HMT-FAM':'bg HMT-FAM 30%'};
-  const parts=(m[card]||'bgr '+card).split(' ');
-  return `<span class="badge ${parts[0]}">💳 ${parts.slice(1).join(' ')}</span>`;
-}
-function statusBadge(s) {
-  const m={dispensed:'bg ✓ Dispensed',taken:'bg ✓ Taken',missed:'br ✗ Missed',pending:'ba ⏳ Pending',fulfilled:'bg ✓ Fulfilled',replied:'bb 💬 Replied',unavailable:'br ✗ Unavailable'};
-  const parts=(m[s]||'bgr '+s).split(' ');
-  return `<span class="badge ${parts[0]}">${parts.slice(1).join(' ')}</span>`;
-}
-function discPct(card) {
-  if(card==='HMT-BAS') return 10;
-  if(card==='HMT-PLU') return 20;
-  if(card==='HMT-FAM') return 30;
-  return 0;
-}
-function adherenceRate(logs) {
-  if(!logs.length) return 0;
-  return Math.round(logs.filter(l=>l.taken).length/logs.length*100);
-}
+      /* ─── Helpers ─────────────────────────────────────────── */
+      function fmtTS(iso) {
+        if (!iso) return "—";
+        const d = new Date(iso);
+        return (
+          d.toLocaleDateString("en-KE", { day: "numeric", month: "short" }) +
+          " " +
+          d.toLocaleTimeString("en-KE", { hour: "2-digit", minute: "2-digit" })
+        );
+      }
+      function fmtDate(str) {
+        if (!str) return "—";
+        return new Date(str + "T00:00:00").toLocaleDateString("en-KE", {
+          day: "numeric",
+          month: "short",
+          year: "numeric",
+        });
+      }
+      function timeAgo(iso) {
+        const diff = (Date.now() - new Date(iso)) / 1000;
+        if (diff < 60) return "just now";
+        if (diff < 3600) return Math.floor(diff / 60) + "m ago";
+        if (diff < 86400) return Math.floor(diff / 3600) + "h ago";
+        return Math.floor(diff / 86400) + "d ago";
+      }
+      function cardBadge(card) {
+        if (!card || card === "none")
+          return '<span class="badge bgr">No card</span>';
+        const m = {
+          "HMT-BAS": "bt HMT-BAS 10%",
+          "HMT-PLU": "bn HMT-PLU 20%",
+          "HMT-FAM": "bg HMT-FAM 30%",
+        };
+        const parts = (m[card] || "bgr " + card).split(" ");
+        return `<span class="badge ${parts[0]}">💳 ${parts.slice(1).join(" ")}</span>`;
+      }
+      function statusBadge(s) {
+        const m = {
+          dispensed: "bg ✓ Dispensed",
+          taken: "bg ✓ Taken",
+          missed: "br ✗ Missed",
+          pending: "ba ⏳ Pending",
+          fulfilled: "bg ✓ Fulfilled",
+          replied: "bb 💬 Replied",
+          unavailable: "br ✗ Unavailable",
+        };
+        const parts = (m[s] || "bgr " + s).split(" ");
+        return `<span class="badge ${parts[0]}">${parts.slice(1).join(" ")}</span>`;
+      }
+      function discPct(card) {
+        if (card === "HMT-BAS") return 10;
+        if (card === "HMT-PLU") return 20;
+        if (card === "HMT-FAM") return 30;
+        return 0;
+      }
+      function adherenceRate(logs) {
+        if (!logs.length) return 0;
+        return Math.round(
+          (logs.filter((l) => l.taken).length / logs.length) * 100,
+        );
+      }
 
-/* ─── Toast ───────────────────────────────────────────── */
-function phToast(msg, type='s') {
-  const c=document.getElementById('phToasts');
-  const t=document.createElement('div');
-  t.className=`ph-toast ${type}`;
-  const icon=type==='s'?'✓':type==='e'?'✗':type==='w'?'⚠':'ℹ';
-  const clr=type==='s'?'#2DAF83':type==='e'?'#D94F4F':type==='w'?'#D98A2A':'#3A8DC4';
-  t.innerHTML=`<span style="color:${clr};font-weight:800;font-size:1rem;">${icon}</span><span style="font-size:0.85rem;color:#3A5563;">${msg}</span>`;
-  c.appendChild(t);
-  setTimeout(()=>{ t.style.cssText+='opacity:0;transform:translateX(16px);transition:all 0.3s;'; setTimeout(()=>t.remove(),300); },3500);
-}
+      /* ─── Toast ───────────────────────────────────────────── */
+      function phToast(msg, type = "s") {
+        const c = document.getElementById("phToasts");
+        const t = document.createElement("div");
+        t.className = `ph-toast ${type}`;
+        const icon =
+          type === "s" ? "✓" : type === "e" ? "✗" : type === "w" ? "⚠" : "ℹ";
+        const clr =
+          type === "s"
+            ? "#2DAF83"
+            : type === "e"
+              ? "#D94F4F"
+              : type === "w"
+                ? "#D98A2A"
+                : "#3A8DC4";
+        t.innerHTML = `<span style="color:${clr};font-weight:800;font-size:1rem;">${icon}</span><span style="font-size:0.85rem;color:#3A5563;">${msg}</span>`;
+        c.appendChild(t);
+        setTimeout(() => {
+          t.style.cssText +=
+            "opacity:0;transform:translateX(16px);transition:all 0.3s;";
+          setTimeout(() => t.remove(), 300);
+        }, 3500);
+      }
 
-/* ─── Modal ───────────────────────────────────────────── */
-function openModal(id)  { document.getElementById(id).classList.add('open'); document.body.style.overflow='hidden'; }
-function closeModal(id) { document.getElementById(id).classList.remove('open'); document.body.style.overflow=''; }
-document.addEventListener('click', e => { if(e.target.classList.contains('ph-modal-ov')){ e.target.classList.remove('open'); document.body.style.overflow=''; } });
+      /* ─── Modal ───────────────────────────────────────────── */
+      function openModal(id) {
+        document.getElementById(id).classList.add("open");
+        document.body.style.overflow = "hidden";
+      }
+      function closeModal(id) {
+        document.getElementById(id).classList.remove("open");
+        document.body.style.overflow = "";
+      }
+      document.addEventListener("click", (e) => {
+        if (e.target.classList.contains("ph-modal-ov")) {
+          e.target.classList.remove("open");
+          document.body.style.overflow = "";
+        }
+      });
 
-/* ─── Tab switching ───────────────────────────────────── */
-function switchLoginTab(id, btn) {
-  document.querySelectorAll('.t-btn').forEach(b=>b.classList.remove('active'));
-  document.querySelectorAll('.t-panel').forEach(p=>p.classList.remove('active'));
-  btn.classList.add('active');
-  document.getElementById(id).classList.add('active');
-}
+      /* ─── Tab switching ───────────────────────────────────── */
+      function switchLoginTab(id, btn) {
+        document
+          .querySelectorAll(".t-btn")
+          .forEach((b) => b.classList.remove("active"));
+        document
+          .querySelectorAll(".t-panel")
+          .forEach((p) => p.classList.remove("active"));
+        btn.classList.add("active");
+        document.getElementById(id).classList.add("active");
+      }
 
-const PANEL_META = {
-  'p-overview':  {title:'Overview',           sub:'Today\'s pharmacy activity'},
-  'p-search':    {title:'Patient Search',      sub:'Find patient · view prescriptions · update dose status'},
-  'p-requests':  {title:'Patient Requests',    sub:'Medicine refill requests from patients'},
-  'p-log':       {title:'Dispensing Log',      sub:'Complete record of all medicines dispensed'},
-  'p-card':      {title:'HAMAT Smart Card',    sub:'Discount tiers and card-holder statistics'},
-};
-function showPanel(id, btn) {
-  document.querySelectorAll('.ph-panel').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.ph-sb-link').forEach(l=>l.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  if(btn) btn.classList.add('active');
-  const m=PANEL_META[id]||{};
-  document.getElementById('pageTitle').textContent=m.title||id;
-  document.getElementById('pageSub').textContent=m.sub||'';
-  if(id==='p-requests')  renderRequests('all');
-  if(id==='p-log')       renderDispLog();
-  if(id==='p-card')      renderCardStats();
-  if(id==='p-overview')  { renderOverviewRequests(); renderRecentDisp(); renderKPIs(); }
+      const PANEL_META = {
+        "p-overview": { title: "Overview", sub: "Today's pharmacy activity" },
+        "p-search": {
+          title: "Patient Search",
+          sub: "Find patient · view prescriptions · update dose status",
+        },
+        "p-requests": {
+          title: "Patient Requests",
+          sub: "Medicine refill requests from patients",
+        },
+        "p-log": {
+          title: "Dispensing Log",
+          sub: "Complete record of all medicines dispensed",
+        },
+        "p-card": {
+          title: "HAMAT Smart Card",
+          sub: "Discount tiers and card-holder statistics",
+        },
+      };
+      function showPanel(id, btn) {
+        document
+          .querySelectorAll(".ph-panel")
+          .forEach((p) => p.classList.remove("active"));
+        document
+          .querySelectorAll(".ph-sb-link")
+          .forEach((l) => l.classList.remove("active"));
+        document.getElementById(id).classList.add("active");
+        if (btn) btn.classList.add("active");
+        const m = PANEL_META[id] || {};
+        document.getElementById("pageTitle").textContent = m.title || id;
+        document.getElementById("pageSub").textContent = m.sub || "";
+        if (id === "p-requests") renderRequests("all");
+        if (id === "p-log") renderDispLog();
+        if (id === "p-card") renderCardStats();
+        if (id === "p-overview") {
+          renderOverviewRequests();
+          renderRecentDisp();
+          renderKPIs();
+        }
 
-  /* Sync mobile tab bar */
-  document.querySelectorAll('.mobile-tab-btn').forEach(b=>b.classList.remove('active'));
-  const mobileBtn=document.querySelector(`.mobile-tab-btn[onclick*="'${id}'"]`);
-  if(mobileBtn) mobileBtn.classList.add('active');
-}
+        /* Sync mobile tab bar */
+        document
+          .querySelectorAll(".mobile-tab-btn")
+          .forEach((b) => b.classList.remove("active"));
+        const mobileBtn = document.querySelector(
+          `.mobile-tab-btn[onclick*="'${id}'"]`,
+        );
+        if (mobileBtn) mobileBtn.classList.add("active");
+      }
 
-/* ─── Auth — real backend (POST /auth/login, /auth/register) ────── */
-async function handlePhLogin() {
-  const email=document.getElementById('loginEmail').value.trim();
-  const pass=document.getElementById('loginPass').value.trim();
-  if(!email||!pass){ phToast('Please enter credentials.','e'); return; }
-  try {
-    const data = await api('POST', '/auth/login', { email, password: pass }, false);
-    if (data.user.role !== 'pharmacist') {
-      phToast('This account is not a pharmacy account.', 'e');
-      return;
-    }
-    setToken(data.access_token);
-    setCachedUser(data.user);
-    phToast('Welcome, '+data.user.name.split(' ')[0]+'!');
-    setTimeout(initDash, 500);
-  } catch (e) {
-    phToast(e.message || 'Invalid email or password.', 'e');
-  }
-}
+      /* ─── Auth — real backend (POST /auth/login, /auth/register) ────── */
+      async function handlePhLogin() {
+        const email = document.getElementById("loginEmail").value.trim();
+        const pass = document.getElementById("loginPass").value.trim();
+        if (!email || !pass) {
+          phToast("Please enter credentials.", "e");
+          return;
+        }
+        try {
+          const data = await api(
+            "POST",
+            "/auth/login",
+            { email, password: pass },
+            false,
+          );
+          if (data.user.role !== "pharmacist") {
+            phToast("This account is not a pharmacy account.", "e");
+            return;
+          }
+          setToken(data.access_token);
+          setCachedUser(data.user);
+          phToast("Welcome, " + data.user.name.split(" ")[0] + "!");
+          setTimeout(initDash, 500);
+        } catch (e) {
+          phToast(e.message || "Invalid email or password.", "e");
+        }
+      }
 
-async function handlePhRegister() {
-  const name=document.getElementById('regName').value.trim();
-  const branch=document.getElementById('regBranch').value.trim();
-  const email=document.getElementById('regEmail').value.trim();
-  const phone=document.getElementById('regPhone').value.trim();
-  const pass=document.getElementById('regPass').value.trim();
-  const code=document.getElementById('regCode').value.trim();
-  if(!name||!branch||!email||!pass){ phToast('Please fill all required fields.','e'); return; }
-  try {
-    const data = await api('POST', '/auth/register', {
-      name, email, password: pass, phone,
-      pharmacy_access_code: code,
-      hospital: branch,
-    }, false);
-    if (data.user.role !== 'pharmacist') {
-      phToast('Registered, but access code did not grant pharmacy access.', 'e');
-      return;
-    }
-    setToken(data.access_token);
-    setCachedUser(data.user);
-    phToast('Account created!');
-    setTimeout(initDash, 600);
-  } catch (e) {
-    phToast(e.message || 'Registration failed. Email may already exist.', 'e');
-  }
-}
+      async function handlePhRegister() {
+        const name = document.getElementById("regName").value.trim();
+        const branch = document.getElementById("regBranch").value.trim();
+        const email = document.getElementById("regEmail").value.trim();
+        const phone = document.getElementById("regPhone").value.trim();
+        const pass = document.getElementById("regPass").value.trim();
+        const code = document.getElementById("regCode").value.trim();
+        if (!name || !branch || !email || !pass) {
+          phToast("Please fill all required fields.", "e");
+          return;
+        }
+        try {
+          const data = await api(
+            "POST",
+            "/auth/register",
+            {
+              name,
+              email,
+              password: pass,
+              phone,
+              pharmacy_access_code: code,
+              hospital: branch,
+            },
+            false,
+          );
+          if (data.user.role !== "pharmacist") {
+            phToast(
+              "Registered, but access code did not grant pharmacy access.",
+              "e",
+            );
+            return;
+          }
+          setToken(data.access_token);
+          setCachedUser(data.user);
+          phToast("Account created!");
+          setTimeout(initDash, 600);
+        } catch (e) {
+          phToast(
+            e.message || "Registration failed. Email may already exist.",
+            "e",
+          );
+        }
+      }
 
-function handlePhLogout() {
-  clearPhSession();
-  document.getElementById('dashScreen').style.display='none';
-  document.getElementById('loginScreen').style.display='grid';
-}
+      function handlePhLogout() {
+        clearPhSession();
+        document.getElementById("dashScreen").style.display = "none";
+        document.getElementById("loginScreen").style.display = "grid";
+      }
 
-/* ─── Init dashboard ──────────────────────────────────── */
-function initDash() {
-  const s=getPhSession();
-  if (!s) { handlePhLogout(); return; }
-  document.getElementById('loginScreen').style.display='none';
-  document.getElementById('dashScreen').style.display='block';
-  const ini=s.name.split(' ').map(n=>n[0]).join('').slice(0,2).toUpperCase();
-  document.getElementById('navAvatar').textContent=ini;
-  document.getElementById('navName').textContent=s.name;
-  document.getElementById('navBranch').textContent=s.branch||'Pharmacist';
-  document.getElementById('todayDate').textContent=new Date().toLocaleDateString('en-KE',{weekday:'short',day:'numeric',month:'long',year:'numeric'});
-  renderKPIs();
-  renderOverviewRequests();
-  renderRecentDisp();
-  updateReqBadge();
-  /* Poll every 15s for new patient requests / dispensing activity */
-  setInterval(()=>{ updateReqBadge(); renderOverviewRequests(); renderKPIs(); }, 15000);
-}
+      /* ─── Init dashboard ──────────────────────────────────── */
+      function initDash() {
+        const s = getPhSession();
+        if (!s) {
+          handlePhLogout();
+          return;
+        }
+        document.getElementById("loginScreen").style.display = "none";
+        document.getElementById("dashScreen").style.display = "block";
+        const ini = s.name
+          .split(" ")
+          .map((n) => n[0])
+          .join("")
+          .slice(0, 2)
+          .toUpperCase();
+        document.getElementById("navAvatar").textContent = ini;
+        document.getElementById("navName").textContent = s.name;
+        document.getElementById("navBranch").textContent =
+          s.branch || "Pharmacist";
+        document.getElementById("todayDate").textContent =
+          new Date().toLocaleDateString("en-KE", {
+            weekday: "short",
+            day: "numeric",
+            month: "long",
+            year: "numeric",
+          });
+        renderKPIs();
+        renderOverviewRequests();
+        renderRecentDisp();
+        updateReqBadge();
+        /* Poll every 15s for new patient requests / dispensing activity */
+        setInterval(() => {
+          updateReqBadge();
+          renderOverviewRequests();
+          renderKPIs();
+        }, 15000);
+      }
 
-/* ─── KPIs ────────────────────────────────────────────── */
-async function renderKPIs() {
-  const [log, reqs] = await Promise.all([
-    api('GET', '/dispense').catch(()=>[]),
-    api('GET', '/requests').catch(()=>[]),
-  ]);
-  const today=new Date().toISOString().split('T')[0];
-  const todayLog=log.filter(l=>l.created_at&&l.created_at.startsWith(today));
-  const scPats=[...new Set(log.filter(l=>l.smart_card&&l.smart_card!=='none').map(l=>l.patient_id||l.patient_name))];
-  const pending=reqs.filter(r=>r.status==='pending').length;
-  const set=(id,v)=>{ const el=document.getElementById(id); if(el)el.textContent=v; };
-  set('k-today', todayLog.length);
-  set('k-total', log.length);
-  set('k-req',   pending);
-  set('k-sc',    scPats.length);
-  set('sbReqCount', pending);
-  const sbAlert=document.getElementById('sbAlertReq');
-  if(sbAlert) sbAlert.style.display=pending>0?'block':'none';
-}
+      /* ─── KPIs ────────────────────────────────────────────── */
+      async function renderKPIs() {
+        const [log, reqs] = await Promise.all([
+          api("GET", "/dispense").catch(() => []),
+          api("GET", "/requests").catch(() => []),
+        ]);
+        const today = new Date().toISOString().split("T")[0];
+        const todayLog = log.filter(
+          (l) => l.created_at && l.created_at.startsWith(today),
+        );
+        const scPats = [
+          ...new Set(
+            log
+              .filter((l) => l.smart_card && l.smart_card !== "none")
+              .map((l) => l.patient_id || l.patient_name),
+          ),
+        ];
+        const pending = reqs.filter((r) => r.status === "pending").length;
+        const set = (id, v) => {
+          const el = document.getElementById(id);
+          if (el) el.textContent = v;
+        };
+        set("k-today", todayLog.length);
+        set("k-total", log.length);
+        set("k-req", pending);
+        set("k-sc", scPats.length);
+        set("sbReqCount", pending);
+        const sbAlert = document.getElementById("sbAlertReq");
+        if (sbAlert) sbAlert.style.display = pending > 0 ? "block" : "none";
+      }
 
-async function updateReqBadge() {
-  const reqs = await api('GET', '/requests').catch(()=>[]);
-  const n=reqs.filter(r=>r.status==='pending').length;
-  const b=document.getElementById('reqBadge');
-  if(!b) return;
-  b.textContent=n; b.style.display=n>0?'inline-flex':'none';
-  const sb = document.getElementById('sbReqCount'); if (sb) sb.textContent=n;
-}
+      async function updateReqBadge() {
+        const reqs = await api("GET", "/requests").catch(() => []);
+        const n = reqs.filter((r) => r.status === "pending").length;
+        const b = document.getElementById("reqBadge");
+        if (!b) return;
+        b.textContent = n;
+        b.style.display = n > 0 ? "inline-flex" : "none";
+        const sb = document.getElementById("sbReqCount");
+        if (sb) sb.textContent = n;
+      }
 
-/* ─── Overview panel ──────────────────────────────────── */
-async function renderOverviewRequests() {
-  const container=document.getElementById('overviewRequests');
-  if (!container) return;
-  const all = await api('GET', '/requests').catch(()=>[]);
-  const reqs=all.slice().sort((a,b)=>new Date(b.created_at)-new Date(a.created_at)).slice(0,8);
-  if(!reqs.length){
-    container.innerHTML='<div style="padding:28px;text-align:center;color:#7A9CA8;font-size:0.875rem;">✅ No pending requests right now.</div>';
-    return;
-  }
-  container.innerHTML=reqs.map(r=>{
-    const stClr=r.status==='pending'?'#D98A2A':r.status==='fulfilled'?'#2DAF83':'#7A9CA8';
-    const stBg =r.status==='pending'?'#FBF0DC':r.status==='fulfilled'?'#D5F3EB':'#EDF5F2';
-    return `<div class="disp-entry">
+      /* ─── Overview panel ──────────────────────────────────── */
+      async function renderOverviewRequests() {
+        const container = document.getElementById("overviewRequests");
+        if (!container) return;
+        const all = await api("GET", "/requests").catch(() => []);
+        const reqs = all
+          .slice()
+          .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
+          .slice(0, 8);
+        if (!reqs.length) {
+          container.innerHTML =
+            '<div style="padding:28px;text-align:center;color:#7A9CA8;font-size:0.875rem;">✅ No pending requests right now.</div>';
+          return;
+        }
+        container.innerHTML = reqs
+          .map((r) => {
+            const stClr =
+              r.status === "pending"
+                ? "#D98A2A"
+                : r.status === "fulfilled"
+                  ? "#2DAF83"
+                  : "#7A9CA8";
+            const stBg =
+              r.status === "pending"
+                ? "#FBF0DC"
+                : r.status === "fulfilled"
+                  ? "#D5F3EB"
+                  : "#EDF5F2";
+            return `<div class="disp-entry">
       <div class="disp-icon" style="background:${stBg};">💊</div>
       <div style="flex:1;min-width:0;">
         <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;">
-          <span style="font-weight:700;color:#1B5271;font-size:0.9rem;">${r.patient_name||'Patient'}</span>
+          <span style="font-weight:700;color:#1B5271;font-size:0.9rem;">${r.patient_name || "Patient"}</span>
           <span style="font-size:0.7rem;color:#7A9CA8;">${timeAgo(r.created_at)}</span>
         </div>
-        <div style="font-size:0.85rem;font-weight:600;color:#3A5563;margin-top:2px;">${r.medicine_name}${r.dosage?' · '+r.dosage:''}</div>
-        <div style="font-size:0.78rem;color:#7A9CA8;margin-top:2px;">${r.message||''}</div>
-        ${r.pharmacy_reply?`<div style="margin-top:6px;font-size:0.78rem;color:#5DAC96;font-style:italic;">✓ Replied: ${r.pharmacy_reply}</div>`:''}
+        <div style="font-size:0.85rem;font-weight:600;color:#3A5563;margin-top:2px;">${r.medicine_name}${r.dosage ? " · " + r.dosage : ""}</div>
+        <div style="font-size:0.78rem;color:#7A9CA8;margin-top:2px;">${r.message || ""}</div>
+        ${r.pharmacy_reply ? `<div style="margin-top:6px;font-size:0.78rem;color:#5DAC96;font-style:italic;">✓ Replied: ${r.pharmacy_reply}</div>` : ""}
       </div>
       <div style="display:flex;flex-direction:column;gap:5px;align-items:flex-end;flex-shrink:0;">
         <span style="font-size:0.67rem;font-weight:800;letter-spacing:0.05em;text-transform:uppercase;color:${stClr};background:${stBg};padding:3px 9px;border-radius:100px;">${r.status}</span>
-        ${r.status==='pending'?`<button class="btn-sm bsm-t" onclick="openReplyModal(${r.id})">💬 Reply</button>`:''}
+        ${r.status === "pending" ? `<button class="btn-sm bsm-t" onclick="openReplyModal(${r.id})">💬 Reply</button>` : ""}
       </div>
     </div>`;
-  }).join('');
-}
+          })
+          .join("");
+      }
 
-async function renderRecentDisp() {
-  const body=document.getElementById('recentDispBody');
-  if(!body) return;
-  const log=(await api('GET', '/dispense').catch(()=>[])).slice(0,8);
-  if(!log.length){ body.innerHTML=`<tr><td colspan="7" style="text-align:center;padding:24px;color:#7A9CA8;">No dispensing records yet.</td></tr>`; return; }
-  body.innerHTML=log.map(l=>`
+      async function renderRecentDisp() {
+        const body = document.getElementById("recentDispBody");
+        if (!body) return;
+        const log = (await api("GET", "/dispense").catch(() => [])).slice(0, 8);
+        if (!log.length) {
+          body.innerHTML = `<tr><td colspan="7" style="text-align:center;padding:24px;color:#7A9CA8;">No dispensing records yet.</td></tr>`;
+          return;
+        }
+        body.innerHTML = log
+          .map(
+            (l) => `
     <tr>
-      <td style="font-weight:700;color:#1B5271;">${l.patient_name||'—'}</td>
+      <td style="font-weight:700;color:#1B5271;">${l.patient_name || "—"}</td>
       <td>${l.medicine_name}</td>
-      <td style="color:#7A9CA8;">${l.dosage||'—'}</td>
-      <td>${l.quantity||'—'}</td>
+      <td style="color:#7A9CA8;">${l.dosage || "—"}</td>
+      <td>${l.quantity || "—"}</td>
       <td>${statusBadge(l.status)}</td>
       <td>${cardBadge(l.smart_card)}</td>
       <td style="color:#7A9CA8;font-size:0.78rem;white-space:nowrap;">${fmtTS(l.created_at)}</td>
-    </tr>`).join('');
-}
+    </tr>`,
+          )
+          .join("");
+      }
 
-/* ─── Patient Search ──────────────────────────────────── */
-let searchDebounce=null;
-function searchPatients() {
-  clearTimeout(searchDebounce);
-  searchDebounce=setTimeout(doSearchPatients, 300);
-}
-async function doSearchPatients() {
-  const q=(document.getElementById('patSearchInput').value||'').trim();
-  const results=document.getElementById('searchResults');
-  const profile=document.getElementById('patientProfile');
-  profile.style.display='none';
-  if(!q){ results.innerHTML=`<div style="text-align:center;padding:48px;background:#FFFFFF;border:1px solid #D1E4DE;border-radius:14px;"><div style="font-size:3rem;margin-bottom:14px;">🔍</div><div style="font-weight:700;color:#1B5271;margin-bottom:6px;">Search for a patient</div><p style="font-size:0.85rem;color:#7A9CA8;">Type a name, ID or email.</p></div>`; return; }
+      /* ─── Patient Search ──────────────────────────────────── */
+      let searchDebounce = null;
+      function searchPatients() {
+        clearTimeout(searchDebounce);
+        searchDebounce = setTimeout(doSearchPatients, 300);
+      }
+      async function doSearchPatients() {
+        const q = (
+          document.getElementById("patSearchInput").value || ""
+        ).trim();
+        const results = document.getElementById("searchResults");
+        const profile = document.getElementById("patientProfile");
+        profile.style.display = "none";
+        if (!q) {
+          results.innerHTML = `<div style="text-align:center;padding:48px;background:#FFFFFF;border:1px solid #D1E4DE;border-radius:14px;"><div style="font-size:3rem;margin-bottom:14px;">🔍</div><div style="font-weight:700;color:#1B5271;margin-bottom:6px;">Search for a patient</div><p style="font-size:0.85rem;color:#7A9CA8;">Type a name, ID or email.</p></div>`;
+          return;
+        }
 
-  let matched;
-  try {
-    matched = await api('GET', `/patients/search?q=${encodeURIComponent(q)}`);
-  } catch (e) {
-    results.innerHTML = `<div style="text-align:center;padding:40px;color:#D94F4F;">Search failed: ${e.message}</div>`;
-    return;
-  }
+        let matched;
+        try {
+          matched = await api(
+            "GET",
+            `/patients/search?q=${encodeURIComponent(q)}`,
+          );
+        } catch (e) {
+          results.innerHTML = `<div style="text-align:center;padding:40px;color:#D94F4F;">Search failed: ${e.message}</div>`;
+          return;
+        }
 
-  if(!matched.length){
-    results.innerHTML=`<div style="text-align:center;padding:40px;background:#FFFFFF;border:1px solid #D1E4DE;border-radius:14px;"><div style="font-size:2rem;margin-bottom:10px;">😕</div><div style="font-weight:700;color:#1B5271;margin-bottom:6px;">No patients found</div><p style="font-size:0.85rem;color:#7A9CA8;">Try searching by name or email. Only DawaTrack-registered patients appear here.</p></div>`;
-    return;
-  }
+        if (!matched.length) {
+          results.innerHTML = `<div style="text-align:center;padding:40px;background:#FFFFFF;border:1px solid #D1E4DE;border-radius:14px;"><div style="font-size:2rem;margin-bottom:10px;">😕</div><div style="font-weight:700;color:#1B5271;margin-bottom:6px;">No patients found</div><p style="font-size:0.85rem;color:#7A9CA8;">Try searching by name or email. Only DawaTrack-registered patients appear here.</p></div>`;
+          return;
+        }
 
-  results.innerHTML=`<div style="font-size:0.72rem;font-weight:700;color:#7A9CA8;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:10px;">${matched.length} result${matched.length!==1?'s':''} found</div>`+
-    matched.map(u=>{
-      const rate=u.adherence_rate||0;
-      const rateBg=rate>=80?'#D5F3EB':rate>=50?'#FBF0DC':'#FAE0E0';
-      const rateClr=rate>=80?'#1E8A65':rate>=50?'#A0620A':'#B03030';
-      const initials=u.name.split(' ').map(n=>n[0]).join('').slice(0,2).toUpperCase();
-      return `<div style="background:#FFFFFF;border:1px solid #D1E4DE;border-radius:14px;padding:16px 18px;margin-bottom:10px;display:flex;align-items:center;gap:14px;cursor:pointer;transition:all 0.22s;" onmouseenter="this.style.borderColor='#9DD1C2';this.style.boxShadow='0 4px 18px rgba(27,82,113,0.10)'" onmouseleave="this.style.borderColor='#D1E4DE';this.style.boxShadow='none'" onclick="openPatientProfile('${u.id}')">
+        results.innerHTML =
+          `<div style="font-size:0.72rem;font-weight:700;color:#7A9CA8;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:10px;">${matched.length} result${matched.length !== 1 ? "s" : ""} found</div>` +
+          matched
+            .map((u) => {
+              const rate = u.adherence_rate || 0;
+              const rateBg =
+                rate >= 80 ? "#D5F3EB" : rate >= 50 ? "#FBF0DC" : "#FAE0E0";
+              const rateClr =
+                rate >= 80 ? "#1E8A65" : rate >= 50 ? "#A0620A" : "#B03030";
+              const initials = u.name
+                .split(" ")
+                .map((n) => n[0])
+                .join("")
+                .slice(0, 2)
+                .toUpperCase();
+              return `<div style="background:#FFFFFF;border:1px solid #D1E4DE;border-radius:14px;padding:16px 18px;margin-bottom:10px;display:flex;align-items:center;gap:14px;cursor:pointer;transition:all 0.22s;" onmouseenter="this.style.borderColor='#9DD1C2';this.style.boxShadow='0 4px 18px rgba(27,82,113,0.10)'" onmouseleave="this.style.borderColor='#D1E4DE';this.style.boxShadow='none'" onclick="openPatientProfile('${u.id}')">
         <div style="width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,#5DAC96,#1B5271);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:0.9rem;color:#FFFFFF;flex-shrink:0;">${initials}</div>
         <div style="flex:1;">
           <div style="font-weight:700;color:#1B5271;font-size:0.95rem;">${u.name}</div>
-          <div style="font-size:0.76rem;color:#7A9CA8;margin-top:2px;">${u.email}${u.phone?' · '+u.phone:''}</div>
+          <div style="font-size:0.76rem;color:#7A9CA8;margin-top:2px;">${u.email}${u.phone ? " · " + u.phone : ""}</div>
           <div style="font-size:0.75rem;color:#7A9CA8;margin-top:2px;">${u.total_logs} medication logs</div>
         </div>
         <div style="text-align:right;flex-shrink:0;">
-          <div style="font-size:0.68rem;font-weight:800;letter-spacing:0.06em;text-transform:uppercase;color:${rateClr};background:${rateBg};padding:4px 11px;border-radius:100px;margin-bottom:6px;">${u.total_logs?rate+'% adherence':'No logs'}</div>
+          <div style="font-size:0.68rem;font-weight:800;letter-spacing:0.06em;text-transform:uppercase;color:${rateClr};background:${rateBg};padding:4px 11px;border-radius:100px;margin-bottom:6px;">${u.total_logs ? rate + "% adherence" : "No logs"}</div>
           <div style="font-size:0.72rem;color:#5DAC96;font-weight:600;">View Profile →</div>
         </div>
       </div>`;
-    }).join('');
-}
+            })
+            .join("");
+      }
 
-let currentProfilePatientId=null;
-async function openPatientProfile(patientId) {
-  const profile=document.getElementById('patientProfile');
-  const results=document.getElementById('searchResults');
-  profile.style.display='block';
-  results.style.display='none';
-  profile.innerHTML='<p style="text-align:center;padding:40px;color:#7A9CA8;">Loading patient…</p>';
+      let currentProfilePatientId = null;
+      async function openPatientProfile(patientId) {
+        const profile = document.getElementById("patientProfile");
+        const results = document.getElementById("searchResults");
+        profile.style.display = "block";
+        results.style.display = "none";
+        profile.innerHTML =
+          '<p style="text-align:center;padding:40px;color:#7A9CA8;">Loading patient…</p>';
 
-  let data;
-  try {
-    data = await api('GET', `/patients/${patientId}/profile`);
-  } catch (e) {
-    profile.innerHTML = `<p style="color:#D94F4F;text-align:center;padding:40px;">Failed to load patient: ${e.message}</p>`;
-    return;
-  }
-  currentProfilePatientId = patientId;
+        let data;
+        try {
+          data = await api("GET", `/patients/${patientId}/profile`);
+        } catch (e) {
+          profile.innerHTML = `<p style="color:#D94F4F;text-align:center;padding:40px;">Failed to load patient: ${e.message}</p>`;
+          return;
+        }
+        currentProfilePatientId = patientId;
 
-  const u = data.patient;
-  const logs = data.logs.slice();
-  const dispLog = data.dispense_history;
-  const rate = u.rate ?? 0;
-  const initials=u.name.split(' ').map(n=>n[0]).join('').slice(0,2).toUpperCase();
-  const rateCls=rate>=80?'hi':rate>=50?'md':'lo';
+        const u = data.patient;
+        const logs = data.logs.slice();
+        const dispLog = data.dispense_history;
+        const rate = u.rate ?? 0;
+        const initials = u.name
+          .split(" ")
+          .map((n) => n[0])
+          .join("")
+          .slice(0, 2)
+          .toUpperCase();
+        const rateCls = rate >= 80 ? "hi" : rate >= 50 ? "md" : "lo";
 
-  const logRows=logs.map(log=>`
+        const logRows = logs
+          .map(
+            (log) => `
     <tr>
       <td style="white-space:nowrap;">${fmtDate(log.log_date)}</td>
       <td style="font-weight:700;color:#1B5271;">${log.medicine_name}</td>
-      <td>${log.taken?'<span class="badge bg">✓ Taken</span>':'<span class="badge br">✗ Missed</span>'}</td>
-      <td style="color:#7A9CA8;">${log.time_taken||'—'}</td>
-      <td style="max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#3A5563;">${log.notes||'—'}</td>
+      <td>${log.taken ? '<span class="badge bg">✓ Taken</span>' : '<span class="badge br">✗ Missed</span>'}</td>
+      <td style="color:#7A9CA8;">${log.time_taken || "—"}</td>
+      <td style="max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#3A5563;">${log.notes || "—"}</td>
       <td>
         <select id="upd-${log.id}" style="background:#FFFFFF;border:1px solid #D1E4DE;border-radius:7px;color:#1B5271;font-size:0.75rem;padding:5px 8px;font-family:'Outfit',sans-serif;cursor:pointer;width:130px;">
-          <option value="taken"   ${log.taken?'selected':''}>✓ Mark Taken</option>
-          <option value="missed"  ${!log.taken?'selected':''}>✗ Mark Missed</option>
+          <option value="taken"   ${log.taken ? "selected" : ""}>✓ Mark Taken</option>
+          <option value="missed"  ${!log.taken ? "selected" : ""}>✗ Mark Missed</option>
           <option value="dispensed">💊 Dispensed</option>
         </select>
       </td>
       <td><button class="btn-sm bsm-t" onclick="updateDoseStatus('${patientId}',${log.id})">Save</button></td>
-    </tr>`).join('');
+    </tr>`,
+          )
+          .join("");
 
-  profile.innerHTML=`
+        profile.innerHTML = `
     <button class="btn-sm bsm-n" style="margin-bottom:14px;" onclick="document.getElementById('patientProfile').style.display='none';document.getElementById('searchResults').style.display='block';">← Back to results</button>
 
     <div class="prof-header">
@@ -1093,15 +2757,15 @@ async function openPatientProfile(patientId) {
         <div class="prof-avatar">${initials}</div>
         <div style="flex:1;">
           <div class="prof-name">${u.name}</div>
-          <div class="prof-meta">${u.email}${u.phone?' · '+u.phone:''}</div>
+          <div class="prof-meta">${u.email}${u.phone ? " · " + u.phone : ""}</div>
           <div class="prof-meta" style="margin-top:4px;">Patient ID: ${patientId}</div>
         </div>
         <button class="btn-t" onclick="openDispensePrefilled('${u.name}','${patientId}')" style="background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);">+ Dispense Medicine</button>
       </div>
       <div style="margin-top:18px;display:grid;grid-template-columns:repeat(4,1fr);gap:10px;">
         <div class="card-tile"><div class="card-tile-lbl">Total Logs</div><div class="card-tile-val">${logs.length}</div></div>
-        <div class="card-tile"><div class="card-tile-lbl">Taken</div><div class="card-tile-val">${u.taken ?? logs.filter(l=>l.taken).length}</div></div>
-        <div class="card-tile"><div class="card-tile-lbl">Missed</div><div class="card-tile-val">${u.missed ?? logs.filter(l=>!l.taken).length}</div></div>
+        <div class="card-tile"><div class="card-tile-lbl">Taken</div><div class="card-tile-val">${u.taken ?? logs.filter((l) => l.taken).length}</div></div>
+        <div class="card-tile"><div class="card-tile-lbl">Missed</div><div class="card-tile-val">${u.missed ?? logs.filter((l) => !l.taken).length}</div></div>
         <div class="card-tile"><div class="card-tile-lbl">Adherence</div><div class="card-tile-val">${rate}%</div></div>
       </div>
       <div class="adh-bar" style="margin-top:14px;max-width:300px;">
@@ -1114,212 +2778,309 @@ async function openPatientProfile(patientId) {
         <div><div class="panel-title">💊 Prescription &amp; Medication Log</div><div class="panel-sub">View dosage details · update taken / missed status · record dispensing</div></div>
       </div>
       <div class="panel-body" style="overflow-x:auto;">
-        ${logs.length?`<table class="ph-table" style="min-width:680px;"><thead><tr><th>Date</th><th>Medicine</th><th>Status</th><th>Time</th><th>Notes</th><th>Update Status</th><th></th></tr></thead><tbody>${logRows}</tbody></table>`:'<div style="padding:28px;text-align:center;color:#7A9CA8;font-size:0.875rem;">No medication logs for this patient yet.</div>'}
+        ${logs.length ? `<table class="ph-table" style="min-width:680px;"><thead><tr><th>Date</th><th>Medicine</th><th>Status</th><th>Time</th><th>Notes</th><th>Update Status</th><th></th></tr></thead><tbody>${logRows}</tbody></table>` : '<div style="padding:28px;text-align:center;color:#7A9CA8;font-size:0.875rem;">No medication logs for this patient yet.</div>'}
       </div>
     </div>
 
-    ${dispLog.length?`
+    ${
+      dispLog.length
+        ? `
     <div class="panel">
       <div class="panel-hdr"><div><div class="panel-title">📋 Pharmacy Dispensing History</div><div class="panel-sub">All medicines dispensed to this patient</div></div></div>
       <div class="panel-body" style="overflow-x:auto;">
         <table class="ph-table"><thead><tr><th>Date</th><th>Medicine</th><th>Dosage</th><th>Qty</th><th>Status</th><th>Smart Card</th></tr></thead>
-        <tbody>${dispLog.map(l=>`<tr><td style="white-space:nowrap;">${fmtTS(l.created_at)}</td><td style="font-weight:600;color:#1B5271;">${l.medicine_name}</td><td style="color:#7A9CA8;">${l.dosage||'—'}</td><td>${l.quantity||'—'}</td><td>${statusBadge(l.status)}</td><td>${cardBadge(l.smart_card)}</td></tr>`).join('')}</tbody>
+        <tbody>${dispLog.map((l) => `<tr><td style="white-space:nowrap;">${fmtTS(l.created_at)}</td><td style="font-weight:600;color:#1B5271;">${l.medicine_name}</td><td style="color:#7A9CA8;">${l.dosage || "—"}</td><td>${l.quantity || "—"}</td><td>${statusBadge(l.status)}</td><td>${cardBadge(l.smart_card)}</td></tr>`).join("")}</tbody>
         </table>
       </div>
-    </div>`:''}
+    </div>`
+        : ""
+    }
   `;
-}
+      }
 
-async function updateDoseStatus(patientId, logId) {
-  const sel=document.getElementById('upd-'+logId);
-  if(!sel) return;
-  const newStatus=sel.value;
-  try {
-    await api('PATCH', `/patients/${patientId}/logs/${logId}?status=${newStatus}`);
-    phToast(`Status updated to "${newStatus}" for log #${logId}`);
-    openPatientProfile(patientId);
-  } catch (e) {
-    phToast(e.message || 'Failed to update status.', 'e');
-  }
-}
+      async function updateDoseStatus(patientId, logId) {
+        const sel = document.getElementById("upd-" + logId);
+        if (!sel) return;
+        const newStatus = sel.value;
+        try {
+          await api(
+            "PATCH",
+            `/patients/${patientId}/logs/${logId}?status=${newStatus}`,
+          );
+          phToast(`Status updated to "${newStatus}" for log #${logId}`);
+          openPatientProfile(patientId);
+        } catch (e) {
+          phToast(e.message || "Failed to update status.", "e");
+        }
+      }
 
-function openDispensePrefilled(name, id) {
-  document.getElementById('d-patient').value=name;
-  document.getElementById('d-pid').value=id;
-  openModal('dispModal');
-}
+      function openDispensePrefilled(name, id) {
+        document.getElementById("d-patient").value = name;
+        document.getElementById("d-pid").value = id;
+        openModal("dispModal");
+      }
 
-/* ─── Patient Requests ────────────────────────────────── */
-let currentReqFilter='all';
-function filterReqs(filter, btn) {
-  currentReqFilter=filter;
-  document.querySelectorAll('#rf-all,#rf-pending,#rf-done').forEach(b=>b.classList.remove('active'));
-  if(btn) btn.classList.add('active');
-  renderRequests(filter);
-}
-async function renderRequests(filter) {
-  const body=document.getElementById('reqListBody');
-  if(!body) return;
-  let reqs = await api('GET', filter==='all' ? '/requests' : `/requests?status=${filter}`).catch(()=>[]);
-  reqs = reqs.slice().sort((a,b)=>new Date(b.created_at)-new Date(a.created_at));
-  document.getElementById('reqCount').textContent=`${reqs.length} request${reqs.length!==1?'s':''}`;
-  if(!reqs.length){ body.innerHTML='<div style="padding:36px;text-align:center;color:#7A9CA8;font-size:0.875rem;">No requests match this filter.</div>'; return; }
-  body.innerHTML=reqs.map(r=>{
-    const stClr=r.status==='pending'?'#D98A2A':r.status==='fulfilled'?'#2DAF83':r.status==='replied'?'#3A8DC4':'#7A9CA8';
-    const stBg =r.status==='pending'?'#FBF0DC':r.status==='fulfilled'?'#D5F3EB':r.status==='replied'?'#DCF0FA':'#EDF5F2';
-    return `<div class="disp-entry">
+      /* ─── Patient Requests ────────────────────────────────── */
+      let currentReqFilter = "all";
+      function filterReqs(filter, btn) {
+        currentReqFilter = filter;
+        document
+          .querySelectorAll("#rf-all,#rf-pending,#rf-done")
+          .forEach((b) => b.classList.remove("active"));
+        if (btn) btn.classList.add("active");
+        renderRequests(filter);
+      }
+      async function renderRequests(filter) {
+        const body = document.getElementById("reqListBody");
+        if (!body) return;
+        let reqs = await api(
+          "GET",
+          filter === "all" ? "/requests" : `/requests?status=${filter}`,
+        ).catch(() => []);
+        reqs = reqs
+          .slice()
+          .sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+        document.getElementById("reqCount").textContent =
+          `${reqs.length} request${reqs.length !== 1 ? "s" : ""}`;
+        if (!reqs.length) {
+          body.innerHTML =
+            '<div style="padding:36px;text-align:center;color:#7A9CA8;font-size:0.875rem;">No requests match this filter.</div>';
+          return;
+        }
+        body.innerHTML = reqs
+          .map((r) => {
+            const stClr =
+              r.status === "pending"
+                ? "#D98A2A"
+                : r.status === "fulfilled"
+                  ? "#2DAF83"
+                  : r.status === "replied"
+                    ? "#3A8DC4"
+                    : "#7A9CA8";
+            const stBg =
+              r.status === "pending"
+                ? "#FBF0DC"
+                : r.status === "fulfilled"
+                  ? "#D5F3EB"
+                  : r.status === "replied"
+                    ? "#DCF0FA"
+                    : "#EDF5F2";
+            return `<div class="disp-entry">
       <div class="disp-icon" style="background:${stBg};min-height:38px;">💊</div>
       <div style="flex:1;min-width:0;">
         <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:4px;">
-          <span style="font-weight:700;color:#1B5271;font-size:0.92rem;">${r.patient_name||'Patient'}</span>
+          <span style="font-weight:700;color:#1B5271;font-size:0.92rem;">${r.patient_name || "Patient"}</span>
           <span style="font-size:0.7rem;color:#7A9CA8;">${timeAgo(r.created_at)}</span>
         </div>
-        <div style="font-size:0.88rem;font-weight:700;color:#3A5563;">${r.medicine_name}${r.dosage?' <span style="font-weight:400;color:#7A9CA8;"> · '+r.dosage+'</span>':''}</div>
-        <div style="font-size:0.78rem;color:#7A9CA8;margin-top:3px;">${r.message||''}</div>
-        ${r.pharmacy_reply?`<div style="margin-top:8px;background:#EDF5F2;border:1px solid #9DD1C2;border-left:3px solid #5DAC96;border-radius:8px;padding:9px 12px;font-size:0.82rem;color:#1B5271;"><strong>🏪 Your reply:</strong> ${r.pharmacy_reply}</div>`:''}
+        <div style="font-size:0.88rem;font-weight:700;color:#3A5563;">${r.medicine_name}${r.dosage ? ' <span style="font-weight:400;color:#7A9CA8;"> · ' + r.dosage + "</span>" : ""}</div>
+        <div style="font-size:0.78rem;color:#7A9CA8;margin-top:3px;">${r.message || ""}</div>
+        ${r.pharmacy_reply ? `<div style="margin-top:8px;background:#EDF5F2;border:1px solid #9DD1C2;border-left:3px solid #5DAC96;border-radius:8px;padding:9px 12px;font-size:0.82rem;color:#1B5271;"><strong>🏪 Your reply:</strong> ${r.pharmacy_reply}</div>` : ""}
       </div>
       <div style="display:flex;flex-direction:column;gap:5px;align-items:flex-end;flex-shrink:0;">
         <span style="font-size:0.67rem;font-weight:800;letter-spacing:0.05em;text-transform:uppercase;color:${stClr};background:${stBg};padding:3px 10px;border-radius:100px;">${r.status}</span>
-        ${r.status==='pending'||r.status==='replied'?`<button class="btn-sm bsm-t" onclick="openReplyModal(${r.id})">💬 Reply</button>`:''}
-        ${r.status!=='fulfilled'?`<button class="btn-sm bsm-n" onclick="markFulfilled(${r.id})">✓ Fulfilled</button>`:''}
+        ${r.status === "pending" || r.status === "replied" ? `<button class="btn-sm bsm-t" onclick="openReplyModal(${r.id})">💬 Reply</button>` : ""}
+        ${r.status !== "fulfilled" ? `<button class="btn-sm bsm-n" onclick="markFulfilled(${r.id})">✓ Fulfilled</button>` : ""}
       </div>
     </div>`;
-  }).join('');
-}
+          })
+          .join("");
+      }
 
-async function openReplyModal(reqId) {
-  const reqs = await api('GET', '/requests').catch(()=>[]);
-  const req=reqs.find(r=>r.id===reqId);
-  if(!req) return;
-  document.getElementById('replyReqId').value=reqId;
-  document.getElementById('replyText').value=req.pharmacy_reply||'';
-  document.getElementById('replyReqDetails').innerHTML=`
-    <div style="font-size:0.68rem;font-weight:800;letter-spacing:0.07em;text-transform:uppercase;color:#5DAC96;margin-bottom:8px;">Request from ${req.patient_name||'Patient'}</div>
-    <div style="font-weight:700;color:#1B5271;font-size:0.92rem;">${req.medicine_name}${req.dosage?' · '+req.dosage:''}</div>
-    <div style="font-size:0.82rem;color:#3A5563;margin-top:4px;">${req.message||''}</div>
+      async function openReplyModal(reqId) {
+        const reqs = await api("GET", "/requests").catch(() => []);
+        const req = reqs.find((r) => r.id === reqId);
+        if (!req) return;
+        document.getElementById("replyReqId").value = reqId;
+        document.getElementById("replyText").value = req.pharmacy_reply || "";
+        document.getElementById("replyReqDetails").innerHTML = `
+    <div style="font-size:0.68rem;font-weight:800;letter-spacing:0.07em;text-transform:uppercase;color:#5DAC96;margin-bottom:8px;">Request from ${req.patient_name || "Patient"}</div>
+    <div style="font-weight:700;color:#1B5271;font-size:0.92rem;">${req.medicine_name}${req.dosage ? " · " + req.dosage : ""}</div>
+    <div style="font-size:0.82rem;color:#3A5563;margin-top:4px;">${req.message || ""}</div>
     <div style="font-size:0.72rem;color:#7A9CA8;margin-top:4px;">${timeAgo(req.created_at)}</div>`;
-  openModal('replyModal');
-}
+        openModal("replyModal");
+      }
 
-async function submitReply() {
-  const reqId=parseInt(document.getElementById('replyReqId').value, 10);
-  const text=document.getElementById('replyText').value.trim();
-  const status=document.getElementById('replyStatus').value;
-  if(!text){ phToast('Please write a reply.','e'); return; }
-  try {
-    await api('PATCH', `/requests/${reqId}`, { pharmacy_reply: text, status });
-    closeModal('replyModal');
-    renderRequests(currentReqFilter);
-    renderOverviewRequests();
-    updateReqBadge();
-    phToast('Reply sent to patient!');
-  } catch (e) {
-    phToast(e.message || 'Failed to send reply.', 'e');
-  }
-}
+      async function submitReply() {
+        const reqId = parseInt(document.getElementById("replyReqId").value, 10);
+        const text = document.getElementById("replyText").value.trim();
+        const status = document.getElementById("replyStatus").value;
+        if (!text) {
+          phToast("Please write a reply.", "e");
+          return;
+        }
+        try {
+          await api("PATCH", `/requests/${reqId}`, {
+            pharmacy_reply: text,
+            status,
+          });
+          closeModal("replyModal");
+          renderRequests(currentReqFilter);
+          renderOverviewRequests();
+          updateReqBadge();
+          phToast("Reply sent to patient!");
+        } catch (e) {
+          phToast(e.message || "Failed to send reply.", "e");
+        }
+      }
 
-async function markFulfilled(reqId) {
-  try {
-    await api('PATCH', `/requests/${reqId}`, { pharmacy_reply: 'Fulfilled at the pharmacy counter.', status: 'fulfilled' });
-    renderRequests(currentReqFilter);
-    updateReqBadge();
-    phToast('Request marked as fulfilled.');
-  } catch (e) {
-    phToast(e.message || 'Failed to update request.', 'e');
-  }
-}
+      async function markFulfilled(reqId) {
+        try {
+          await api("PATCH", `/requests/${reqId}`, {
+            pharmacy_reply: "Fulfilled at the pharmacy counter.",
+            status: "fulfilled",
+          });
+          renderRequests(currentReqFilter);
+          updateReqBadge();
+          phToast("Request marked as fulfilled.");
+        } catch (e) {
+          phToast(e.message || "Failed to update request.", "e");
+        }
+      }
 
-/* ─── Dispense ────────────────────────────────────────── */
-function updateDiscPreview() {
-  const card=document.getElementById('d-card').value;
-  const pct=discPct(card);
-  const box=document.getElementById('discPreview');
-  const txt=document.getElementById('discPreviewText');
-  if(pct>0){ box.style.display='block'; txt.textContent=`${pct}% HAMAT Smart Card discount will be applied.`; }
-  else { box.style.display='none'; }
-}
+      /* ─── Dispense ────────────────────────────────────────── */
+      function updateDiscPreview() {
+        const card = document.getElementById("d-card").value;
+        const pct = discPct(card);
+        const box = document.getElementById("discPreview");
+        const txt = document.getElementById("discPreviewText");
+        if (pct > 0) {
+          box.style.display = "block";
+          txt.textContent = `${pct}% HAMAT Smart Card discount will be applied.`;
+        } else {
+          box.style.display = "none";
+        }
+      }
 
-function openDispenseModal() { openModal('dispModal'); }
+      function openDispenseModal() {
+        openModal("dispModal");
+      }
 
-async function submitDispense() {
-  const patient=document.getElementById('d-patient').value.trim();
-  const pid=document.getElementById('d-pid').value.trim();
-  const medicine=document.getElementById('d-medicine').value.trim();
-  const dosage=document.getElementById('d-dosage').value.trim();
-  const qty=parseInt(document.getElementById('d-qty').value)||1;
-  const status=document.getElementById('d-status').value;
-  const card=document.getElementById('d-card').value;
-  const notes=document.getElementById('d-notes').value.trim();
-  if(!patient||!medicine){ phToast('Please fill required fields.','e'); return; }
-  try {
-    await api('POST', '/dispense', {
-      patient_id: pid || null,
-      patient_name: patient,
-      medicine_name: medicine,
-      dosage, quantity: qty, status, smart_card: card, notes,
-    });
-    closeModal('dispModal');
-    renderKPIs(); renderRecentDisp();
-    ['d-patient','d-pid','d-medicine','d-dosage','d-notes'].forEach(id=>{ const el=document.getElementById(id); if(el)el.value=''; });
-    document.getElementById('d-qty').value='30';
-    document.getElementById('d-card').value='none';
-    document.getElementById('d-status').value='dispensed';
-    document.getElementById('discPreview').style.display='none';
-    const pct=discPct(card);
-    phToast(`✓ ${medicine} dispensed to ${patient}${pct>0?' ('+pct+'% discount)':''}`);
-  } catch (e) {
-    phToast(e.message || 'Failed to record dispensing.', 'e');
-  }
-}
+      async function submitDispense() {
+        const patient = document.getElementById("d-patient").value.trim();
+        const pid = document.getElementById("d-pid").value.trim();
+        const medicine = document.getElementById("d-medicine").value.trim();
+        const dosage = document.getElementById("d-dosage").value.trim();
+        const qty = parseInt(document.getElementById("d-qty").value) || 1;
+        const status = document.getElementById("d-status").value;
+        const card = document.getElementById("d-card").value;
+        const notes = document.getElementById("d-notes").value.trim();
+        if (!patient || !medicine) {
+          phToast("Please fill required fields.", "e");
+          return;
+        }
+        try {
+          await api("POST", "/dispense", {
+            patient_id: pid || null,
+            patient_name: patient,
+            medicine_name: medicine,
+            dosage,
+            quantity: qty,
+            status,
+            smart_card: card,
+            notes,
+          });
+          closeModal("dispModal");
+          renderKPIs();
+          renderRecentDisp();
+          ["d-patient", "d-pid", "d-medicine", "d-dosage", "d-notes"].forEach(
+            (id) => {
+              const el = document.getElementById(id);
+              if (el) el.value = "";
+            },
+          );
+          document.getElementById("d-qty").value = "30";
+          document.getElementById("d-card").value = "none";
+          document.getElementById("d-status").value = "dispensed";
+          document.getElementById("discPreview").style.display = "none";
+          const pct = discPct(card);
+          phToast(
+            `✓ ${medicine} dispensed to ${patient}${pct > 0 ? " (" + pct + "% discount)" : ""}`,
+          );
+        } catch (e) {
+          phToast(e.message || "Failed to record dispensing.", "e");
+        }
+      }
 
-/* ─── Dispensing Log ──────────────────────────────────── */
-async function renderDispLog() {
-  const body=document.getElementById('logBody');
-  const search=(document.getElementById('logSearch').value||'').trim();
-  if(!body) return;
-  const log = await api('GET', search ? `/dispense?q=${encodeURIComponent(search)}` : '/dispense').catch(()=>[]);
-  document.getElementById('logCount').textContent=`${log.length} record${log.length!==1?'s':''}`;
-  if(!log.length){ body.innerHTML=`<tr><td colspan="9" style="text-align:center;padding:24px;color:#7A9CA8;">No dispensing records found.</td></tr>`; return; }
-  body.innerHTML=log.map(l=>`
+      /* ─── Dispensing Log ──────────────────────────────────── */
+      async function renderDispLog() {
+        const body = document.getElementById("logBody");
+        const search = (
+          document.getElementById("logSearch").value || ""
+        ).trim();
+        if (!body) return;
+        const log = await api(
+          "GET",
+          search ? `/dispense?q=${encodeURIComponent(search)}` : "/dispense",
+        ).catch(() => []);
+        document.getElementById("logCount").textContent =
+          `${log.length} record${log.length !== 1 ? "s" : ""}`;
+        if (!log.length) {
+          body.innerHTML = `<tr><td colspan="9" style="text-align:center;padding:24px;color:#7A9CA8;">No dispensing records found.</td></tr>`;
+          return;
+        }
+        body.innerHTML = log
+          .map(
+            (l) => `
     <tr>
       <td style="white-space:nowrap;color:#7A9CA8;font-size:0.78rem;">${fmtTS(l.created_at)}</td>
-      <td style="font-weight:700;color:#1B5271;">${l.patient_name||'—'}</td>
+      <td style="font-weight:700;color:#1B5271;">${l.patient_name || "—"}</td>
       <td>${l.medicine_name}</td>
-      <td style="color:#7A9CA8;">${l.dosage||'—'}</td>
-      <td>${l.quantity||'—'}</td>
+      <td style="color:#7A9CA8;">${l.dosage || "—"}</td>
+      <td>${l.quantity || "—"}</td>
       <td>${statusBadge(l.status)}</td>
       <td>${cardBadge(l.smart_card)}</td>
-      <td>${l.discount_pct>0?`<span style="color:#5DAC96;font-weight:700;">${l.discount_pct}%</span>`:'—'}</td>
-      <td style="color:#3A5563;font-size:0.80rem;">${l.pharmacist_name||'—'}</td>
-    </tr>`).join('');
-}
+      <td>${l.discount_pct > 0 ? `<span style="color:#5DAC96;font-weight:700;">${l.discount_pct}%</span>` : "—"}</td>
+      <td style="color:#3A5563;font-size:0.80rem;">${l.pharmacist_name || "—"}</td>
+    </tr>`,
+          )
+          .join("");
+      }
 
-/* ─── Smart Card Stats ────────────────────────────────── */
-async function renderCardStats() {
-  const log = await api('GET', '/dispense').catch(()=>[]);
-  const cardLog=log.filter(l=>l.smart_card&&l.smart_card!=='none');
-  const totalDisc=cardLog.reduce((s,l)=>s+Math.round((l.discount_pct||0)/100*(l.quantity||1)*10),0);
-  const set=(id,v)=>{ const el=document.getElementById(id); if(el)el.textContent=v; };
-  set('sc-served',[...new Set(cardLog.map(l=>l.patient_name))].length);
-  set('sc-disc','KSh '+totalDisc.toLocaleString());
-  set('sc-txn',cardLog.length);
-}
+      /* ─── Smart Card Stats ────────────────────────────────── */
+      async function renderCardStats() {
+        const log = await api("GET", "/dispense").catch(() => []);
+        const cardLog = log.filter(
+          (l) => l.smart_card && l.smart_card !== "none",
+        );
+        const totalDisc = cardLog.reduce(
+          (s, l) =>
+            s +
+            Math.round(((l.discount_pct || 0) / 100) * (l.quantity || 1) * 10),
+          0,
+        );
+        const set = (id, v) => {
+          const el = document.getElementById(id);
+          if (el) el.textContent = v;
+        };
+        set(
+          "sc-served",
+          [...new Set(cardLog.map((l) => l.patient_name))].length,
+        );
+        set("sc-disc", "KSh " + totalDisc.toLocaleString());
+        set("sc-txn", cardLog.length);
+      }
 
-/* ─── Auto-init ────────────────────────────────────────── */
-document.addEventListener('DOMContentLoaded', () => {
-  document.getElementById('todayDate').textContent=new Date().toLocaleDateString('en-KE',{weekday:'short',day:'numeric',month:'long',year:'numeric'});
-  const s=getPhSession();
-  if(s) initDash();
+      /* ─── Auto-init ────────────────────────────────────────── */
+      document.addEventListener("DOMContentLoaded", () => {
+        document.getElementById("todayDate").textContent =
+          new Date().toLocaleDateString("en-KE", {
+            weekday: "short",
+            day: "numeric",
+            month: "long",
+            year: "numeric",
+          });
+        const s = getPhSession();
+        if (s) initDash();
 
-  /* Mobile tab bar visibility */
-  function syncMobileTabs() {
-    const bar = document.querySelector('.mobile-tab-bar');
-    if (bar) bar.style.display = window.innerWidth <= 768 ? 'flex' : 'none';
-  }
-  syncMobileTabs();
-  window.addEventListener('resize', syncMobileTabs);
-});
-
-</script>
-</body>
+        /* Mobile tab bar visibility */
+        function syncMobileTabs() {
+          const bar = document.querySelector(".mobile-tab-bar");
+          if (bar)
+            bar.style.display = window.innerWidth <= 768 ? "flex" : "none";
+        }
+        syncMobileTabs();
+        window.addEventListener("resize", syncMobileTabs);
+      });
+    </script>
+  </body>
 </html>
